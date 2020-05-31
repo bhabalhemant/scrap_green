@@ -1,5 +1,5 @@
-import 'package:dana/base_widgets/app_textstyle.dart';
-import 'package:dana/utils/singleton.dart';
+import 'package:scrap_green/base_widgets/app_textstyle.dart';
+import 'package:scrap_green/utils/singleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

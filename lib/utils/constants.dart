@@ -2,7 +2,6 @@ library Constants;
 
 const ROUTE_ROOT = "/";
 const ROUTE_SPLASH = "/splash";
-const ROUTE_DASHBOARD = "/dasboard";
 const ROUTE_SIGN_IN = "/signin";
 const ROUTE_HOME = "/home";
 const ROUTE_SIGN_UP = "/signup";

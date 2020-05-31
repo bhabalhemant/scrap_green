@@ -1,15 +1,15 @@
 import 'dart:convert';
 
-import 'package:dana/models/response/otp_verification_response.dart';
-import 'package:dana/models/response/profile_response.dart';
-import 'package:dana/models/response/profile_update_response.dart';
-import 'package:dana/models/response/resend_otp_response.dart';
-import 'package:dana/models/response/sign_in_response.dart';
-import 'package:dana/models/response/sign_up_response.dart';
-import 'package:dana/models/response/sign_up_vendor_response.dart';
-import 'package:dana/network/api_provider.dart';
-import 'package:dana/utils/constants.dart' as Constants;
 import 'package:dio/dio.dart';
+import 'package:scrap_green/models/response/otp_verification_response.dart';
+import 'package:scrap_green/models/response/profile_response.dart';
+import 'package:scrap_green/models/response/profile_update_response.dart';
+import 'package:scrap_green/models/response/resend_otp_response.dart';
+import 'package:scrap_green/models/response/sign_in_response.dart';
+import 'package:scrap_green/models/response/sign_up_response.dart';
+import 'package:scrap_green/models/response/sign_up_vendor_response.dart';
+import 'package:scrap_green/network/api_provider.dart';
+import 'package:scrap_green/utils/constants.dart' as Constants;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Repository {
@@ -46,8 +46,15 @@ class Repository {
     return ResendOtpResponse.fromJson(response);
   }
 
-  Future<ProfileResponse> getUserData(Map<String, String> body) async {
-    final response = await ApiProvider.instance.post("edit_profile", body);
+  Future<ProfileResponse> getUserData(bool isVendor, String userId) async {
+    var response;
+    if (isVendor) {
+      response =
+          await ApiProvider.instance.getQueryParam("get_user_profile", userId);
+    } else {
+      response =
+          await ApiProvider.instance.getQueryParam("get_user_profile", userId);
+    }
     return ProfileResponse.fromJson(response);
   }
 
