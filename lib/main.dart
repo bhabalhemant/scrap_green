@@ -6,6 +6,7 @@ import 'package:dana/bloc/splash_bloc.dart';
 import 'package:dana/ui/otp_screen.dart';
 import 'package:dana/ui/profile_screen.dart';
 import 'package:dana/ui/rate_card.dart';
+import 'package:dana/ui/request_details.dart';
 import 'package:dana/ui/select_type_screen.dart';
 import 'package:dana/ui/sign_in_screen.dart';
 import 'package:dana/ui/sign_up_screen.dart';
@@ -16,6 +17,8 @@ import 'package:dana/ui/pick_up_request.dart';
 import 'package:dana/ui/mycontribution.dart';
 import 'package:dana/ui/history.dart';
 import 'package:dana/ui/vendor_request.dart';
+import 'package:dana/ui/request_details.dart';
+import 'package:dana/ui/carousel_demo.dart';
 
 import 'package:dana/utils/constants.dart' as Constants;
 import 'package:dana/utils/custom_route.dart';
@@ -101,6 +104,11 @@ class MyApp extends StatelessWidget {
               builder: (_) => VendorRequest(),
               settings: settings,
             );
+          case Constants.ROUTE_REQUEST_DETAILS:
+            return CustomRoute(
+              builder: (_) => RequestDetails(),
+              settings: settings,
+            );
           case Constants.ROUTE_MY_CONTRIBUTION:
             return CustomRoute(
               builder: (_) => MyContribution(),
@@ -139,6 +147,11 @@ class MyApp extends StatelessWidget {
           case Constants.ROUTE_RATE_CARD:
             return CustomRoute(
               builder: (_) => RateCard(),
+              settings: settings,
+            );
+          case Constants.ROUTE_CAROUSEL_DEMO:
+            return CustomRoute(
+              builder: (_) => CarouselDemo(),
               settings: settings,
             );
           default:

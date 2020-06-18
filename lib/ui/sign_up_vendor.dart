@@ -32,7 +32,7 @@ class _SignUpVendorState extends State<SignUpVendor> {
       _pinCode,
       _password,
       _retypePassword;
-  String _aadhar_card;
+  String _logo;
 
   @override
   void initState() {
@@ -316,9 +316,9 @@ class _SignUpVendorState extends State<SignUpVendor> {
           Permission.storage.status.then((status) async {
             if (status.isGranted) {
               await FilePicker.getFile().then((onValue) {
-                _aadhar_card = onValue.path;
+                _logo = onValue.path;
                 BlocProvider.of<SignUpVendorBloc>(context)
-                    .add(FileSelectionEvent(path: _aadhar_card));
+                    .add(FileSelectionEvent(path: _logo));
               }).catchError(onError);
             } else {
               _showError('Permission is denied!');
@@ -364,19 +364,16 @@ class _SignUpVendorState extends State<SignUpVendor> {
         if (validate()) {
           scaffoldKey.currentState.hideCurrentSnackBar();
           // _getCurrentLocation();
-          final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+    //       final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
 
-    geolocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-        .then((Position position) {
-  //         print(position);
-      // setState(() {
-            _currentPosition = position;
-            String _position = _currentPosition.latitude.toString() +'-'+ _currentPosition.longitude.toString();
-            print(_position);
-          // });
+    // geolocator
+    //     .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+    //     .then((Position position) {
+    //         _currentPosition = position;
+    //         String _position = _currentPosition.latitude.toString() +'-'+ _currentPosition.longitude.toString();
+    //         print(_position);
         
-          // String fileName = _aadhar_card.split('/').last;
+          String fileName = _logo.split('/').last;
           dio.FormData formData = dio.FormData.fromMap({
             Constants.PARAM_NAME: _name.text,
             Constants.PARAM_EMAIL: _email.text,
@@ -388,15 +385,14 @@ class _SignUpVendorState extends State<SignUpVendor> {
             Constants.PARAM_CITY: _city.text,
             Constants.PARAM_PINCODE: _pinCode.text,
             Constants.PARAM_PASSWORD: _password.text,
-            Constants.PARAM_LATITUDE_LONGITUDE: _position,
-            // Constants.PARAM_AADHAR_CARD: await dio.MultipartFile.fromFile(
-            //     _aadhar_card,
-            //     filename: fileName)
+            Constants.PARAM_LOGO: await dio.MultipartFile.fromFile(
+                _logo,
+                filename: fileName)
           });
           BlocProvider.of<SignUpVendorBloc>(context).add(SignUpEvent(body: formData));
-          }).catchError((e) {
-          print(e);
-        });
+        //   }).catchError((e) {
+        //   print(e);
+        // });
         }
       },
       color: AppSingleton.instance.getPrimaryColor(),

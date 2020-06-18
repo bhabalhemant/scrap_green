@@ -71,13 +71,26 @@ class _HistoryState extends State<History> {
                                 children: <Widget>[
                                   ListTile(
                                     // leading: Icon(Icons.album),
-                                    leading: Image.asset('assets/pick.png',
+                                    leading: Image.asset('assets/recycle.png',
                                         width: 62,
                                         height: 62,
                                         fit: BoxFit.contain),
                                     title: Text('Order No: REC007'),
-                                    subtitle: Text(
-                                        '19.05.2020 12:29PM \nGhatkopar-West,400084.'),
+                                    // subtitle: Text(
+                                        // '19.05.2020 12:29PM \nGhatkopar-West,400084.'),
+                                        subtitle: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Text('19.05.2020 12:29PM',
+                                              textAlign: TextAlign.left,
+                                              // style: TextStyle(fontWeight: FontWeight.bold),
+                                            ),
+                                            Text('Ghatkopar-West,400084.',
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(fontWeight: FontWeight.bold),
+                                            ),
+                                          ],
+                                        ),
                                     isThreeLine: true,
                                     trailing: Column(
                                       children: <Widget>[
@@ -98,13 +111,13 @@ class _HistoryState extends State<History> {
                                                 .getPrimaryColor(),
                                             textColor: Colors.white,
                                             child: Text(
-                                              "Sign In",
+                                              "Scheduled",
                                               style: AppTextStyle.regular(
-                                                  Colors.white, 14.0),
+                                                  Colors.white, 10.0,
+                                                  ),
                                             ),
                                           ),
                                         ),
-                                        // Icon(Icons.flight_land)
                                       ],
                                     ),
                                   ),

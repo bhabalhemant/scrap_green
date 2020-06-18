@@ -25,7 +25,7 @@ class Repository {
 
   Future<SignUpVendorResponse> attemptSignUpVendor(FormData body) async {
     final response =
-        await ApiProvider.instance.postFormData("user_registration", body);
+        await ApiProvider.instance.postFormData("vendor_registration", body);
     return SignUpVendorResponse.fromJson(response);
   }
 

@@ -86,7 +86,7 @@ class _HomeState extends State<Home> {
                     padding: EdgeInsets.symmetric(horizontal: 52),
                       child: GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, Constants.ROUTE_PICKUP_REQUEST);
+                        Navigator.pushNamed(context, Constants.ROUTE_PROFILE);
                       },
                         child:Card(
                           shape: RoundedRectangleBorder(

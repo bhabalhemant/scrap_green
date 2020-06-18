@@ -117,7 +117,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       } else if (state is ProfileError) {
                         return Center(
                           child: Text(
-                            'Failed to get user data',
+                            'Failed to get user data error',
                             style: AppTextStyle.bold(Colors.red, 30.0),
                           ),
                         );

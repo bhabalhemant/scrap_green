@@ -254,7 +254,9 @@ class _SignInScreenState extends State<SignInScreen> {
   Widget buildForgotPassword() {
     return Center(
       child: GestureDetector(
-        onTap: () {},
+        onTap: () {
+          Navigator.pushNamed(context, Constants.ROUTE_CAROUSEL_DEMO);
+        },
         child: Text(
           'Forgot Password?',
           style: AppTextStyle.bold(Colors.black87, 14.0),
