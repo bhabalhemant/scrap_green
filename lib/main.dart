@@ -1,9 +1,3 @@
-
-import 'package:dana/ui/history.dart';
-import 'package:dana/ui/vendor_request.dart';
-import 'package:dana/ui/request_details.dart';
-import 'package:dana/ui/carousel_demo.dart';
-
 import 'package:scrap_green/bloc/otp/otp_bloc.dart';
 import 'package:scrap_green/bloc/sign_in_bloc.dart';
 import 'package:scrap_green/bloc/sign_up_bloc.dart';
