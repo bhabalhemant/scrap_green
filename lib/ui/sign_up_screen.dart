@@ -1,18 +1,16 @@
 import 'dart:async';
 
-import 'package:dana/base_widgets/app_textstyle.dart';
-import 'package:dana/bloc/sign_up_bloc.dart';
-import 'package:dana/models/response/sign_up_response.dart';
-import 'package:dana/utils/constants.dart' as Constants;
-import 'package:dana/utils/email_validator.dart';
-import 'package:dana/utils/singleton.dart';
 import 'package:dio/dio.dart' as dio;
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:scrap_green/base_widgets/app_textstyle.dart';
+import 'package:scrap_green/bloc/sign_up_bloc.dart';
+import 'package:scrap_green/models/response/sign_up_response.dart';
+import 'package:scrap_green/utils/constants.dart' as Constants;
+import 'package:scrap_green/utils/email_validator.dart';
+import 'package:scrap_green/utils/singleton.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -22,35 +20,22 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   Position _currentPosition;
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-  TextEditingController 
-      _name,
-      _email,
-      _mobile,
-      _address1,
-      _address2,
-      _country,
-      _state,
-      _city,
-      _pinCode,
-      _password,
-      _retypePassword;
-  String _aadhar_card;
+  final _formKey = GlobalKey<FormState>();
+  final _name = TextEditingController();
+  final _email = TextEditingController();
+  final _mobile = TextEditingController();
+  final _address1 = TextEditingController();
+  final _address2 = TextEditingController();
+  final _country = TextEditingController();
+  final _state = TextEditingController();
+  final _city = TextEditingController();
+  final _pinCode = TextEditingController();
+  final _password = TextEditingController();
+  final _retypePassword = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _name = TextEditingController();
-    _email = TextEditingController();
-    _mobile = TextEditingController();
-    _address1 = TextEditingController();
-    _address2 = TextEditingController();
-    _country = TextEditingController();
-    _state = TextEditingController();
-    _city = TextEditingController();
-    _pinCode = TextEditingController();
-    _password = TextEditingController();
-    _retypePassword = TextEditingController();
-    // _getCurrentLocation();
   }
 
   @override
@@ -96,21 +81,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
   }
 
-  SizedBox getFormField(
-      {@required TextEditingController textController,
-      @required String hint,
-      TextInputType type,
-      int maxLength,
-      WhitelistingTextInputFormatter restrictFormat,
-      TextCapitalization textCap,
-      bool obscureText = false}) {
+  SizedBox getFormField({@required TextEditingController textController,
+    @required String hint,
+    TextInputType type,
+    int maxLength,
+    WhitelistingTextInputFormatter restrictFormat,
+    TextCapitalization textCap,
+    bool obscureText = false}) {
     return SizedBox(
       height: AppSingleton.instance.getHeight(45),
       child: TextFormField(
         controller: textController,
         obscureText: obscureText,
         textCapitalization:
-            textCap == null ? TextCapitalization.sentences : textCap,
+        textCap == null ? TextCapitalization.sentences : textCap,
         keyboardType: type == null ? TextInputType.text : type,
         maxLength: maxLength == null ? null : maxLength,
         inputFormatters: restrictFormat == null ? null : [restrictFormat],
@@ -140,122 +124,103 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   Widget buildSignUpScreen() {
     return Container(
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
-      child: ListView(
-        physics: ClampingScrollPhysics(),
-        shrinkWrap: true,
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
+      height: MediaQuery
+          .of(context)
+          .size
+          .height,
+      width: MediaQuery
+          .of(context)
+          .size
+          .width,
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
+        child: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
                 AppSingleton.instance.getSpacer(),
                 getFormField(
-                    textController: _name,
-                    hint: 'Name',
-                    type: TextInputType.text,
-                    ),
+                  textController: _name,
+                  hint: 'Name',
+                  type: TextInputType.text,
+                ),
                 AppSingleton.instance.getSpacer(),
                 getFormField(
-                    textController: _email,
-                    hint: 'Email',
-                    type: TextInputType.emailAddress,
-                    textCap: TextCapitalization.none),
+                  textController: _email,
+                  hint: 'Email',
+                  type: TextInputType.emailAddress,
+                  textCap: TextCapitalization.none,
+                ),
                 AppSingleton.instance.getSpacer(),
                 getFormField(
                   textController: _mobile,
                   hint: 'Mobile Number',
                   type: TextInputType.number,
                   maxLength: 10,
+
                   restrictFormat: WhitelistingTextInputFormatter(
                     RegExp("[0-9]"),
                   ),
                 ),
                 AppSingleton.instance.getSpacer(),
                 getFormField(
-                    textController: _address1,
-                    hint: 'Room No./Street',
-                    type: TextInputType.text,
-                    ),
+                  textController: _address1,
+                  hint: 'Room No./Street',
+                  type: TextInputType.text,
+
+                ),
                 AppSingleton.instance.getSpacer(),
                 getFormField(
-                    textController: _address2,
-                    hint: 'Area',
-                    type: TextInputType.text,
-                    ),
+                  textController: _address2,
+                  hint: 'Area',
+                  type: TextInputType.text,
+
+                ),
                 AppSingleton.instance.getSpacer(),
                 getFormField(
-                    textController: _country,
-                    hint: 'Country',
-                    type: TextInputType.text,
-                    ),
+                  textController: _country,
+                  hint: 'Country',
+                  type: TextInputType.text,
+
+                ),
                 AppSingleton.instance.getSpacer(),
                 getFormField(
-                    textController: _state,
-                    hint: 'State',
-                    type: TextInputType.text,
-                    ),
+                  textController: _state,
+                  hint: 'State',
+                  type: TextInputType.text,
+
+                ),
                 AppSingleton.instance.getSpacer(),
                 getFormField(
-                    textController: _city,
-                    hint: 'City',
-                    type: TextInputType.text,
-                    ),
+                  textController: _city,
+                  hint: 'City',
+                  type: TextInputType.text,
+
+                ),
                 AppSingleton.instance.getSpacer(),
                 getFormField(
                   textController: _pinCode,
                   hint: 'Pin Code',
                   type: TextInputType.number,
+
                   maxLength: 6,
                   restrictFormat: WhitelistingTextInputFormatter(
                     RegExp("[0-9]"),
                   ),
                 ),
-                // SizedBox(
-                //   height: 10,
-                // ),
-                // Align(
-                //   alignment: Alignment.centerRight,
-                //   child: BlocConsumer(
-                //     bloc: BlocProvider.of<SignUpBloc>(context),
-                //     listener: (context, state) {},
-                //     builder: (context, state) {
-                //       if (state is FileSelected) {
-                //         return Padding(
-                //           padding:
-                //               EdgeInsets.only(bottom: 5, right: 10, left: 10),
-                //           child: Text(
-                //             state.path.split('/').last,
-                //             softWrap: false,
-                //             maxLines: 1,
-                //             textAlign: TextAlign.left,
-                //             style: AppTextStyle.regular(Colors.black87,
-                //                 AppSingleton.instance.getSp(9.0)),
-                //           ),
-                //         );
-                //       }
-                //       return AppSingleton.instance.getBlankContainer();
-                //     },
-                //   ),
-                // ),
-                // Align(
-                //   alignment: Alignment.centerRight,
-                //   child: SizedBox(
-                //     height: 30,
-                //     width: 150,
-                //     child: buildAadharButton(),
-                //   ),
-                // ),
                 AppSingleton.instance.getSpacer(),
                 getFormField(
-                    textController: _password,
-                    hint: 'Password',
-                    obscureText: true),
+                  textController: _password,
+                  hint: 'Password',
+                  obscureText: true,
+
+                ),
                 AppSingleton.instance.getSpacer(),
                 getFormField(
                     textController: _retypePassword,
                     hint: 'Retype Password',
+
                     obscureText: true),
                 AppSingleton.instance.getSizedSpacer(40),
                 SizedBox(
@@ -289,8 +254,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 buildSignIn()
               ],
             ),
-          )
-        ],
+          ),
+        ),
       ),
     );
   }
@@ -303,57 +268,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
   }
 
-  // Widget buildAadharButton() {
-  //   return RaisedButton(
-  //     shape: RoundedRectangleBorder(
-  //       borderRadius: BorderRadius.circular(30.0),
-  //       side: BorderSide(
-  //         color: AppSingleton.instance.getDarkBlueColor(),
-  //       ),
-  //     ),
-  //     onPressed: () async {
-  //       await [
-  //         Permission.storage,
-  //       ].request().then((stat) {
-  //         Permission.storage.status.then((status) async {
-  //           if (status.isGranted) {
-  //             await FilePicker.getFile().then((onValue) {
-  //               _aadhar_card = onValue.path;
-  //               BlocProvider.of<SignUpBloc>(context)
-  //                   .add(FileSelectionEvent(path: _aadhar_card));
-  //             }).catchError(onError);
-  //           } else {
-  //             _showError('Permission is denied!');
-  //           }
-  //         }).catchError(onError);
-  //       }).catchError(onError);
-  //     },
-  //     color: AppSingleton.instance.getDarkBlueColor(),
-  //     textColor: Colors.white,
-  //     child: Text(
-  //       "Upload Aadhar Card",
-  //       textAlign: TextAlign.center,
-  //       style: AppTextStyle.regular(Colors.white, 10.0),
-  //     ),
-  //   );
-  // }
-
-  // _getCurrentLocation() {
-  //   final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
-
-  //   geolocator
-  //       .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-  //       .then((Position position) {
-  // //         print(position);
-  //     // setState(() {
-  //       _currentPosition = position;
-  //       String _position = _currentPosition.latitude.toString() +'-'+ _currentPosition.longitude.toString();
-  //       print(_position);
-  //     // });
-  //   }).catchError((e) {
-  //     print(e);
-  //   });
-  // }
   Widget buildSignUpButton() {
     return RaisedButton(
       shape: RoundedRectangleBorder(
@@ -366,39 +280,35 @@ class _SignUpScreenState extends State<SignUpScreen> {
         if (validate()) {
           scaffoldKey.currentState.hideCurrentSnackBar();
           // _getCurrentLocation();
-          final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+          final Geolocator geolocator = Geolocator()
+            ..forceAndroidLocationManager;
 
-    geolocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-        .then((Position position) {
-  //         print(position);
-      // setState(() {
+          geolocator
+              .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+              .then((Position position) {
             _currentPosition = position;
-            String _position = _currentPosition.latitude.toString() +'-'+ _currentPosition.longitude.toString();
-            print(_position);
-          // });
-        
-          // String fileName = _aadhar_card.split('/').last;
-          dio.FormData formData = dio.FormData.fromMap({
-            Constants.PARAM_NAME: _name.text,
-            Constants.PARAM_EMAIL: _email.text,
-            Constants.PARAM_MOBILE: _mobile.text,
-            Constants.PARAM_ADDRESS1: _address1.text,
-            Constants.PARAM_ADDRESS2: _address2.text,
-            Constants.PARAM_COUNTRY: _country.text,
-            Constants.PARAM_STATE: _state.text,
-            Constants.PARAM_CITY: _city.text,
-            Constants.PARAM_PINCODE: _pinCode.text,
-            Constants.PARAM_PASSWORD: _password.text,
-            Constants.PARAM_LATITUDE_LONGITUDE: _position,
-            // Constants.PARAM_AADHAR_CARD: await dio.MultipartFile.fromFile(
-            //     _aadhar_card,
-            //     filename: fileName)
-          });
-          BlocProvider.of<SignUpBloc>(context).add(SignUpEvent(body: formData));
+            String _position = _currentPosition.latitude.toString() +
+                '-' +
+                _currentPosition.longitude.toString();
+
+            dio.FormData formData = dio.FormData.fromMap({
+              Constants.PARAM_NAME: _name.text,
+              Constants.PARAM_EMAIL: _email.text,
+              Constants.PARAM_MOBILE: _mobile.text,
+              Constants.PARAM_ADDRESS1: _address1.text,
+              Constants.PARAM_ADDRESS2: _address2.text,
+              Constants.PARAM_COUNTRY: _country.text,
+              Constants.PARAM_STATE: _state.text,
+              Constants.PARAM_CITY: _city.text,
+              Constants.PARAM_PINCODE: _pinCode.text,
+              Constants.PARAM_PASSWORD: _password.text,
+              Constants.PARAM_LATITUDE_LONGITUDE: _position
+            });
+            BlocProvider.of<SignUpBloc>(context)
+                .add(SignUpEvent(body: formData));
           }).catchError((e) {
-          print(e);
-        });
+            print(e);
+          });
         }
       },
       color: AppSingleton.instance.getPrimaryColor(),

@@ -1,8 +1,8 @@
 import 'dart:math';
 
-import 'package:dana/base_widgets/app_textstyle.dart';
-import 'package:dana/base_widgets/gradient_appbar.dart';
-import 'package:dana/utils/hex_color.dart';
+import 'package:scrap_green/base_widgets/app_textstyle.dart';
+import 'package:scrap_green/base_widgets/gradient_appbar.dart';
+import 'package:scrap_green/utils/hex_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -12,11 +12,11 @@ class AppSingleton {
   static final AppSingleton instance = AppSingleton._privateConstructor();
 
   getPrimaryColor() {
-    return HexColor('#f99d1c');
+    return HexColor('#ace234');
   }
 
   getSecondaryColor() {
-    return HexColor('#85cf03');
+    return HexColor('#3c4f5e');
   }
 
   getDarkBlueColor() {

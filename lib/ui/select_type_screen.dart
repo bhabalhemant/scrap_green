@@ -1,6 +1,6 @@
-import 'package:dana/base_widgets/app_textstyle.dart';
-import 'package:dana/utils/constants.dart' as Constants;
-import 'package:dana/utils/singleton.dart';
+import 'package:scrap_green/base_widgets/app_textstyle.dart';
+import 'package:scrap_green/utils/constants.dart' as Constants;
+import 'package:scrap_green/utils/singleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -102,16 +102,6 @@ class _State extends State<SelectTypeScreen> {
                       overflow: TextOverflow.fade,
                       style: AppTextStyle.bold(Colors.white, 18.0),
                     ),
-                    // Text(
-                    //   which == 'INS'
-                    //       ? 'For making donations'
-                    //       : 'For receiving donations',
-                    //   textAlign: TextAlign.start,
-                    //   maxLines: 3,
-                    //   softWrap: false,
-                    //   overflow: TextOverflow.fade,
-                    //   style: AppTextStyle.light(Colors.white, 14.0),
-                    // ),
                   ],
                 ),
               )

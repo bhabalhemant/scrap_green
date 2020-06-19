@@ -1,6 +1,6 @@
-import 'package:dana/models/response/profile_response.dart';
-import 'package:dana/repository/repository.dart';
-import 'package:dana/utils/constants.dart' as Constants;
+import 'package:scrap_green/models/response/profile_response.dart';
+import 'package:scrap_green/repository/repository.dart';
+import 'package:scrap_green/utils/constants.dart' as Constants;
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -25,8 +25,7 @@ class SplashBloc extends Bloc<SplashEventBase, SplashState> {
       ProfileResponse storedData =
       await Repository.instance.getStoredUserData();
       if (storedData != null && storedData.data.id != null) {
-        Map<String, String> body = {Constants.PARAM_ID: storedData.data.id};
-        ProfileResponse response = await Repository.instance.getUserData(body);
+        ProfileResponse response = await Repository.instance.getUserData(false,storedData.data.id);
         bool isStored =
         await Repository.instance.storeUserData(response.toJson());
         if (isStored) {
