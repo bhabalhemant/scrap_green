@@ -1,7 +1,7 @@
-import 'package:scrap_green/base_widgets/app_textstyle.dart';
-import 'package:scrap_green/models/arguments.dart';
-import 'package:scrap_green/utils/constants.dart' as Constants;
-import 'package:scrap_green/utils/singleton.dart';
+import 'package:dana/base_widgets/app_textstyle.dart';
+import 'package:dana/models/arguments.dart';
+import 'package:dana/utils/constants.dart' as Constants;
+import 'package:dana/utils/singleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

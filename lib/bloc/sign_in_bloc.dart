@@ -1,7 +1,7 @@
-import 'package:scrap_green/models/response/profile_response.dart';
-import 'package:scrap_green/models/response/sign_in_response.dart';
-import 'package:scrap_green/repository/repository.dart';
-import 'package:scrap_green/utils/constants.dart' as Constants;
+import 'package:dana/models/response/profile_response.dart';
+import 'package:dana/models/response/sign_in_response.dart';
+import 'package:dana/repository/repository.dart';
+import 'package:dana/utils/constants.dart' as Constants;
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,10 +25,12 @@ class SignInBloc extends Bloc<SignInEventBase, SignInState> {
       SignInResponse response =
           await Repository.instance.attemptSignIn(event.body);
       if (response.status == true) {
+        Map<String, String> params = {Constants.PARAM_ID: response.data.id};
         ProfileResponse profileResponse =
-            await Repository.instance.getUserData(false,response.data.id);
+            await Repository.instance.getUserData(params);
         bool isStored =
             await Repository.instance.storeUserData(profileResponse.toJson());
+            // print(isStored);
         if (isStored) {
           yield SignInLoaded(response: response);
         } else {

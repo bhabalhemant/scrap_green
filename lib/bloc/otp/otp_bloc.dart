@@ -1,6 +1,6 @@
-import 'package:scrap_green/models/response/otp_verification_response.dart';
-import 'package:scrap_green/models/response/resend_otp_response.dart';
-import 'package:scrap_green/repository/repository.dart';
+import 'package:dana/models/response/otp_verification_response.dart';
+import 'package:dana/models/response/resend_otp_response.dart';
+import 'package:dana/repository/repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

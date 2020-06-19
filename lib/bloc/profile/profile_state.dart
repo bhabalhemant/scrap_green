@@ -1,5 +1,5 @@
-import 'package:scrap_green/models/response/profile_response.dart';
-import 'package:scrap_green/models/response/profile_update_response.dart';
+import 'package:dana/models/response/profile_response.dart';
+import 'package:dana/models/response/profile_update_response.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 

@@ -1,5 +1,5 @@
-name: scrap_green
-description: Scrap Green
+name: dana
+description: Dana
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -63,6 +63,11 @@ flutter:
     - assets/scanner.png
     - assets/user.png
     - assets/banner.jpg
+    - assets/icon1.png
+    - assets/icon2.png
+    - assets/icon3.png
+    - assets/icon4.png
+    - assets/icon5.png
     - assets/success.png
     - assets/delete.png
     - assets/otp_icon.png
@@ -78,6 +83,7 @@ flutter:
     - assets/check.png
     - assets/criss-cross.png
 
+    - assets/endtoend.png
     - assets/error.png
     - assets/building_white.png
     - assets/individual_white.png

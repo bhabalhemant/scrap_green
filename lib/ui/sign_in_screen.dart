@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:scrap_green/base_widgets/app_textstyle.dart';
-import 'package:scrap_green/bloc/sign_in_bloc.dart';
-import 'package:scrap_green/utils/constants.dart' as Constants;
-import 'package:scrap_green/utils/singleton.dart';
+import 'package:dana/base_widgets/app_textstyle.dart';
+import 'package:dana/bloc/sign_in_bloc.dart';
+import 'package:dana/utils/constants.dart' as Constants;
+import 'package:dana/utils/singleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -186,6 +186,18 @@ class _SignInScreenState extends State<SignInScreen> {
                 SizedBox(
                   height: AppSingleton.instance.getHeight(20),
                 ),
+                Wrap(
+                  children: <Widget>[
+                    Image.asset(
+                      'assets/endtoend.png',
+                      fit: BoxFit.fill,
+                      scale: 3.0,
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: AppSingleton.instance.getHeight(10),
+                ),
               ],
             ),
           )
@@ -213,10 +225,10 @@ class _SignInScreenState extends State<SignInScreen> {
         }
       },
       color: AppSingleton.instance.getPrimaryColor(),
-      textColor: AppSingleton.instance.getSecondaryColor(),
+      textColor: Colors.white,
       child: Text(
         "Sign In",
-        style: AppTextStyle.regular(AppSingleton.instance.getSecondaryColor(), 14.0),
+        style: AppTextStyle.regular(Colors.white, 14.0),
       ),
     );
   }

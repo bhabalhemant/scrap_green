@@ -1,9 +1,9 @@
-import 'package:scrap_green/base_widgets/app_textstyle.dart';
-import 'package:scrap_green/bloc/sign_up_vendor_bloc.dart';
-import 'package:scrap_green/models/response/sign_up_vendor_response.dart';
-import 'package:scrap_green/utils/constants.dart' as Constants;
-import 'package:scrap_green/utils/email_validator.dart';
-import 'package:scrap_green/utils/singleton.dart';
+import 'package:dana/base_widgets/app_textstyle.dart';
+import 'package:dana/bloc/sign_up_vendor_bloc.dart';
+import 'package:dana/models/response/sign_up_vendor_response.dart';
+import 'package:dana/utils/constants.dart' as Constants;
+import 'package:dana/utils/email_validator.dart';
+import 'package:dana/utils/singleton.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
