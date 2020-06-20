@@ -85,7 +85,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(Duration(seconds: 1), () {
       if (isLoggedIn) {
         Navigator.pushNamedAndRemoveUntil(scaffoldKey.currentContext,
-            Constants.ROUTE_DASHBOARD, (Route<dynamic> route) => false);
+            Constants.ROUTE_HOME, (Route<dynamic> route) => false);
       } else {
         Navigator.pushNamedAndRemoveUntil(scaffoldKey.currentContext,
             Constants.ROUTE_SIGN_IN, (Route<dynamic> route) => false);

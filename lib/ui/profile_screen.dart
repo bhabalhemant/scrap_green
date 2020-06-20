@@ -52,6 +52,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _password = TextEditingController();
     _retypePassword = TextEditingController();
     // _getCurrentLocation();
+    BlocProvider.of<ProfileBloc>(context).add(GetProfile());
   }
 
   @override

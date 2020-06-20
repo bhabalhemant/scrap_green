@@ -67,4 +67,9 @@ class Repository {
     return await prefs.setString(
         Constants.PARAM_USER_DATA, json.encode(response));
   }
+
+  Future<bool> clearAllShardPrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return await prefs.clear();
+  }
 }
