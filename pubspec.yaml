@@ -82,6 +82,7 @@ flutter:
     - assets/recycle.png
     - assets/check.png
     - assets/criss-cross.png
+    - assets/pad.png
 
     - assets/endtoend.png
     - assets/error.png
