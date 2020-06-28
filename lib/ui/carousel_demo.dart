@@ -140,7 +140,7 @@ class _CarouselDemoState extends State<CarouselDemo> {
           color: Colors.green,
           width: double.infinity,
           height: double.infinity,
-          child: Center(
+          child: SingleChildScrollView(
             child: CarouselSlider(
               items: imageSliders,
               options: CarouselOptions(
@@ -153,7 +153,7 @@ class _CarouselDemoState extends State<CarouselDemo> {
                     });
                   },
                   height: MediaQuery.of(context).size.height),
-                  
+
               carouselController: _controller,
             ),
           ),
