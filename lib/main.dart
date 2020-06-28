@@ -27,6 +27,7 @@ import 'package:dana/utils/singleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'bloc/history_bloc.dart';
 import 'bloc/profile/profile_bloc.dart';
 
 void main() {
@@ -52,6 +53,9 @@ void main() {
         ),
         BlocProvider<SplashBloc>(
           create: (context) => SplashBloc(),
+        ),
+        BlocProvider<HistoryBloc>(
+          create: (context) => HistoryBloc(),
         ),
       ],
       child: MyApp(),

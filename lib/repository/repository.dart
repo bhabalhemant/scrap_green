@@ -52,8 +52,8 @@ class Repository {
     return ProfileResponse.fromJson(response);
   }
 
-  Future<PickUpRequestResponse> getPickUpRequestData(Map<String, String> body) async {
-    final response = await ApiProvider.instance.post("get_user_pickup_request", body);
+  Future<PickUpRequestResponse> getPickUpRequestData(String userId,String startFrom) async {
+    final response = await ApiProvider.instance.get("get_user_pickup_request?user_id=4&request_status=0&limit=30&start_from=$startFrom");
     return PickUpRequestResponse.fromJson(response);
   }
 

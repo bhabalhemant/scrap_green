@@ -1,13 +1,18 @@
 class PickUpRequestResponse {
   bool status;
-  Data data;
+  List<Data> data;
   String msg;
 
   PickUpRequestResponse({this.status, this.data, this.msg});
 
   PickUpRequestResponse.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    if (json['data'] != null) {
+      data = new List<Data>();
+      json['data'].forEach((v) {
+        data.add(new Data.fromJson(v));
+      });
+    }
     msg = json['msg'];
   }
 
@@ -15,7 +20,7 @@ class PickUpRequestResponse {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['status'] = this.status;
     if (this.data != null) {
-      data['data'] = this.data.toJson();
+      data['data'] = this.data.map((v) => v.toJson()).toList();
     }
     data['msg'] = this.msg;
     print(data);
