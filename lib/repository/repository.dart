@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dana/models/response/otp_verification_response.dart';
 import 'package:dana/models/response/profile_response.dart';
 import 'package:dana/models/response/profile_update_response.dart';
+import 'package:dana/models/response/pickup_request_response.dart';
 import 'package:dana/models/response/resend_otp_response.dart';
 import 'package:dana/models/response/sign_in_response.dart';
 import 'package:dana/models/response/sign_up_response.dart';
@@ -51,8 +52,13 @@ class Repository {
     return ProfileResponse.fromJson(response);
   }
 
+  Future<PickUpRequestResponse> getPickUpRequestData(Map<String, String> body) async {
+    final response = await ApiProvider.instance.post("get_user_pickup_request", body);
+    return PickUpRequestResponse.fromJson(response);
+  }
+
   Future<ProfileUpdateResponse> updateProfile(Map<String, String> body) async {
-    final response = await ApiProvider.instance.post("update_profile", body);
+    final response = await ApiProvider.instance.post("pickup_request", body);
     return ProfileUpdateResponse.fromJson(response);
   }
 
@@ -62,10 +68,22 @@ class Repository {
         json.decode(prefs.getString(Constants.PARAM_USER_DATA)));
   }
 
+  Future<PickUpRequestResponse> getStoredPickUpRequestData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return PickUpRequestResponse.fromJson(
+        json.decode(prefs.getString(Constants.PARAM_PICKUP_REQUEST_DATA)));
+  }
+
   Future<bool> storeUserData(Map<String, dynamic> response) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return await prefs.setString(
         Constants.PARAM_USER_DATA, json.encode(response));
+  }
+
+  Future<bool> storePickUpData(Map<String, dynamic> response) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return await prefs.setString(
+        Constants.PARAM_PICKUP_REQUEST_DATA, json.encode(response));
   }
 
   Future<bool> clearAllShardPrefs() async {

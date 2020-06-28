@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dana/models/slider.dart';
 import 'package:flutter/material.dart';
+import 'package:dana/utils/constants.dart' as Constants;
 
 class CarouselDemo extends StatefulWidget {
   @override
@@ -12,18 +13,18 @@ class _CarouselDemoState extends State<CarouselDemo> {
   String header;
   String description;
   int _current = 0;
-  int _max = 2;
+  int _max = 3;
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   final List<SliderItem> imgList = [
-    SliderItem('pad.png', 'SIGN', 'Sign up long text test test test test',
+    SliderItem('pad.png', 'SIGN UP', 'Sign up with Scrap Green and you are ready to sell your scrap without any hassel. Sit at home and sell your scrap',
         '#STAYHOME #STAYSAFE 1'),
-    SliderItem('pad.png', 'SIGN', 'Sign up long text test test test test',
+    SliderItem('pad.png', 'SIGN IN', 'Sign up with Scrap Green and you are ready to sell your scrap without any hassel. Sit at home and sell your scrap',
         '#STAYHOME #STAYSAFE 2'),
-    SliderItem('pad.png', 'SIGN', 'Sign up long text test test test test',
-        '#STAYHOME #STAYSAFE 3')
+    SliderItem('pad.png', 'SIGN UP', 'Sign up with Scrap Green and you are ready to sell your scrap without any hassel. Sit at home and sell your scrap',
+        '#STAYHOME #STAYSAFE 3'),
+    SliderItem('pad.png', 'SIGN IN', 'Sign up with Scrap Green and you are ready to sell your scrap without any hassel. Sit at home and sell your scrap',
+        '#STAYHOME #STAYSAFE 4')
   ];
-
-  _CarouselDemoState({this.icons, this.header, this.description});
 
   final CarouselController _controller = CarouselController();
 
@@ -38,15 +39,51 @@ class _CarouselDemoState extends State<CarouselDemo> {
   Widget build(BuildContext context) {
     imageSliders = imgList.map((SliderItem item) {
       return Container(
-          color: Colors.lightGreen,
-          width: double.infinity,
-          height: double.infinity,
+          color: Colors.green,
+          // width: double.infinity,
+          // height: double.infinity,
           child: Center(
             child: Column(
               mainAxisSize: MainAxisSize.max,
+              // mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                Image.asset('assets/${item.logoPath}', width: 28, height: 28),
-                Text(item.subtitle),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0, 250, 0, 0),
+                  child: Image.asset('assets/${item.logoPath}', width: 120, height: 120),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20.0),
+                  child: Text(item.title,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 24.0,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 18.0),
+                  child: Text(item.description,
+                  textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: Colors.white,
+                      // fontWeight: FontWeight.bold
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20.0),
+                  child: Text(item.subtitle,
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: Colors.white,
+                      // fontWeight: FontWeight.bold
+                    ),
+                  ),
+                ),
+                
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: imgList.map((currentObject) {
@@ -80,6 +117,9 @@ class _CarouselDemoState extends State<CarouselDemo> {
                             duration: Duration(milliseconds: 300),
                             curve: Curves.linear);
                       }
+                      else{
+                        Navigator.pushNamed(context, Constants.ROUTE_SIGN_IN);
+                      }
                     });
                   },
                   color: Colors.white,
@@ -97,7 +137,7 @@ class _CarouselDemoState extends State<CarouselDemo> {
     return Scaffold(
         key: scaffoldKey,
         body: Container(
-          color: Colors.lightGreen,
+          color: Colors.green,
           width: double.infinity,
           height: double.infinity,
           child: Center(
@@ -112,7 +152,8 @@ class _CarouselDemoState extends State<CarouselDemo> {
                       _current = index;
                     });
                   },
-                  height: MediaQuery.of(context).size.height / 3),
+                  height: MediaQuery.of(context).size.height),
+                  
               carouselController: _controller,
             ),
           ),

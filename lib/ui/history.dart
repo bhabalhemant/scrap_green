@@ -57,11 +57,11 @@ class _HistoryState extends State<History> {
                     child: ListView.builder(
                       physics: ClampingScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: 5,
+                      itemCount: 10,
                       itemBuilder: (context, index) {
                         return Padding(
                           padding:
-                              EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                              EdgeInsets.symmetric(horizontal: 10, vertical: 0),
                           child: Card(
                             color: Colors.grey[200],
                             child: Padding(
@@ -70,45 +70,55 @@ class _HistoryState extends State<History> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
                                   ListTile(
-                                    // leading: Icon(Icons.album),
                                     leading: Image.asset('assets/recycle.png',
                                         width: 62,
                                         height: 62,
                                         fit: BoxFit.contain),
-                                    title: Text('Order No: REC007'),
-                                    // subtitle: Text(
-                                        // '19.05.2020 12:29PM \nGhatkopar-West,400084.'),
+                                    title: Text('Order No: REC007',
+                                          style: TextStyle(
+                                            fontSize: 14.0,
+                                            fontWeight: FontWeight.bold
+                                          ),
+                                    ),
                                         subtitle: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: <Widget>[
                                             Text('19.05.2020 12:29PM',
                                               textAlign: TextAlign.left,
-                                              // style: TextStyle(fontWeight: FontWeight.bold),
+                                              style: TextStyle(
+                                                fontSize: 14.0,
+                                                // fontWeight: FontWeight.bold
+                                              ),
                                             ),
                                             Text('Ghatkopar-West,400084.',
                                             textAlign: TextAlign.left,
-                                            style: TextStyle(fontWeight: FontWeight.bold),
+                                            style: TextStyle(
+                                              fontSize: 12.0,
+                                              fontWeight: FontWeight.bold
+                                            ),
                                             ),
                                           ],
                                         ),
                                     isThreeLine: true,
                                     trailing: Column(
                                       children: <Widget>[
-                                        // Icon(Icons.flight),
-                                        Text('Rs. 2500.00'),
+                                        Text('Rs. 2500.00',
+                                        style: TextStyle(
+                                              fontSize: 12.0,
+                                              // fontWeight: FontWeight.bold
+                                            ),
+                                        ),
                                         Expanded(
                                           child: RaisedButton(
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(30.0),
+                                                  BorderRadius.circular(10.0),
                                               side: BorderSide(
-                                                color: AppSingleton.instance
-                                                    .getPrimaryColor(),
+                                                color: Colors.blue,
                                               ),
                                             ),
                                             onPressed: () {},
-                                            color: AppSingleton.instance
-                                                .getPrimaryColor(),
+                                            color: Colors.blue,
                                             textColor: Colors.white,
                                             child: Text(
                                               "Scheduled",

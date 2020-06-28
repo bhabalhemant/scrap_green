@@ -33,6 +33,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       _state,
       _city,
       _pin_code,
+      _schedule_date,
       _password,
       _retypePassword;
   String _aadhar_card;
@@ -49,6 +50,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _state = TextEditingController();
     _city = TextEditingController();
     _pin_code = TextEditingController();
+    _schedule_date = TextEditingController();
     _password = TextEditingController();
     _retypePassword = TextEditingController();
     // _getCurrentLocation();
@@ -66,6 +68,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _state.dispose();
     _city.dispose();
     _pin_code.dispose();
+    _schedule_date.dispose();
     _password.dispose();
     _retypePassword.dispose();
     super.dispose();
@@ -202,12 +205,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     type: TextInputType.text,
                     ),
                 AppSingleton.instance.getSpacer(),
-                getFormField(
-                    ctr: _email,
-                    hint: 'Email',
-                    type: TextInputType.emailAddress,
-                    textCap: TextCapitalization.none),
-                AppSingleton.instance.getSpacer(),
+                // getFormField(
+                //     ctr: _email,
+                //     hint: 'Email',
+                //     type: TextInputType.emailAddress,
+                //     textCap: TextCapitalization.none),
+                // AppSingleton.instance.getSpacer(),
                 getFormField(
                   ctr: _mobile,
                   hint: 'Mobile Number',
@@ -257,7 +260,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   padding: EdgeInsets.symmetric(vertical: 0),
                     child: DateTimeField(
                     format: format,
-                    // controller: dOBCTRL,
+                    controller: _schedule_date,
                     onShowPicker: (context, currentValue) {
                       return showDatePicker(
                           context: context,
@@ -299,7 +302,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
           side: BorderSide(
-            color: AppSingleton.instance.getPrimaryColor(),
+            // color: AppSingleton.instance.getPrimaryColor(),
+            color: Colors.green
           ),
         ),
         onPressed: () {
@@ -318,7 +322,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Map<String, String> body = {
               Constants.PARAM_ID: _id,
               Constants.PARAM_NAME: _name.text,
-            Constants.PARAM_EMAIL: _email.text,
+            Constants.PARAM_SCHEDULE_DATE: _schedule_date.text,
             Constants.PARAM_MOBILE: _mobile.text,
             Constants.PARAM_ADDRESS1: _address_line1.text,
             Constants.PARAM_ADDRESS2: _address_line2.text,
@@ -335,10 +339,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
             });
           }
         },
-        color: AppSingleton.instance.getPrimaryColor(),
+        // color: AppSingleton.instance.getPrimaryColor(),
+        color: Colors.green,
         textColor: Colors.white,
         child: Text(
-          "Update Profile",
+          "Schedule Pick up",
           style: AppTextStyle.regular(Colors.white, 14.0),
         ),
       ),
@@ -375,12 +380,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       return false;
     } else if (_pin_code.text.isEmpty) {
       _showError('Please enter pincode');
-      return false;
-    } else if (_password.text.isEmpty) {
-      _showError('Please enter password');
-      return false;
-    } else if (_retypePassword.text.isEmpty) {
-      _showError('Please retype password');
       return false;
     } else {
       return true;
