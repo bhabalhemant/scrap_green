@@ -134,7 +134,7 @@ class _HistoryState extends State<History> {
           child: Card(
             color: Colors.grey[200],
             child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.0),
+              padding: EdgeInsets.symmetric(vertical: 0.0),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
@@ -142,7 +142,7 @@ class _HistoryState extends State<History> {
                     leading: Image.asset('assets/recycle.png',
                         width: 62, height: 62, fit: BoxFit.contain),
                     title: Text(
-                      'Order No: ${_data[index].user_id}',
+                      'Order No: ${_data[index].id}',
                       style: TextStyle(
                           fontSize: 14.0, fontWeight: FontWeight.bold),
                     ),
@@ -158,7 +158,7 @@ class _HistoryState extends State<History> {
                           ),
                         ),
                         Text(
-                          '${_data[index].address_line1}',
+                          '${_data[index].address_line1}, ${_data[index].address_line2}',
                           textAlign: TextAlign.left,
                           style: TextStyle(
                               fontSize: 12.0, fontWeight: FontWeight.bold),
@@ -169,10 +169,10 @@ class _HistoryState extends State<History> {
                     trailing: Column(
                       children: <Widget>[
                         Text(
-                          'Rs. 2500.00',
+                          'Rs. ${_data[index].total_amount}',
                           style: TextStyle(
-                            fontSize: 12.0,
-                            // fontWeight: FontWeight.bold
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.bold
                           ),
                         ),
                         Expanded(

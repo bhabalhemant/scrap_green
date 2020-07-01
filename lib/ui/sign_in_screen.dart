@@ -255,7 +255,7 @@ class _SignInScreenState extends State<SignInScreen> {
     return Center(
       child: GestureDetector(
         onTap: () {
-          Navigator.pushNamed(context, Constants.ROUTE_CAROUSEL_DEMO);
+          Navigator.pushNamed(context, Constants.ROUTE_SELECT_LANGUAGE);
         },
         child: Text(
           'Forgot Password?',

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "671734773807",
+    "firebase_url": "https://scrap-green.firebaseio.com",
+    "project_id": "scrap-green",
+    "storage_bucket": "scrap-green.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:671734773807:android:ecc8c105d5f81f0a84eeda",
+        "android_client_info": {
+          "package_name": "com.apptroid.scrap_green"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "671734773807-p12msqnib6e1saa66eq7h562j509vhlr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjddSap-wpA2B1xt4D-ad0sQKqOncRrtg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "671734773807-p12msqnib6e1saa66eq7h562j509vhlr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

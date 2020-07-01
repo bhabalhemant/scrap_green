@@ -19,6 +19,8 @@ import 'package:dana/ui/history.dart';
 import 'package:dana/ui/vendor_request.dart';
 import 'package:dana/ui/request_details.dart';
 import 'package:dana/ui/carousel_demo.dart';
+import 'package:dana/ui/select_language.dart';
+import 'package:dana/models/local_notification.dart';
 
 import 'package:dana/utils/constants.dart' as Constants;
 import 'package:dana/utils/custom_route.dart';
@@ -26,11 +28,46 @@ import 'package:dana/utils/simple_bloc_delegate.dart';
 import 'package:dana/utils/singleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import 'bloc/history_bloc.dart';
 import 'bloc/profile/profile_bloc.dart';
 
-void main() {
+final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
+NotificationAppLaunchDetails notificationAppLaunchDetails;
+Future<void> main() async {
+  // needed if you intend to initialize in the `main` function
+  WidgetsFlutterBinding.ensureInitialized();
+  notificationAppLaunchDetails =
+      await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+
+  var initializationSettingsAndroid =
+      AndroidInitializationSettings('launcher_icon');
+  // Note: permissions aren't requested here just to demonstrate that can be done later using the `requestPermissions()` method
+  // of the `IOSFlutterLocalNotificationsPlugin` class
+  var initializationSettingsIOS = IOSInitializationSettings(
+      requestAlertPermission: false,
+      requestBadgePermission: false,
+      requestSoundPermission: false,
+      onDidReceiveLocalNotification:
+          (int id, String title, String body, String payload) async {
+        debugPrint('notification payload: ' + payload);
+      });
+
+  var initializationSettings = InitializationSettings(
+      initializationSettingsAndroid, initializationSettingsIOS);
+
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+      onSelectNotification: (String payload) async {
+    if (payload != null) {
+      debugPrint('notification payload: ' + payload);
+    }
+  });
   BlocSupervisor.delegate = SimpleBlocDelegate();
 
   runApp(
@@ -63,7 +100,73 @@ void main() {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Future onSelectNotification(String payload) {
+    debugPrint("payload : $payload");
+    showDialog(
+      context: context,
+      builder: (_) => new AlertDialog(
+        title: new Text('Notification'),
+        content: new Text('$payload'),
+      ),
+    );
+  }
+
+  onError(dynamic o) {
+    if (o is String) {
+      debugPrint("@@@@@@MESSAGE2 $o");
+    } else {
+      debugPrint("@@@@@@MESSAGE2 $o");
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        LocalNotification localNotification = LocalNotification(
+            message['notification']["title"],
+            message['notification']["body"],
+            "");
+        var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+            'DANAID', 'DANA', 'DANA NOTIFICATIONS',
+            importance: Importance.Max,
+            priority: Priority.High,
+            ticker: 'ticker');
+        var iOSPlatformChannelSpecifics = IOSNotificationDetails();
+        var platformChannelSpecifics = NotificationDetails(
+            androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+        await flutterLocalNotificationsPlugin.show(DateTime.now().millisecond,
+            localNotification.title, localNotification.body, platformChannelSpecifics,
+            payload: localNotification.title);
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume: $message");
+      },
+    );
+    _firebaseMessaging.requestNotificationPermissions(
+        const IosNotificationSettings(
+            sound: true, badge: true, alert: true, provisional: true));
+    _firebaseMessaging.onIosSettingsRegistered
+        .listen((IosNotificationSettings settings) {
+      print("Settings registered: $settings");
+    });
+    _firebaseMessaging.getToken().then((String token) {
+      assert(token != null);
+      BlocProvider.of<SplashBloc>(context).add(SplashEvent(fcmId: token));
+    });
+  }
+}
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -158,6 +261,11 @@ class MyApp extends StatelessWidget {
               builder: (_) => CarouselDemo(),
               settings: settings,
             );
+          case Constants.ROUTE_SELECT_LANGUAGE:
+            return CustomRoute(
+              builder: (_) => SelectLanguage(),
+              settings: settings,
+            );
           default:
             return CustomRoute(
               builder: (_) => SignInScreen(),
@@ -172,4 +280,4 @@ class MyApp extends StatelessWidget {
       },
     );
   }
-}
+

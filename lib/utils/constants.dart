@@ -15,6 +15,7 @@ const ROUTE_MY_CONTRIBUTION = "/mycontribution";
 const ROUTE_HISTORY = "/history";
 const ROUTE_RATE_CARD = "/rate_card";
 const ROUTE_CAROUSEL_DEMO = "/carousel_demo";
+const ROUTE_SELECT_LANGUAGE = "/select_language";
 const ROUTE_REQUEST_DETAILS = "/request_details";
 const ROUTE_OTP = "/otp";
 const ROUTE_TRANSACTION_DETAILS = "/transaction_details";
