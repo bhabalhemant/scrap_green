@@ -15,13 +15,14 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-  TextEditingController _mobile, _password;
+  TextEditingController _mobile = TextEditingController();
+  TextEditingController _password = TextEditingController();
+  bool passwordVisible;
 
   @override
   void initState() {
     super.initState();
-    _mobile = TextEditingController();
-    _password = TextEditingController();
+    passwordVisible = false;
   }
 
   @override
@@ -104,40 +105,90 @@ class _SignInScreenState extends State<SignInScreen> {
                 SizedBox(
                   height: AppSingleton.instance.getHeight(15),
                 ),
-                SizedBox(
-                  height: AppSingleton.instance.getHeight(45),
-                  child: TextFormField(
-                    controller: _password,
-                    obscureText: true,
-                    maxLines: 1,
-                    maxLengthEnforced: true,
-                    maxLength: 50,
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.only(left: 25),
-                      counterText: '',
-                      counterStyle: TextStyle(fontSize: 0),
-                      fillColor: AppSingleton.instance.getLightGrayColor(),
-                      border: AppSingleton.instance.getLightGrayOutLineBorder(),
-                      focusedBorder:
-                          AppSingleton.instance.getLightGrayOutLineBorder(),
-                      disabledBorder:
-                          AppSingleton.instance.getLightGrayOutLineBorder(),
-                      enabledBorder:
-                          AppSingleton.instance.getLightGrayOutLineBorder(),
-                      errorBorder:
-                          AppSingleton.instance.getLightGrayOutLineBorder(),
-                      focusedErrorBorder:
-                          AppSingleton.instance.getLightGrayOutLineBorder(),
-                      filled: true,
-                      hintText: 'Password',
-                      hintStyle: AppTextStyle.regular(
-                        Colors.grey,
-                        AppSingleton.instance.getSp(14),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 0),
+                  child: SizedBox(
+                    height: AppSingleton.instance.getHeight(45),
+                    child: TextFormField(
+                      controller: _password,
+                      obscureText: !passwordVisible,
+                      maxLines: 1,
+                      maxLengthEnforced: true,
+                      maxLength: 50,
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.only(left: 25),
+                        counterText: '',
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            passwordVisible
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: Colors.green,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              passwordVisible = !passwordVisible;
+                            });
+                          },
+                        ),
+                        counterStyle: TextStyle(fontSize: 0),
+                        fillColor: AppSingleton.instance.getLightGrayColor(),
+                        border: AppSingleton.instance.getLightGrayOutLineBorder(),
+                        focusedBorder:
+                            AppSingleton.instance.getLightGrayOutLineBorder(),
+                        disabledBorder:
+                            AppSingleton.instance.getLightGrayOutLineBorder(),
+                        enabledBorder:
+                            AppSingleton.instance.getLightGrayOutLineBorder(),
+                        errorBorder:
+                            AppSingleton.instance.getLightGrayOutLineBorder(),
+                        focusedErrorBorder:
+                            AppSingleton.instance.getLightGrayOutLineBorder(),
+                        filled: true,
+                        hintText: 'Password',
+                        hintStyle: AppTextStyle.regular(
+                          Colors.grey,
+                          AppSingleton.instance.getSp(14),
+                        ),
                       ),
                     ),
                   ),
                 ),
+                // SizedBox(
+                //   height: AppSingleton.instance.getHeight(45),
+                //   child: TextFormField(
+                //     controller: _password,
+                //     obscureText: true,
+                //     maxLines: 1,
+                //     maxLengthEnforced: true,
+                //     maxLength: 50,
+                //     keyboardType: TextInputType.text,
+                //     decoration: InputDecoration(
+                //       contentPadding: EdgeInsets.only(left: 25),
+                //       counterText: '',
+                //       counterStyle: TextStyle(fontSize: 0),
+                //       fillColor: AppSingleton.instance.getLightGrayColor(),
+                //       border: AppSingleton.instance.getLightGrayOutLineBorder(),
+                //       focusedBorder:
+                //           AppSingleton.instance.getLightGrayOutLineBorder(),
+                //       disabledBorder:
+                //           AppSingleton.instance.getLightGrayOutLineBorder(),
+                //       enabledBorder:
+                //           AppSingleton.instance.getLightGrayOutLineBorder(),
+                //       errorBorder:
+                //           AppSingleton.instance.getLightGrayOutLineBorder(),
+                //       focusedErrorBorder:
+                //           AppSingleton.instance.getLightGrayOutLineBorder(),
+                //       filled: true,
+                //       hintText: 'Password',
+                //       hintStyle: AppTextStyle.regular(
+                //         Colors.grey,
+                //         AppSingleton.instance.getSp(14),
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 SizedBox(
                   height: AppSingleton.instance.getHeight(30),
                 ),
@@ -255,7 +306,7 @@ class _SignInScreenState extends State<SignInScreen> {
     return Center(
       child: GestureDetector(
         onTap: () {
-          Navigator.pushNamed(context, Constants.ROUTE_SELECT_LANGUAGE);
+          Navigator.pushNamed(context, Constants.ROUTE_FORGOT_PASSWORD);
         },
         child: Text(
           'Forgot Password?',

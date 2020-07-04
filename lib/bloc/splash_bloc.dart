@@ -51,20 +51,20 @@ abstract class SplashEventBase extends Equatable {
   SplashEventBase();
 }
 
-// class SplashEvent extends SplashEventBase {
-//   SplashEvent();
-
-//   @override
-//   List<Object> get props => [];
-// }
 class SplashEvent extends SplashEventBase {
-  final String fcmId;
-
-  SplashEvent({@required this.fcmId}) : assert(fcmId != null);
+  SplashEvent();
 
   @override
-  List<Object> get props => [fcmId];
+  List<Object> get props => [];
 }
+// class SplashEvent extends SplashEventBase {
+//   final String fcmId;
+
+//   SplashEvent({@required this.fcmId}) : assert(fcmId != null);
+
+//   @override
+//   List<Object> get props => [fcmId];
+// }
 
 abstract class SplashState extends Equatable {
   SplashState();

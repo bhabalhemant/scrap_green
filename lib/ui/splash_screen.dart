@@ -88,7 +88,7 @@ class _SplashScreenState extends State<SplashScreen> {
             Constants.ROUTE_HOME, (Route<dynamic> route) => false);
       } else {
         Navigator.pushNamedAndRemoveUntil(scaffoldKey.currentContext,
-            Constants.ROUTE_SIGN_IN, (Route<dynamic> route) => false);
+            Constants.ROUTE_SELECT_LANGUAGE, (Route<dynamic> route) => false);
       }
     });
   }

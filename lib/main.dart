@@ -3,6 +3,7 @@ import 'package:dana/bloc/sign_in_bloc.dart';
 import 'package:dana/bloc/sign_up_bloc.dart';
 import 'package:dana/bloc/sign_up_vendor_bloc.dart';
 import 'package:dana/bloc/splash_bloc.dart';
+import 'package:dana/bloc/forgot_password_bloc.dart';
 import 'package:dana/ui/otp_screen.dart';
 import 'package:dana/ui/profile_screen.dart';
 import 'package:dana/ui/rate_card.dart';
@@ -10,6 +11,7 @@ import 'package:dana/ui/request_details.dart';
 import 'package:dana/ui/select_type_screen.dart';
 import 'package:dana/ui/sign_in_screen.dart';
 import 'package:dana/ui/sign_up_screen.dart';
+import 'package:dana/ui/forgot_password_screen.dart';
 import 'package:dana/ui/home.dart';
 import 'package:dana/ui/splash_screen.dart';
 import 'package:dana/ui/sign_up_vendor.dart';
@@ -34,40 +36,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'bloc/history_bloc.dart';
 import 'bloc/profile/profile_bloc.dart';
 
-final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
-
-NotificationAppLaunchDetails notificationAppLaunchDetails;
-Future<void> main() async {
-  // needed if you intend to initialize in the `main` function
-  WidgetsFlutterBinding.ensureInitialized();
-  notificationAppLaunchDetails =
-      await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
-
-  var initializationSettingsAndroid =
-      AndroidInitializationSettings('launcher_icon');
-  // Note: permissions aren't requested here just to demonstrate that can be done later using the `requestPermissions()` method
-  // of the `IOSFlutterLocalNotificationsPlugin` class
-  var initializationSettingsIOS = IOSInitializationSettings(
-      requestAlertPermission: false,
-      requestBadgePermission: false,
-      requestSoundPermission: false,
-      onDidReceiveLocalNotification:
-          (int id, String title, String body, String payload) async {
-        debugPrint('notification payload: ' + payload);
-      });
-
-  var initializationSettings = InitializationSettings(
-      initializationSettingsAndroid, initializationSettingsIOS);
-
-  await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-      onSelectNotification: (String payload) async {
-    if (payload != null) {
-      debugPrint('notification payload: ' + payload);
-    }
-  });
+void main() {
   BlocSupervisor.delegate = SimpleBlocDelegate();
 
   runApp(
@@ -94,79 +63,16 @@ Future<void> main() async {
         BlocProvider<HistoryBloc>(
           create: (context) => HistoryBloc(),
         ),
+        BlocProvider<ForgotPasswordBloc>(
+          create: (context) => ForgotPasswordBloc(),
+        ),
       ],
       child: MyApp(),
     ),
   );
 }
 
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  Future onSelectNotification(String payload) {
-    debugPrint("payload : $payload");
-    showDialog(
-      context: context,
-      builder: (_) => new AlertDialog(
-        title: new Text('Notification'),
-        content: new Text('$payload'),
-      ),
-    );
-  }
-
-  onError(dynamic o) {
-    if (o is String) {
-      debugPrint("@@@@@@MESSAGE2 $o");
-    } else {
-      debugPrint("@@@@@@MESSAGE2 $o");
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        LocalNotification localNotification = LocalNotification(
-            message['notification']["title"],
-            message['notification']["body"],
-            "");
-        var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-            'DANAID', 'DANA', 'DANA NOTIFICATIONS',
-            importance: Importance.Max,
-            priority: Priority.High,
-            ticker: 'ticker');
-        var iOSPlatformChannelSpecifics = IOSNotificationDetails();
-        var platformChannelSpecifics = NotificationDetails(
-            androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-        await flutterLocalNotificationsPlugin.show(DateTime.now().millisecond,
-            localNotification.title, localNotification.body, platformChannelSpecifics,
-            payload: localNotification.title);
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        print("onLaunch: $message");
-      },
-      onResume: (Map<String, dynamic> message) async {
-        print("onResume: $message");
-      },
-    );
-    _firebaseMessaging.requestNotificationPermissions(
-        const IosNotificationSettings(
-            sound: true, badge: true, alert: true, provisional: true));
-    _firebaseMessaging.onIosSettingsRegistered
-        .listen((IosNotificationSettings settings) {
-      print("Settings registered: $settings");
-    });
-    _firebaseMessaging.getToken().then((String token) {
-      assert(token != null);
-      BlocProvider.of<SplashBloc>(context).add(SplashEvent(fcmId: token));
-    });
-  }
-}
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -266,6 +172,11 @@ class _MyAppState extends State<MyApp> {
               builder: (_) => SelectLanguage(),
               settings: settings,
             );
+          case Constants.ROUTE_FORGOT_PASSWORD:
+            return CustomRoute(
+              builder: (_) => ForgotPassWordScreen(),
+              settings: settings,
+            );
           default:
             return CustomRoute(
               builder: (_) => SignInScreen(),
@@ -280,4 +191,4 @@ class _MyAppState extends State<MyApp> {
       },
     );
   }
-
+}

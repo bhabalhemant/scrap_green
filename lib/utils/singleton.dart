@@ -12,7 +12,7 @@ class AppSingleton {
   static final AppSingleton instance = AppSingleton._privateConstructor();
 
   getPrimaryColor() {
-    return HexColor('#f99d1c');
+    return HexColor('#56c125');
   }
 
   getSecondaryColor() {
@@ -176,7 +176,7 @@ class AppSingleton {
         ),
       ),
       gradient: LinearGradient(
-        colors: [Colors.lightGreen, Colors.lightGreen],
+        colors: [Colors.green, Colors.green],
       ),
       title: Text(
         title,

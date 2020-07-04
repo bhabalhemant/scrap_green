@@ -8,6 +8,7 @@ import 'package:dana/models/response/resend_otp_response.dart';
 import 'package:dana/models/response/sign_in_response.dart';
 import 'package:dana/models/response/sign_up_response.dart';
 import 'package:dana/models/response/sign_up_vendor_response.dart';
+import 'package:dana/models/response/forgot_password_response.dart';
 import 'package:dana/network/api_provider.dart';
 import 'package:dana/utils/constants.dart' as Constants;
 import 'package:dio/dio.dart';
@@ -78,6 +79,11 @@ class Repository {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return await prefs.setString(
         Constants.PARAM_USER_DATA, json.encode(response));
+  }
+
+  Future<ForgotPasswordResponse> forgotPassword(Map<String, String> body) async {
+    final response = await ApiProvider.instance.post("forgot_password", body);
+    return ForgotPasswordResponse.fromJson(response);
   }
 
   Future<bool> storePickUpData(Map<String, dynamic> response) async {
