@@ -1,6 +1,6 @@
-import 'package:dana/base_widgets/app_textstyle.dart';
-import 'package:dana/utils/constants.dart' as Constants;
-import 'package:dana/utils/singleton.dart';
+import 'package:scrapgreen/base_widgets/app_textstyle.dart';
+import 'package:scrapgreen/utils/constants.dart' as Constants;
+import 'package:scrapgreen/utils/singleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:url_launcher/url_launcher.dart';

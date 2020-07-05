@@ -1,8 +1,8 @@
 import 'dart:math';
 
-import 'package:dana/base_widgets/app_textstyle.dart';
-import 'package:dana/base_widgets/gradient_appbar.dart';
-import 'package:dana/utils/hex_color.dart';
+import 'package:scrapgreen/base_widgets/app_textstyle.dart';
+import 'package:scrapgreen/base_widgets/gradient_appbar.dart';
+import 'package:scrapgreen/utils/hex_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

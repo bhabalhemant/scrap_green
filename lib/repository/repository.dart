@@ -1,16 +1,17 @@
 import 'dart:convert';
 
-import 'package:dana/models/response/otp_verification_response.dart';
-import 'package:dana/models/response/profile_response.dart';
-import 'package:dana/models/response/profile_update_response.dart';
-import 'package:dana/models/response/pickup_request_response.dart';
-import 'package:dana/models/response/resend_otp_response.dart';
-import 'package:dana/models/response/sign_in_response.dart';
-import 'package:dana/models/response/sign_up_response.dart';
-import 'package:dana/models/response/sign_up_vendor_response.dart';
-import 'package:dana/models/response/forgot_password_response.dart';
-import 'package:dana/network/api_provider.dart';
-import 'package:dana/utils/constants.dart' as Constants;
+import 'package:scrapgreen/models/response/otp_verification_response.dart';
+import 'package:scrapgreen/models/response/profile_response.dart';
+import 'package:scrapgreen/models/response/profile_update_response.dart';
+import 'package:scrapgreen/models/response/pickup_request_response.dart';
+import 'package:scrapgreen/models/response/resend_otp_response.dart';
+import 'package:scrapgreen/models/response/sign_in_response.dart';
+import 'package:scrapgreen/models/response/sign_up_response.dart';
+import 'package:scrapgreen/models/response/sign_up_vendor_response.dart';
+import 'package:scrapgreen/models/response/forgot_password_response.dart';
+import 'package:scrapgreen/models/response/update_fcm_response.dart';
+import 'package:scrapgreen/network/api_provider.dart';
+import 'package:scrapgreen/utils/constants.dart' as Constants;
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -79,6 +80,16 @@ class Repository {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return await prefs.setString(
         Constants.PARAM_USER_DATA, json.encode(response));
+  }
+
+  Future<UpdateFcmResponse> updateFcmId(Map<String, String> body) async {
+    final response = await ApiProvider.instance.post("update_fcm_id", body);
+    return UpdateFcmResponse.fromJson(response);
+  }
+
+  Future<bool> storeFcmId(String response) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return await prefs.setString(Constants.PARAM_FCM_ID, response);
   }
 
   Future<ForgotPasswordResponse> forgotPassword(Map<String, String> body) async {

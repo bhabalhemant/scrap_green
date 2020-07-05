@@ -1,5 +1,5 @@
-name: dana
-description: Dana
+name: scrapgreen
+description: Scrap Green
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -42,6 +42,10 @@ dependencies:
   carousel_slider: ^2.1.0
   firebase_messaging: ^6.0.16
   flutter_local_notifications: ^1.4.4+1
+  rename: ^1.2.0
+  #flutter pub run easy_localization:generate --source-dir ./assets/translations
+  #flutter pub run easy_localization:generate --source-dir ./assets/translations -f keys -o locale_keys.g.dart
+  easy_localization: ^2.3.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

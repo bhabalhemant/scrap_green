@@ -1,7 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:dana/models/slider.dart';
+import 'package:scrapgreen/generated/locale_keys.g.dart';
+import 'package:scrapgreen/models/slider.dart';
+import 'package:scrapgreen/utils/constants.dart' as Constants;
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:dana/utils/constants.dart' as Constants;
 
 class CarouselDemo extends StatefulWidget {
   @override
@@ -13,17 +15,15 @@ class _CarouselDemoState extends State<CarouselDemo> {
   String header;
   String description;
   int _current = 0;
-  int _max = 3;
+  int _max = 2;
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   final List<SliderItem> imgList = [
-    SliderItem('pad.png', 'SIGN UP', 'Sign up with Scrap Green and you are ready to sell your scrap without any hassel. Sit at home and sell your scrap',
-        '#STAYHOME #STAYSAFE 1'),
-    SliderItem('pad.png', 'SIGN IN', 'Sign up with Scrap Green and you are ready to sell your scrap without any hassel. Sit at home and sell your scrap',
-        '#STAYHOME #STAYSAFE 2'),
-    SliderItem('pad.png', 'SIGN UP', 'Sign up with Scrap Green and you are ready to sell your scrap without any hassel. Sit at home and sell your scrap',
-        '#STAYHOME #STAYSAFE 3'),
-    SliderItem('pad.png', 'SIGN IN', 'Sign up with Scrap Green and you are ready to sell your scrap without any hassel. Sit at home and sell your scrap',
-        '#STAYHOME #STAYSAFE 4')
+    SliderItem('pad.png', LocaleKeys.sign_up.tr(), LocaleKeys.sign_up_desc.tr(),
+        '${LocaleKeys.stay_home.tr()} 1'),
+    SliderItem('pad.png', LocaleKeys.sign_in.tr(), LocaleKeys.sign_up_desc.tr(),
+        '${LocaleKeys.stay_home.tr()} 2'),
+    SliderItem('pad.png', LocaleKeys.sign_in.tr(), LocaleKeys.sign_up_desc.tr(),
+        '${LocaleKeys.stay_home.tr()} 3'),
   ];
 
   final CarouselController _controller = CarouselController();
@@ -49,23 +49,26 @@ class _CarouselDemoState extends State<CarouselDemo> {
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.fromLTRB(0, 250, 0, 0),
-                  child: Image.asset('assets/${item.logoPath}', width: 120, height: 120),
+                  child: Image.asset('assets/${item.logoPath}',
+                      width: 120, height: 120),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 20.0),
-                  child: Text(item.title,
+                  child: Text(
+                    item.title,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 24.0,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold
-                    ),
+                        fontSize: 24.0,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 18.0),
-                  child: Text(item.description,
-                  textAlign: TextAlign.center,
+                  padding:
+                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 18.0),
+                  child: Text(
+                    item.description,
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 16.0,
                       color: Colors.white,
@@ -75,7 +78,8 @@ class _CarouselDemoState extends State<CarouselDemo> {
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 20.0),
-                  child: Text(item.subtitle,
+                  child: Text(
+                    item.subtitle,
                     style: TextStyle(
                       fontSize: 16.0,
                       color: Colors.white,
@@ -83,7 +87,6 @@ class _CarouselDemoState extends State<CarouselDemo> {
                     ),
                   ),
                 ),
-                
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: imgList.map((currentObject) {
@@ -116,8 +119,7 @@ class _CarouselDemoState extends State<CarouselDemo> {
                         _controller.nextPage(
                             duration: Duration(milliseconds: 300),
                             curve: Curves.linear);
-                      }
-                      else{
+                      } else {
                         Navigator.pushNamed(context, Constants.ROUTE_SIGN_IN);
                       }
                     });
@@ -135,28 +137,28 @@ class _CarouselDemoState extends State<CarouselDemo> {
           ));
     }).toList();
     return Scaffold(
-        key: scaffoldKey,
-        body: Container(
-          color: Colors.green,
-          width: double.infinity,
-          height: double.infinity,
-          child: SingleChildScrollView(
-            child: CarouselSlider(
-              items: imageSliders,
-              options: CarouselOptions(
-                  enlargeCenterPage: true,
-                  autoPlay: false,
-                  carouselController: _controller,
-                  onPageChanged: (index, reason) {
-                    setState(() {
-                      _current = index;
-                    });
-                  },
-                  height: MediaQuery.of(context).size.height),
-
-              carouselController: _controller,
-            ),
+      key: scaffoldKey,
+      body: Container(
+        color: Colors.green,
+        width: double.infinity,
+        height: double.infinity,
+        child: SingleChildScrollView(
+          child: CarouselSlider(
+            items: imageSliders,
+            options: CarouselOptions(
+                enlargeCenterPage: true,
+                autoPlay: false,
+                carouselController: _controller,
+                onPageChanged: (index, reason) {
+                  setState(() {
+                    _current = index;
+                  });
+                },
+                height: MediaQuery.of(context).size.height),
+            carouselController: _controller,
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

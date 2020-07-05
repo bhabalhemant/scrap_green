@@ -1,5 +1,5 @@
-import 'package:dana/models/response/sign_up_response.dart';
-import 'package:dana/repository/repository.dart';
+import 'package:scrapgreen/models/response/sign_up_response.dart';
+import 'package:scrapgreen/repository/repository.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';

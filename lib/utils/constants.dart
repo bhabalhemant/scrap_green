@@ -40,6 +40,7 @@ const PARAM_CITY = "city";
 const PARAM_PINCODE = "pin_code";
 const PARAM_LATITUDE_LONGITUDE = "latitude_longitude";
 
+const PARAM_USER_ID = "user_id";
 const PARAM_FIRST_NAME = "first_name";
 const PARAM_MIDDLE_NAME = "middle_name";
 const PARAM_LAST_NAME = "last_name";
@@ -57,3 +58,4 @@ const PARAM_PICKUP_REQUEST_DATA = "pickup_request_data";
 const PARAM_OTP = "otp";
 const PARAM_EMAIL_KEY = "email_key";
 const BASE_URL = "https://apptroidtechnology.in/scrap_green/";
+const PARAM_FCM_ID = "fcm_id";

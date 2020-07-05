@@ -1,7 +1,7 @@
-import 'package:dana/base_widgets/app_textstyle.dart';
-import 'package:dana/bloc/history_bloc.dart';
-import 'package:dana/models/response/pickup_request_response.dart';
-import 'package:dana/utils/singleton.dart';
+import 'package:scrapgreen/base_widgets/app_textstyle.dart';
+import 'package:scrapgreen/bloc/history_bloc.dart';
+import 'package:scrapgreen/models/response/pickup_request_response.dart';
+import 'package:scrapgreen/utils/singleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

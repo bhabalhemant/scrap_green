@@ -1,6 +1,6 @@
-import 'package:dana/models/response/forgot_password_response.dart';
-import 'package:dana/repository/repository.dart';
-import 'package:dana/utils/constants.dart' as Constants;
+import 'package:scrapgreen/models/response/forgot_password_response.dart';
+import 'package:scrapgreen/repository/repository.dart';
+import 'package:scrapgreen/utils/constants.dart' as Constants;
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

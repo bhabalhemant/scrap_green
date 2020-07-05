@@ -1,4 +1,4 @@
-import 'package:dana/utils/constants.dart' as Constants;
+import 'package:scrapgreen/utils/constants.dart' as Constants;
 import 'package:dio/dio.dart';
 
 import 'custom_exception.dart';

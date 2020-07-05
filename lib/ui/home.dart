@@ -1,5 +1,5 @@
-import 'package:dana/utils/constants.dart' as Constants;
-import 'package:dana/utils/singleton.dart';
+import 'package:scrapgreen/utils/constants.dart' as Constants;
+import 'package:scrapgreen/utils/singleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 

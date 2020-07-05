@@ -1,81 +1,195 @@
-import 'package:dana/bloc/otp/otp_bloc.dart';
-import 'package:dana/bloc/sign_in_bloc.dart';
-import 'package:dana/bloc/sign_up_bloc.dart';
-import 'package:dana/bloc/sign_up_vendor_bloc.dart';
-import 'package:dana/bloc/splash_bloc.dart';
-import 'package:dana/bloc/forgot_password_bloc.dart';
-import 'package:dana/ui/otp_screen.dart';
-import 'package:dana/ui/profile_screen.dart';
-import 'package:dana/ui/rate_card.dart';
-import 'package:dana/ui/request_details.dart';
-import 'package:dana/ui/select_type_screen.dart';
-import 'package:dana/ui/sign_in_screen.dart';
-import 'package:dana/ui/sign_up_screen.dart';
-import 'package:dana/ui/forgot_password_screen.dart';
-import 'package:dana/ui/home.dart';
-import 'package:dana/ui/splash_screen.dart';
-import 'package:dana/ui/sign_up_vendor.dart';
-import 'package:dana/ui/pick_up_request.dart';
-import 'package:dana/ui/mycontribution.dart';
-import 'package:dana/ui/history.dart';
-import 'package:dana/ui/vendor_request.dart';
-import 'package:dana/ui/request_details.dart';
-import 'package:dana/ui/carousel_demo.dart';
-import 'package:dana/ui/select_language.dart';
-import 'package:dana/models/local_notification.dart';
-
-import 'package:dana/utils/constants.dart' as Constants;
-import 'package:dana/utils/custom_route.dart';
-import 'package:dana/utils/simple_bloc_delegate.dart';
-import 'package:dana/utils/singleton.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:scrapgreen/bloc/forgot_password_bloc.dart';
+import 'package:scrapgreen/bloc/otp/otp_bloc.dart';
+import 'package:scrapgreen/bloc/sign_in_bloc.dart';
+import 'package:scrapgreen/bloc/sign_up_bloc.dart';
+import 'package:scrapgreen/bloc/sign_up_vendor_bloc.dart';
+import 'package:scrapgreen/bloc/splash_bloc.dart';
+import 'package:scrapgreen/generated/codegen_loader.g.dart';
+import 'package:scrapgreen/ui/carousel_demo.dart';
+import 'package:scrapgreen/ui/forgot_password_screen.dart';
+import 'package:scrapgreen/ui/history.dart';
+import 'package:scrapgreen/ui/home.dart';
+import 'package:scrapgreen/ui/lang_view.dart';
+import 'package:scrapgreen/ui/mycontribution.dart';
+import 'package:scrapgreen/ui/otp_screen.dart';
+import 'package:scrapgreen/ui/pick_up_request.dart';
+import 'package:scrapgreen/ui/profile_screen.dart';
+import 'package:scrapgreen/ui/rate_card.dart';
+import 'package:scrapgreen/ui/request_details.dart';
+import 'package:scrapgreen/ui/select_type_screen.dart';
+import 'package:scrapgreen/ui/sign_in_screen.dart';
+import 'package:scrapgreen/ui/sign_up_screen.dart';
+import 'package:scrapgreen/ui/sign_up_vendor.dart';
+import 'package:scrapgreen/ui/splash_screen.dart';
+import 'package:scrapgreen/ui/vendor_request.dart';
+import 'package:scrapgreen/utils/constants.dart' as Constants;
+import 'package:scrapgreen/utils/custom_route.dart';
+import 'package:scrapgreen/utils/simple_bloc_delegate.dart';
+import 'package:scrapgreen/utils/singleton.dart';
 
 import 'bloc/history_bloc.dart';
 import 'bloc/profile/profile_bloc.dart';
+import 'models/local_notification.dart';
 
-void main() {
+final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
+NotificationAppLaunchDetails notificationAppLaunchDetails;
+
+Future<void> main() async {
+  // needed if you intend to initialize in the `main` function
+  WidgetsFlutterBinding.ensureInitialized();
+  notificationAppLaunchDetails =
+      await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+
+  var initializationSettingsAndroid =
+      AndroidInitializationSettings('logo');
+  // Note: permissions aren't requested here just to demonstrate that can be done later using the `requestPermissions()` method
+  // of the `IOSFlutterLocalNotificationsPlugin` class
+  var initializationSettingsIOS = IOSInitializationSettings(
+      requestAlertPermission: false,
+      requestBadgePermission: false,
+      requestSoundPermission: false,
+      onDidReceiveLocalNotification:
+          (int id, String title, String body, String payload) async {
+        debugPrint('notification payload: ' + payload);
+      });
+
+  var initializationSettings = InitializationSettings(
+      initializationSettingsAndroid, initializationSettingsIOS);
+
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+      onSelectNotification: (String payload) async {
+    if (payload != null) {
+      debugPrint('notification payload: ' + payload);
+    }
+  });
+
   BlocSupervisor.delegate = SimpleBlocDelegate();
 
   runApp(
-    MultiBlocProvider(
-      providers: [
-        BlocProvider<ProfileBloc>(
-          create: (context) => ProfileBloc(),
-        ),
-        BlocProvider<OtpBloc>(
-          create: (context) => OtpBloc(),
-        ),
-        BlocProvider<SignInBloc>(
-          create: (context) => SignInBloc(),
-        ),
-        BlocProvider<SignUpBloc>(
-          create: (context) => SignUpBloc(),
-        ),
-        BlocProvider<SignUpVendorBloc>(
-          create: (context) => SignUpVendorBloc(),
-        ),
-        BlocProvider<SplashBloc>(
-          create: (context) => SplashBloc(),
-        ),
-        BlocProvider<HistoryBloc>(
-          create: (context) => HistoryBloc(),
-        ),
-        BlocProvider<ForgotPasswordBloc>(
-          create: (context) => ForgotPasswordBloc(),
-        ),
+    EasyLocalization(
+      supportedLocales: [
+        Locale('en', 'US'),
+        Locale('mr', 'IN'),
+        Locale('hi', 'IN')
       ],
-      child: MyApp(),
+      path: 'assets/translations/',
+      assetLoader: CodegenLoader(),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<ProfileBloc>(
+            create: (context) => ProfileBloc(),
+          ),
+          BlocProvider<OtpBloc>(
+            create: (context) => OtpBloc(),
+          ),
+          BlocProvider<SignInBloc>(
+            create: (context) => SignInBloc(),
+          ),
+          BlocProvider<SignUpBloc>(
+            create: (context) => SignUpBloc(),
+          ),
+          BlocProvider<SignUpVendorBloc>(
+            create: (context) => SignUpVendorBloc(),
+          ),
+          BlocProvider<SplashBloc>(
+            create: (context) => SplashBloc(),
+          ),
+          BlocProvider<HistoryBloc>(
+            create: (context) => HistoryBloc(),
+          ),
+          BlocProvider<ForgotPasswordBloc>(
+            create: (context) => ForgotPasswordBloc(),
+          ),
+        ],
+        child: MyApp(),
+      ),
     ),
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Future onSelectNotification(String payload) {
+    debugPrint("payload : $payload");
+    showDialog(
+      context: context,
+      builder: (_) => new AlertDialog(
+        title: new Text('Notification'),
+        content: new Text('$payload'),
+      ),
+    );
+  }
+
+  onError(dynamic o) {
+    if (o is String) {
+      debugPrint("@@@@@@MESSAGE2 $o");
+    } else {
+      debugPrint("@@@@@@MESSAGE2 $o");
+    }
+  }
+
+
+  @override
+  void initState() {
+    super.initState();
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        LocalNotification localNotification = LocalNotification(
+            message['notification']["title"],
+            message['notification']["body"],
+            "");
+        var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+            'DANAID', 'DANA', 'DANA NOTIFICATIONS',
+            importance: Importance.Max,
+            priority: Priority.High,
+            ticker: 'ticker');
+        var iOSPlatformChannelSpecifics = IOSNotificationDetails();
+        var platformChannelSpecifics = NotificationDetails(
+            androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+        await flutterLocalNotificationsPlugin.show(DateTime.now().millisecond,
+            localNotification.title, localNotification.body, platformChannelSpecifics,
+            payload: localNotification.title);
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume: $message");
+      },
+    );
+    _firebaseMessaging.requestNotificationPermissions(
+        const IosNotificationSettings(
+            sound: true, badge: true, alert: true, provisional: true));
+    _firebaseMessaging.onIosSettingsRegistered
+        .listen((IosNotificationSettings settings) {
+      print("Settings registered: $settings");
+    });
+    _firebaseMessaging.getToken().then((String token) {
+      print("Firebase token: $token");
+      assert(token != null);
+      BlocProvider.of<SplashBloc>(context).add(SplashEvent(fcmId: token));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
       debugShowCheckedModeBanner: false,
       title: 'Scrap Green',
       theme: ThemeData(
@@ -83,6 +197,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: AppSingleton.instance.createMaterialColor(
           AppSingleton.instance.getPrimaryColor(),
         ),
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       initialRoute: Constants.ROUTE_ROOT,
       onGenerateRoute: (RouteSettings settings) {
@@ -169,7 +284,7 @@ class MyApp extends StatelessWidget {
             );
           case Constants.ROUTE_SELECT_LANGUAGE:
             return CustomRoute(
-              builder: (_) => SelectLanguage(),
+              builder: (_) => LanguageView(),
               settings: settings,
             );
           case Constants.ROUTE_FORGOT_PASSWORD:

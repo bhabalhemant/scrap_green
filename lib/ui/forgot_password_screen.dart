@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:dana/base_widgets/app_textstyle.dart';
-import 'package:dana/bloc/forgot_password_bloc.dart';
-import 'package:dana/models/response/forgot_password_response.dart';
-import 'package:dana/models/response/sign_up_response.dart' as signUp;
-import 'package:dana/utils/constants.dart' as Constants;
-import 'package:dana/utils/singleton.dart';
+import 'package:scrapgreen/base_widgets/app_textstyle.dart';
+import 'package:scrapgreen/bloc/forgot_password_bloc.dart';
+import 'package:scrapgreen/models/response/forgot_password_response.dart';
+import 'package:scrapgreen/models/response/sign_up_response.dart' as signUp;
+import 'package:scrapgreen/utils/constants.dart' as Constants;
+import 'package:scrapgreen/utils/singleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';

@@ -1,6 +1,6 @@
-import 'package:dana/models/response/profile_response.dart';
-import 'package:dana/repository/repository.dart';
-import 'package:dana/utils/constants.dart' as Constants;
+import 'package:scrapgreen/models/response/profile_response.dart';
+import 'package:scrapgreen/repository/repository.dart';
+import 'package:scrapgreen/utils/constants.dart' as Constants;
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -26,9 +26,15 @@ class SplashBloc extends Bloc<SplashEventBase, SplashState> {
       await Repository.instance.getStoredUserData();
       if (storedData != null && storedData.data.id != null) {
         Map<String, String> body = {Constants.PARAM_ID: storedData.data.id};
+        Map<String, String> updateBody = {
+          Constants.PARAM_USER_ID: storedData.data.id,
+          Constants.PARAM_FCM_ID: event.fcmId
+        };
         ProfileResponse response = await Repository.instance.getUserData(body);
         bool isStored =
         await Repository.instance.storeUserData(response.toJson());
+        await Repository.instance.updateFcmId(updateBody);
+        await Repository.instance.storeFcmId(event.fcmId);
         if (isStored) {
           yield SplashLoaded(response: response);
         } else {
@@ -52,10 +58,12 @@ abstract class SplashEventBase extends Equatable {
 }
 
 class SplashEvent extends SplashEventBase {
-  SplashEvent();
+  final String fcmId;
+
+  SplashEvent({@required this.fcmId}) : assert(fcmId != null);
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [fcmId];
 }
 // class SplashEvent extends SplashEventBase {
 //   final String fcmId;

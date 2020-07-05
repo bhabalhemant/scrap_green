@@ -1,13 +1,14 @@
 import 'dart:async';
 
-import 'package:dana/base_widgets/app_textstyle.dart';
-import 'package:dana/bloc/sign_in_bloc.dart';
-import 'package:dana/utils/constants.dart' as Constants;
-import 'package:dana/utils/singleton.dart';
+import 'package:scrapgreen/base_widgets/app_textstyle.dart';
+import 'package:scrapgreen/bloc/sign_in_bloc.dart';
+import 'package:scrapgreen/generated/locale_keys.g.dart';
+import 'package:scrapgreen/utils/constants.dart' as Constants;
+import 'package:scrapgreen/utils/singleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 class SignInScreen extends StatefulWidget {
   @override
   _SignInScreenState createState() => _SignInScreenState();
@@ -278,9 +279,9 @@ class _SignInScreenState extends State<SignInScreen> {
       color: AppSingleton.instance.getPrimaryColor(),
       textColor: Colors.white,
       child: Text(
-        "Sign In",
+        LocaleKeys.sign_in,
         style: AppTextStyle.regular(Colors.white, 14.0),
-      ),
+      ).tr(),
     );
   }
 
@@ -296,9 +297,9 @@ class _SignInScreenState extends State<SignInScreen> {
       color: AppSingleton.instance.getSecondaryColor(),
       textColor: Colors.white,
       child: Text(
-        "Create your account",
+        LocaleKeys.create_your_account,
         style: AppTextStyle.regular(Colors.white, 14.0),
-      ),
+      ).tr(),
     );
   }
 
@@ -309,9 +310,9 @@ class _SignInScreenState extends State<SignInScreen> {
           Navigator.pushNamed(context, Constants.ROUTE_FORGOT_PASSWORD);
         },
         child: Text(
-          'Forgot Password?',
+          LocaleKeys.forgot_password,
           style: AppTextStyle.bold(Colors.black87, 14.0),
-        ),
+        ).tr(),
       ),
     );
   }

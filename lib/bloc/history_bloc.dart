@@ -1,6 +1,6 @@
-import 'package:dana/models/response/pickup_request_response.dart';
-import 'package:dana/models/response/profile_response.dart';
-import 'package:dana/repository/repository.dart';
+import 'package:scrapgreen/models/response/pickup_request_response.dart';
+import 'package:scrapgreen/models/response/profile_response.dart';
+import 'package:scrapgreen/repository/repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

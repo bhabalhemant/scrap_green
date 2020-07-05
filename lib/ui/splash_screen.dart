@@ -1,11 +1,16 @@
 import 'dart:async';
 
-import 'package:dana/bloc/splash_bloc.dart';
-import 'package:dana/models/response/profile_response.dart';
-import 'package:dana/utils/constants.dart' as Constants;
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:scrapgreen/bloc/splash_bloc.dart';
+import 'package:scrapgreen/models/response/profile_response.dart';
+import 'package:scrapgreen/utils/constants.dart' as Constants;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+FlutterLocalNotificationsPlugin();
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -18,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<SplashBloc>(context).add(SplashEvent());
+    BlocProvider.of<SplashBloc>(context).add(SplashEvent(fcmId: ''));
   }
 
   @override
@@ -82,13 +87,20 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void _navigate(bool isLoggedIn) {
     scaffoldKey.currentState.hideCurrentSnackBar();
-    Timer(Duration(seconds: 1), () {
+    Timer(Duration(seconds: 1), () async {
       if (isLoggedIn) {
         Navigator.pushNamedAndRemoveUntil(scaffoldKey.currentContext,
             Constants.ROUTE_HOME, (Route<dynamic> route) => false);
       } else {
-        Navigator.pushNamedAndRemoveUntil(scaffoldKey.currentContext,
-            Constants.ROUTE_SELECT_LANGUAGE, (Route<dynamic> route) => false);
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        var localeSaved = prefs.getInt("localeSaved");
+        if (localeSaved != null && localeSaved == 1) {
+          Navigator.pushNamedAndRemoveUntil(scaffoldKey.currentContext,
+              Constants.ROUTE_SIGN_IN, (Route<dynamic> route) => false);
+        } else {
+          Navigator.pushNamedAndRemoveUntil(scaffoldKey.currentContext,
+              Constants.ROUTE_SELECT_LANGUAGE, (Route<dynamic> route) => false);
+        }
       }
     });
   }

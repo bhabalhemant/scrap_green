@@ -1,9 +1,9 @@
-import 'package:dana/base_widgets/app_textstyle.dart';
-import 'package:dana/bloc/otp/otp_bloc.dart';
-import 'package:dana/models/response/sign_up_response.dart';
-import 'package:dana/utils/constants.dart' as Constants;
-import 'package:dana/utils/count_down_timer.dart';
-import 'package:dana/utils/singleton.dart';
+import 'package:scrapgreen/base_widgets/app_textstyle.dart';
+import 'package:scrapgreen/bloc/otp/otp_bloc.dart';
+import 'package:scrapgreen/models/response/sign_up_response.dart';
+import 'package:scrapgreen/utils/constants.dart' as Constants;
+import 'package:scrapgreen/utils/count_down_timer.dart';
+import 'package:scrapgreen/utils/singleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
