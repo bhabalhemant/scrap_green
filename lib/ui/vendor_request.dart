@@ -62,11 +62,11 @@ class _VendorRequestState extends State<VendorRequest> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
                   child: Card(
                     color: Colors.grey[200],
                     child: Padding(
-                      padding: EdgeInsets.symmetric(vertical:5.0),
+                      padding: EdgeInsets.symmetric(vertical:0.0),
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         children: <Widget>[

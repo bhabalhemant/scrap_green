@@ -4,6 +4,7 @@ const ROUTE_ROOT = "/";
 const ROUTE_SPLASH = "/splash";
 const ROUTE_DASHBOARD = "/dasboard";
 const ROUTE_SIGN_IN = "/signin";
+const ROUTE_SIGN_IN_VENDOR = "/signinvendor";
 const ROUTE_HOME = "/home";
 const ROUTE_SIGN_UP = "/signup";
 const ROUTE_PICKUP_REQUEST = "/pick_up_request";

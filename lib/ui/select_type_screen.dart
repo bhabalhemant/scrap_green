@@ -32,7 +32,8 @@ class _State extends State<SelectTypeScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Center(
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 25),
             child: Image.asset(
               'assets/scrap_green_logo.png',
               scale: 2.0,

@@ -2,6 +2,7 @@ import 'package:scrapgreen/utils/constants.dart' as Constants;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:scrapgreen/utils/singleton.dart';
 
 class LanguageView extends StatelessWidget {
   @override
@@ -17,6 +18,18 @@ class LanguageView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 70.0),
+                child: Center(
+                  child: Image.asset(
+                    'assets/scrap_green_logo.png',
+                    scale: 2.0,
+                  ),
+                ),
+              ),
+              SizedBox(
+                  height: AppSingleton.instance.getHeight(50),
+                ),
             Container(
               margin: EdgeInsets.symmetric(
                 horizontal: 24,

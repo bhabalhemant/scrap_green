@@ -1,11 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:scrapgreen/ui/sign_in_vendor_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:scrapgreen/bloc/forgot_password_bloc.dart';
 import 'package:scrapgreen/bloc/otp/otp_bloc.dart';
 import 'package:scrapgreen/bloc/sign_in_bloc.dart';
+import 'package:scrapgreen/bloc/sign_in_vendor_bloc.dart';
 import 'package:scrapgreen/bloc/sign_up_bloc.dart';
 import 'package:scrapgreen/bloc/sign_up_vendor_bloc.dart';
 import 'package:scrapgreen/bloc/splash_bloc.dart';
@@ -31,7 +33,6 @@ import 'package:scrapgreen/utils/constants.dart' as Constants;
 import 'package:scrapgreen/utils/custom_route.dart';
 import 'package:scrapgreen/utils/simple_bloc_delegate.dart';
 import 'package:scrapgreen/utils/singleton.dart';
-
 import 'bloc/history_bloc.dart';
 import 'bloc/profile/profile_bloc.dart';
 import 'models/local_notification.dart';
@@ -93,6 +94,9 @@ Future<void> main() async {
           ),
           BlocProvider<SignInBloc>(
             create: (context) => SignInBloc(),
+          ),
+          BlocProvider<SignInVendorBloc>(
+            create: (context) => SignInVendorBloc(),
           ),
           BlocProvider<SignUpBloc>(
             create: (context) => SignUpBloc(),
@@ -215,6 +219,11 @@ class _MyAppState extends State<MyApp> {
           case Constants.ROUTE_SIGN_IN:
             return CustomRoute(
               builder: (_) => SignInScreen(),
+              settings: settings,
+            );
+          case Constants.ROUTE_SIGN_IN_VENDOR:
+            return CustomRoute(
+              builder: (_) => SignInVendorScreen(),
               settings: settings,
             );
           case Constants.ROUTE_HOME:

@@ -1,20 +1,19 @@
 import 'dart:async';
 
 import 'package:scrapgreen/base_widgets/app_textstyle.dart';
-import 'package:scrapgreen/bloc/sign_in_bloc.dart';
-import 'package:scrapgreen/generated/locale_keys.g.dart';
+import 'package:scrapgreen/bloc/sign_in_vendor_bloc.dart';
 import 'package:scrapgreen/utils/constants.dart' as Constants;
 import 'package:scrapgreen/utils/singleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:easy_localization/easy_localization.dart';
-class SignInScreen extends StatefulWidget {
+
+class SignInVendorScreen extends StatefulWidget {
   @override
-  _SignInScreenState createState() => _SignInScreenState();
+  _SignInVendorScreenState createState() => _SignInVendorScreenState();
 }
 
-class _SignInScreenState extends State<SignInScreen> {
+class _SignInVendorScreenState extends State<SignInVendorScreen> {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   TextEditingController _mobile = TextEditingController();
   TextEditingController _password = TextEditingController();
@@ -38,12 +37,12 @@ class _SignInScreenState extends State<SignInScreen> {
     return SafeArea(
       child: Scaffold(
         key: scaffoldKey,
-        body: buildSignInScreen(),
+        body: buildSignInVendorScreen(),
       ),
     );
   }
 
-  Widget buildSignInScreen() {
+  Widget buildSignInVendorScreen() {
     return Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
@@ -197,21 +196,21 @@ class _SignInScreenState extends State<SignInScreen> {
                   width: double.infinity,
                   height: AppSingleton.instance.getHeight(45),
                   child: BlocConsumer(
-                    bloc: BlocProvider.of<SignInBloc>(context),
+                    bloc: BlocProvider.of<SignInVendorBloc>(context),
                     listener: (context, state) {
-                      if (state is SignInError) {
+                      if (state is SignInVendorError) {
                         _showError(state.msg);
                       }
-                      if (state is SignInLoaded) {
+                      if (state is SignInVendorLoaded) {
                         _showSuccessMessage(state.response.msg);
                       }
                     },
                     builder: (context, state) {
-                      if (state is SignInLoading) {
+                      if (state is SignInVendorLoading) {
                         return AppSingleton.instance
                             .buildCenterSizedProgressBar();
                       }
-                      if (state is SignInLoaded) {
+                      if (state is SignInVendorLoaded) {
                         return AppSingleton.instance
                             .buildCenterSizedProgressBar();
                       }
@@ -273,15 +272,15 @@ class _SignInScreenState extends State<SignInScreen> {
             Constants.PARAM_MOBILE: _mobile.text,
             Constants.PARAM_PASSWORD: _password.text
           };
-          BlocProvider.of<SignInBloc>(context).add(SignInEvent(body: body));
+          BlocProvider.of<SignInVendorBloc>(context).add(SignInVendorEvent(body: body));
         }
       },
       color: AppSingleton.instance.getPrimaryColor(),
       textColor: Colors.white,
       child: Text(
-        LocaleKeys.sign_in,
+        "Sign In Vendor",
         style: AppTextStyle.regular(Colors.white, 14.0),
-      ).tr(),
+      ),
     );
   }
 
@@ -297,9 +296,9 @@ class _SignInScreenState extends State<SignInScreen> {
       color: AppSingleton.instance.getSecondaryColor(),
       textColor: Colors.white,
       child: Text(
-        LocaleKeys.create_your_account,
+        "Create your account",
         style: AppTextStyle.regular(Colors.white, 14.0),
-      ).tr(),
+      ),
     );
   }
 
@@ -307,12 +306,12 @@ class _SignInScreenState extends State<SignInScreen> {
     return Center(
       child: GestureDetector(
         onTap: () {
-          Navigator.pushNamed(context, Constants.ROUTE_SIGN_IN_VENDOR);
+          Navigator.pushNamed(context, Constants.ROUTE_FORGOT_PASSWORD);
         },
         child: Text(
-          LocaleKeys.forgot_password,
+          'Forgot Password?',
           style: AppTextStyle.bold(Colors.black87, 14.0),
-        ).tr(),
+        ),
       ),
     );
   }
@@ -337,7 +336,7 @@ class _SignInScreenState extends State<SignInScreen> {
     scaffoldKey.currentState
         .showSnackBar(AppSingleton.instance.getSuccessSnackBar(message));
     Timer(Duration(seconds: 1), () {
-      Navigator.pushReplacementNamed(context, Constants.ROUTE_HOME);
+      Navigator.pushReplacementNamed(context, Constants.ROUTE_VENDOR_REQUEST);
     });
   }
 

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+// <<<<<<< Updated upstream
 import 'package:scrapgreen/models/response/otp_verification_response.dart';
 import 'package:scrapgreen/models/response/profile_response.dart';
 import 'package:scrapgreen/models/response/profile_update_response.dart';
@@ -12,6 +13,21 @@ import 'package:scrapgreen/models/response/forgot_password_response.dart';
 import 'package:scrapgreen/models/response/update_fcm_response.dart';
 import 'package:scrapgreen/network/api_provider.dart';
 import 'package:scrapgreen/utils/constants.dart' as Constants;
+import 'package:scrapgreen/models/response/sign_in_vendor_response.dart';
+// =======
+// import 'package:dana/models/response/otp_verification_response.dart';
+// import 'package:dana/models/response/profile_response.dart';
+// import 'package:dana/models/response/profile_update_response.dart';
+// import 'package:dana/models/response/pickup_request_response.dart';
+// import 'package:dana/models/response/resend_otp_response.dart';
+// import 'package:dana/models/response/sign_in_response.dart';
+
+// import 'package:dana/models/response/sign_up_response.dart';
+// import 'package:dana/models/response/sign_up_vendor_response.dart';
+// import 'package:dana/models/response/forgot_password_response.dart';
+// import 'package:dana/network/api_provider.dart';
+// import 'package:dana/utils/constants.dart' as Constants;
+// >>>>>>> Stashed changes
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -35,6 +51,11 @@ class Repository {
   Future<SignInResponse> attemptSignIn(Map<String, String> body) async {
     final response = await ApiProvider.instance.post("user_login", body);
     return SignInResponse.fromJson(response);
+  }
+
+  Future<SignInVendorResponse> attemptSignInVendor(Map<String, String> body) async {
+    final response = await ApiProvider.instance.post("vendor_login", body);
+    return SignInVendorResponse.fromJson(response);
   }
 
   Future<OtpVerificationResponse> userOtpVerification(
