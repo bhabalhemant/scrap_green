@@ -64,7 +64,7 @@ class _HomeState extends State<Home> {
                   onPressed: () {
                     Navigator.pushNamed(context, Constants.ROUTE_RATE_CARD);
                   },
-                  color: Colors.lightGreen,
+                  color: Colors.green,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[

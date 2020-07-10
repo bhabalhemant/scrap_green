@@ -219,7 +219,15 @@ class _SignInVendorScreenState extends State<SignInVendorScreen> {
                   ),
                 ),
                 SizedBox(
-                  height: AppSingleton.instance.getHeight(50),
+                  height: AppSingleton.instance.getHeight(20),
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  height: AppSingleton.instance.getHeight(20),
+                  child: buildUserLogin(),
+                ),
+                SizedBox(
+                  height: AppSingleton.instance.getHeight(20),
                 ),
                 SizedBox(
                   width: double.infinity,
@@ -310,6 +318,20 @@ class _SignInVendorScreenState extends State<SignInVendorScreen> {
         },
         child: Text(
           'Forgot Password?',
+          style: AppTextStyle.bold(Colors.black87, 14.0),
+        ),
+      ),
+    );
+  }
+
+  Widget buildUserLogin() {
+    return Center(
+      child: GestureDetector(
+        onTap: () {
+          Navigator.pushNamed(context, Constants.ROUTE_SIGN_IN);
+        },
+        child: Text(
+          'User SIGN IN click here.',
           style: AppTextStyle.bold(Colors.black87, 14.0),
         ),
       ),

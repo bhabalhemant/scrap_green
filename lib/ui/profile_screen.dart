@@ -12,6 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:intl/intl.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -22,7 +23,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Position _currentPosition;
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   final format = DateFormat("yyyy-MM-dd");
-  String _id;
+  String _id, schedule_date;
   TextEditingController 
       _name,
       _email,
@@ -56,7 +57,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     // _getCurrentLocation();
     BlocProvider.of<ProfileBloc>(context).add(GetProfile());
   }
-
+var now = new DateTime.now();
   @override
   void dispose() {
     _name.dispose();
@@ -256,35 +257,51 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
 
               AppSingleton.instance.getSpacer(),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 0),
-                    child: DateTimeField(
-                    format: format,
-                    controller: _schedule_date,
-                    onShowPicker: (context, currentValue) {
-                      return showDatePicker(
-                          context: context,
-                          firstDate: DateTime(1900),
-                          initialDate: currentValue ?? DateTime.now(),
-                          lastDate: DateTime(2100));
-                    },
-                    decoration: InputDecoration(
-                      // counterStyle: TextStyle(fontSize: 11),
-                      fillColor: AppSingleton.instance.getLightGrayColor(),
-                      border: AppSingleton.instance.getLightGrayOutLineBorder(),
-                      focusedBorder: AppSingleton.instance.getLightGrayOutLineBorder(),
-                      disabledBorder: AppSingleton.instance.getLightGrayOutLineBorder(),
-                      enabledBorder: AppSingleton.instance.getLightGrayOutLineBorder(),
-                      errorBorder: AppSingleton.instance.getLightGrayOutLineBorder(),
-                      focusedErrorBorder: AppSingleton.instance.getLightGrayOutLineBorder(),
-                      filled: true,
-                      hintText: 'Schedule Date',
-                      // errorText: _autoValidate ? 'Value Can\'t Be Empty' : null,
-                      contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                      // border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
-                    ),
-                  ),
-                ),
+              FlatButton(
+                onPressed: () {
+                  DatePicker.showDateTimePicker(context, showTitleActions: true, 
+                  onChanged: (date) {
+                    // print('change $date in time zone ' + date.timeZoneOffset.inHours.toString());
+                  }, onConfirm: (date) {
+                    // print('confirm $date');
+                    schedule_date = date.toString();
+                  }, currentTime: now);
+                },
+                child: Text(
+                  'Schedule Date',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(color: Colors.blue),
+                )
+              ),
+                // Padding(
+                //   padding: EdgeInsets.symmetric(vertical: 0),
+                //     child: DateTimeField(
+                //     format: format,
+                //     controller: _schedule_date,
+                //     onShowPicker: (context, currentValue) {
+                //       return showDatePicker(
+                //           context: context,
+                //           firstDate: DateTime(1900),
+                //           initialDate: currentValue ?? DateTime.now(),
+                //           lastDate: DateTime(2100));
+                //     },
+                //     decoration: InputDecoration(
+                //       // counterStyle: TextStyle(fontSize: 11),
+                //       fillColor: AppSingleton.instance.getLightGrayColor(),
+                //       border: AppSingleton.instance.getLightGrayOutLineBorder(),
+                //       focusedBorder: AppSingleton.instance.getLightGrayOutLineBorder(),
+                //       disabledBorder: AppSingleton.instance.getLightGrayOutLineBorder(),
+                //       enabledBorder: AppSingleton.instance.getLightGrayOutLineBorder(),
+                //       errorBorder: AppSingleton.instance.getLightGrayOutLineBorder(),
+                //       focusedErrorBorder: AppSingleton.instance.getLightGrayOutLineBorder(),
+                //       filled: true,
+                //       hintText: 'Schedule Date',
+                //       // errorText: _autoValidate ? 'Value Can\'t Be Empty' : null,
+                //       contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                //       // border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+                //     ),
+                //   ),
+                // ),
                 AppSingleton.instance.getSizedSpacer(30),
               buildUpdateButton()
             ],
@@ -322,7 +339,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Map<String, String> body = {
               Constants.PARAM_ID: _id,
               Constants.PARAM_NAME: _name.text,
-            Constants.PARAM_SCHEDULE_DATE: _schedule_date.text,
+            Constants.PARAM_SCHEDULE_DATE: schedule_date,
             Constants.PARAM_MOBILE: _mobile.text,
             Constants.PARAM_ADDRESS1: _address_line1.text,
             Constants.PARAM_ADDRESS2: _address_line2.text,
@@ -332,6 +349,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Constants.PARAM_PINCODE: _pin_code.text,
             Constants.PARAM_LATITUDE_LONGITUDE: _position,
             };
+            // print(body);
             BlocProvider.of<ProfileBloc>(context)
                 .add(UpdateProfile(body: body));
                 }).catchError((e) {

@@ -168,18 +168,31 @@ class _HistoryState extends State<History> {
                     isThreeLine: true,
                     trailing: Column(
                       children: <Widget>[
-                        Text(
+                        
+                        _data[index].total_amount == null
+                        ? Text(
+                          'Rs. 0',
+                          style: TextStyle(
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.bold
+                          ),
+                        )
+                        :Text(
                           'Rs. ${_data[index].total_amount}',
                           style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.bold
                           ),
                         ),
+
+                        _data[index].request_status == '0'
+                        ?
                         Expanded(
                           child: RaisedButton(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0),
                               side: BorderSide(
+                                // color: Colors.blue,
                                 color: Colors.blue,
                               ),
                             ),
@@ -188,6 +201,96 @@ class _HistoryState extends State<History> {
                             textColor: Colors.white,
                             child: Text(
                               "Scheduled",
+                              style: AppTextStyle.regular(
+                                Colors.white,
+                                10.0,
+                              ),
+                            ),
+                          ),
+                        )
+                        : _data[index].request_status == '1'
+                        ?
+                        Expanded(
+                          child: RaisedButton(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              side: BorderSide(
+                                // color: Colors.blue,
+                                color: Colors.orange,
+                              ),
+                            ),
+                            onPressed: () {},
+                            color: Colors.orange,
+                            textColor: Colors.white,
+                            child: Text(
+                              "Assigned",
+                              style: AppTextStyle.regular(
+                                Colors.white,
+                                10.0,
+                              ),
+                            ),
+                          ),
+                        )
+                        : _data[index].request_status == '2'
+                        ?
+                        Expanded(
+                          child: RaisedButton(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              side: BorderSide(
+                                // color: Colors.blue,
+                                color: Colors.red,
+                              ),
+                            ),
+                            onPressed: () {},
+                            color: Colors.red,
+                            textColor: Colors.white,
+                            child: Text(
+                              "User Cancelled",
+                              style: AppTextStyle.regular(
+                                Colors.white,
+                                10.0,
+                              ),
+                            ),
+                          ),
+                        )
+                        : _data[index].request_status == '3'
+                        ?
+                        Expanded(
+                          child: RaisedButton(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              side: BorderSide(
+                                // color: Colors.blue,
+                                color: Colors.red,
+                              ),
+                            ),
+                            onPressed: () {},
+                            color: Colors.red,
+                            textColor: Colors.white,
+                            child: Text(
+                              "Admin Cancelled",
+                              style: AppTextStyle.regular(
+                                Colors.white,
+                                10.0,
+                              ),
+                            ),
+                          ),
+                        )
+                        : Expanded(
+                          child: RaisedButton(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              side: BorderSide(
+                                // color: Colors.blue,
+                                color: Colors.green,
+                              ),
+                            ),
+                            onPressed: () {},
+                            color: Colors.green,
+                            textColor: Colors.white,
+                            child: Text(
+                              "Successful",
                               style: AppTextStyle.regular(
                                 Colors.white,
                                 10.0,

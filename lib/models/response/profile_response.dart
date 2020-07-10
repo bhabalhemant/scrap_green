@@ -18,6 +18,7 @@ class ProfileResponse {
       data['data'] = this.data.toJson();
     }
     data['msg'] = this.msg;
+    print(data);
     return data;
   }
 }

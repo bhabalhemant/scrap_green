@@ -220,7 +220,15 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                 ),
                 SizedBox(
-                  height: AppSingleton.instance.getHeight(50),
+                  height: AppSingleton.instance.getHeight(20),
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  height: AppSingleton.instance.getHeight(20),
+                  child: buildVendorLogin(),
+                ),
+                SizedBox(
+                  height: AppSingleton.instance.getHeight(20),
                 ),
                 SizedBox(
                   width: double.infinity,
@@ -307,10 +315,24 @@ class _SignInScreenState extends State<SignInScreen> {
     return Center(
       child: GestureDetector(
         onTap: () {
-          Navigator.pushNamed(context, Constants.ROUTE_SIGN_IN_VENDOR);
+          Navigator.pushNamed(context, Constants.ROUTE_FORGOT_PASSWORD);
         },
         child: Text(
           LocaleKeys.forgot_password,
+          style: AppTextStyle.bold(Colors.black87, 14.0),
+        ).tr(),
+      ),
+    );
+  }
+
+  Widget buildVendorLogin() {
+    return Center(
+      child: GestureDetector(
+        onTap: () {
+          Navigator.pushNamed(context, Constants.ROUTE_SIGN_IN_VENDOR);
+        },
+        child: Text(
+          'Vendor SIGN IN click here.',
           style: AppTextStyle.bold(Colors.black87, 14.0),
         ).tr(),
       ),

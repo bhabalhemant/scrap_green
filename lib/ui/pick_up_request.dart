@@ -8,6 +8,7 @@ import 'package:scrapgreen/utils/email_validator.dart';
 import 'package:scrapgreen/utils/singleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:intl/intl.dart';
@@ -52,7 +53,7 @@ bool selected=true ;
     _retypePassword = TextEditingController();
     // _getCurrentLocation();
   }
-
+var now = new DateTime.now();
   @override
   void dispose() {
     _name.dispose();
@@ -213,37 +214,50 @@ bool selected=true ;
                   ),
                 ),
                 AppSingleton.instance.getSpacer(),
-                
+                FlatButton(
+                onPressed: () {
+                  DatePicker.showDateTimePicker(context, showTitleActions: true, 
+                  onChanged: (date) {
+                    print('change $date in time zone ' + date.timeZoneOffset.inHours.toString());
+                  }, onConfirm: (date) {
+                    print('confirm $date');
+                  }, currentTime: now);
+                },
+                child: Text(
+                  'Schedule Date',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(color: Colors.blue),
+                )),
                 AppSingleton.instance.getSpacer(),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 0),
-                    child: DateTimeField(
-                    format: format,
-                    // controller: dOBCTRL,
-                    onShowPicker: (context, currentValue) {
-                      return showDatePicker(
-                          context: context,
-                          firstDate: DateTime(1900),
-                          initialDate: currentValue ?? DateTime.now(),
-                          lastDate: DateTime(2100));
-                    },
-                    decoration: InputDecoration(
-                      // counterStyle: TextStyle(fontSize: 11),
-                      fillColor: AppSingleton.instance.getLightGrayColor(),
-                      border: AppSingleton.instance.getLightGrayOutLineBorder(),
-                      focusedBorder: AppSingleton.instance.getLightGrayOutLineBorder(),
-                      disabledBorder: AppSingleton.instance.getLightGrayOutLineBorder(),
-                      enabledBorder: AppSingleton.instance.getLightGrayOutLineBorder(),
-                      errorBorder: AppSingleton.instance.getLightGrayOutLineBorder(),
-                      focusedErrorBorder: AppSingleton.instance.getLightGrayOutLineBorder(),
-                      filled: true,
-                      hintText: 'Schedule Date',
-                      // errorText: _autoValidate ? 'Value Can\'t Be Empty' : null,
-                      contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                      // border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
-                    ),
-                  ),
-                ),
+                // Padding(
+                //   padding: EdgeInsets.symmetric(vertical: 0),
+                //     child: DateTimeField(
+                //     format: format,
+                //     // controller: dOBCTRL,
+                //     onShowPicker: (context, currentValue) {
+                //       return showDatePicker(
+                //           context: context,
+                //           firstDate: DateTime(1900),
+                //           initialDate: currentValue ?? DateTime.now(),
+                //           lastDate: DateTime(2100));
+                //     },
+                //     decoration: InputDecoration(
+                //       // counterStyle: TextStyle(fontSize: 11),
+                //       fillColor: AppSingleton.instance.getLightGrayColor(),
+                //       border: AppSingleton.instance.getLightGrayOutLineBorder(),
+                //       focusedBorder: AppSingleton.instance.getLightGrayOutLineBorder(),
+                //       disabledBorder: AppSingleton.instance.getLightGrayOutLineBorder(),
+                //       enabledBorder: AppSingleton.instance.getLightGrayOutLineBorder(),
+                //       errorBorder: AppSingleton.instance.getLightGrayOutLineBorder(),
+                //       focusedErrorBorder: AppSingleton.instance.getLightGrayOutLineBorder(),
+                //       filled: true,
+                //       hintText: 'Schedule Date',
+                //       // errorText: _autoValidate ? 'Value Can\'t Be Empty' : null,
+                //       contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                //       // border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+                //     ),
+                //   ),
+                // ),
   //               // SizedBox(
   //               //   height: 10,
   //               // ),
