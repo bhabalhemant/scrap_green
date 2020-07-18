@@ -4,6 +4,8 @@ import 'package:scrapgreen/utils/singleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:scrapgreen/generated/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class SelectTypeScreen extends StatefulWidget {
   @override
@@ -41,9 +43,10 @@ class _State extends State<SelectTypeScreen> {
           ),
           AppSingleton.instance.getSizedSpacer(30),
           Text(
-            'Select your type',
+            // 'Select your type',
+            LocaleKeys.select_type,
             style: AppTextStyle.bold(Colors.black87, 20.0),
-          ),
+          ).tr(),
           AppSingleton.instance.getSizedSpacer(30),
           buildTypes('INS',onVendor),
           AppSingleton.instance.getSizedSpacer(20),
@@ -95,14 +98,14 @@ class _State extends State<SelectTypeScreen> {
                   children: <Widget>[
                     Text(
                       which != 'INS'
-                          ? 'Register as User'
-                          : 'Register as Vendor',
+                          ? LocaleKeys.sign_up_user
+                          : LocaleKeys.sign_up_vendor,
                       textAlign: TextAlign.start,
                       maxLines: 3,
                       softWrap: false,
                       overflow: TextOverflow.fade,
                       style: AppTextStyle.bold(Colors.white, 18.0),
-                    ),
+                    ).tr(),
                     // Text(
                     //   which == 'INS'
                     //       ? 'For making donations'

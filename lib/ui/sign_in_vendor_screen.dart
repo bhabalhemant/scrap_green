@@ -2,11 +2,13 @@ import 'dart:async';
 
 import 'package:scrapgreen/base_widgets/app_textstyle.dart';
 import 'package:scrapgreen/bloc/sign_in_vendor_bloc.dart';
+import 'package:scrapgreen/generated/locale_keys.g.dart';
 import 'package:scrapgreen/utils/constants.dart' as Constants;
 import 'package:scrapgreen/utils/singleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class SignInVendorScreen extends StatefulWidget {
   @override
@@ -286,9 +288,10 @@ class _SignInVendorScreenState extends State<SignInVendorScreen> {
       color: AppSingleton.instance.getPrimaryColor(),
       textColor: Colors.white,
       child: Text(
-        "Sign In Vendor",
+        // "Sign In Vendor",
+        LocaleKeys.sign_in_vendor,
         style: AppTextStyle.regular(Colors.white, 14.0),
-      ),
+      ).tr(),
     );
   }
 
@@ -304,9 +307,9 @@ class _SignInVendorScreenState extends State<SignInVendorScreen> {
       color: AppSingleton.instance.getSecondaryColor(),
       textColor: Colors.white,
       child: Text(
-        "Create your account",
+        LocaleKeys.create_your_account,
         style: AppTextStyle.regular(Colors.white, 14.0),
-      ),
+      ).tr(),
     );
   }
 
@@ -317,9 +320,9 @@ class _SignInVendorScreenState extends State<SignInVendorScreen> {
           Navigator.pushNamed(context, Constants.ROUTE_FORGOT_PASSWORD);
         },
         child: Text(
-          'Forgot Password?',
+          LocaleKeys.forgot_password,
           style: AppTextStyle.bold(Colors.black87, 14.0),
-        ),
+        ).tr(),
       ),
     );
   }
@@ -331,9 +334,10 @@ class _SignInVendorScreenState extends State<SignInVendorScreen> {
           Navigator.pushNamed(context, Constants.ROUTE_SIGN_IN);
         },
         child: Text(
-          'User SIGN IN click here.',
+          // 'sfgh',
+          LocaleKeys.user_login_click,
           style: AppTextStyle.bold(Colors.black87, 14.0),
-        ),
+        ).tr(),
       ),
     );
   }

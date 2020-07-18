@@ -154,7 +154,7 @@ class _CarouselDemoState extends State<CarouselDemo> {
                     _current = index;
                   });
                 },
-                height: MediaQuery.of(context).size.height),
+                height: MediaQuery.of(context).size.height*2),
             carouselController: _controller,
           ),
         ),

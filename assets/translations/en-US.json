@@ -2,7 +2,19 @@
   "sign_up": "SIGN UP",
   "sign_up_desc": "Sign up with Scrap Green and you are ready to sell your scrap without any hassle. Sit at home and sell your scrap",
   "sign_in": "SIGN IN",
+  "sign_in_vendor": "SIGN IN VENDOR",
   "stay_home": "#STAYHOME",
   "create_your_account": "Create your account",
-  "forgot_password": "Forgot Password?"
+  "forgot_password": "Forgot Password?",
+  "vendor_login_click": "Vendor SIGN IN click here.",
+  "user_login_click": "User SIGN IN click here.",
+  "select_type": "Select your type",
+  "sign_up_vendor": "SIGN UP as Vendor",
+  "sign_up_user": "SIGN UP as User",
+  "check_rate_card": "Check our latest rate card here",
+  "rate_card": "Rate Card",
+  "schedule_pick_up": "SCHEDULE PICKUP",
+  "check_history": "CHECK HISTORY",
+  "my_contribution": "MY CONTRIBUTION",
+  "ask_help": "ASK FOR HELP"
 }

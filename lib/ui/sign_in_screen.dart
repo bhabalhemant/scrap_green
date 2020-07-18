@@ -332,7 +332,8 @@ class _SignInScreenState extends State<SignInScreen> {
           Navigator.pushNamed(context, Constants.ROUTE_SIGN_IN_VENDOR);
         },
         child: Text(
-          'Vendor SIGN IN click here.',
+          // 'dfgh',
+          LocaleKeys.vendor_login_click,
           style: AppTextStyle.bold(Colors.black87, 14.0),
         ).tr(),
       ),

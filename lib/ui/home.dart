@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 import '../repository/repository.dart';
+import 'package:scrapgreen/generated/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -69,15 +71,17 @@ class _HomeState extends State<Home> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
-                        'Check our latest rate card here',
+                        // 'Check our latest rate card here',
+                        LocaleKeys.check_rate_card,
                         style: TextStyle(color: Colors.white),
                         textAlign: TextAlign.left,
-                      ),
+                      ).tr(),
                       Text(
-                        'Rate Card',
+                        // 'Rate Card',
+                        LocaleKeys.rate_card,
                         style: TextStyle(color: Colors.yellow),
                         textAlign: TextAlign.right,
-                      ),
+                      ).tr(),
                     ],
                   ),
                 ),
@@ -108,12 +112,13 @@ class _HomeState extends State<Home> {
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 10, 0, 50),
                         child: Text(
-                          "SCHEDULE PICKUP",
+                          // "SCHEDULE PICKUP",
+                          LocaleKeys.schedule_pick_up,
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
                           ),
-                        ),
+                        ).tr(),
                       ),
                     ],
                   ),
@@ -140,12 +145,13 @@ class _HomeState extends State<Home> {
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 10, 0, 50),
                         child: Text(
-                          "CHECK HISTORY",
+                          // "CHECK HISTORY",
+                          LocaleKeys.check_history,
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
                           ),
-                        ),
+                        ).tr(),
                       ),
                     ],
                   ),
@@ -177,12 +183,13 @@ class _HomeState extends State<Home> {
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 10, 0, 50),
                         child: Text(
-                          "MY CONTRIBUTION",
+                          // "MY CONTRIBUTION",
+                          LocaleKeys.my_contribution,
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
                           ),
-                        ),
+                        ).tr(),
                       ),
                     ],
                   ),
@@ -208,12 +215,13 @@ class _HomeState extends State<Home> {
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 10, 0, 50),
                         child: Text(
-                          "ASK FOR HELP",
+                          // "ASK FOR HELP",
+                          LocaleKeys.ask_help,
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
                           ),
-                        ),
+                        ).tr(),
                       ),
                     ],
                   ),
