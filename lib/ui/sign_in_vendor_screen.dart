@@ -317,7 +317,7 @@ class _SignInVendorScreenState extends State<SignInVendorScreen> {
     return Center(
       child: GestureDetector(
         onTap: () {
-          Navigator.pushNamed(context, Constants.ROUTE_FORGOT_PASSWORD);
+          Navigator.pushNamed(context, Constants.ROUTE_REQUEST_DETAILS);
         },
         child: Text(
           LocaleKeys.forgot_password,

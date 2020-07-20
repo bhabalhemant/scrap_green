@@ -105,6 +105,7 @@ class Repository {
   }
 
   Future<UpdateFcmResponse> updateFcmId(Map<String, String> body) async {
+    print(body);
     final response = await ApiProvider.instance.post("update_fcm_id", body);
     return UpdateFcmResponse.fromJson(response);
   }

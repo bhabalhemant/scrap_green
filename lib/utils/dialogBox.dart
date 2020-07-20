@@ -1,168 +1,169 @@
 import 'package:flutter/material.dart';
-final List<String> _bloodValues = [
-    "",
-    "A+",
-    "B+",
-    "AB+",
-    "O+",
-    "A-",
-    "B-",
-    "AB-",
-    "O-",
+
+
+final List<String> _material = [
+    "Iron",
+    "Copper",
   ];
-class Dialogs {
-  String bLOODGRPselected;
-  
-  static Future<void> showLoadingDialog(
-  BuildContext context, GlobalKey key) async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: true,
-      builder: (BuildContext context) {
-        return new WillPopScope(
-          onWillPop: () async => true,
-          child: SimpleDialog(
-            key: key,
-            // backgroundColor: Colors.green,
-            children: <Widget>[
-              Center(
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      color: Colors.green,
-                      height: 50,
-                      child: Row(
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
-                            child: Text("Add Item",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold
-                              ),
-                            )
-                          ),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: IconButton(
-                              icon: Icon(Icons.add_circle,
-                              size: 38.0,
-                              color: Colors.white,
-                              ),
-                              tooltip: 'Add items',
-                              // onPressed: () {
-                                
-                              // },
-                              onPressed: null,
-                            ),
-                          )
-                        ],
-                      )
-                      // child: Center(child: Text("Container Top")),
-                    ),
-                    Container(
+final List<String> _unit = [
+    "KG"
+    // "Copper",
+  ];
+  int _total;
+  String quantity;
+  TextEditingController quantityCtrl = TextEditingController();
+  class DialogBox extends StatefulWidget {
+  @override
+  DialogBoxState createState() => DialogBoxState();
+}
+class DialogBoxState extends State<DialogBox>  {
+  String _selectedUnit;
+String _selectedMaterial;
+  updateButtonState(String value){
+    var n = int.parse(value);
+    _total = n*100;
+    print(n*100);
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+            // shape: RoundedRectangleBorder(
+            //     borderRadius:
+            //         BorderRadius.circular(20.0)), //this right here
+            child: Container(
+        decoration: BoxDecoration(
+          // borderRadius: BorderRadius.circular(20.0),
+        ),
+        height: 400.0,
+        width: 200.0,
+        child: Column(
+          children: <Widget>[
+            Container(
+              width: double.infinity,
+              height: 50,
+              alignment: Alignment.bottomCenter,
+              decoration: BoxDecoration(
+                color: Colors.green,
+                // borderRadius: BorderRadius.only(
+                //   topLeft: Radius.circular(12),
+                //   topRight: Radius.circular(12),
+                // ),
+              ),
+              child: Align(
+                alignment: Alignment.center,
+                child: Text(
+                  "Add Item",
+                  style: TextStyle(
                       color: Colors.white,
-                      child:Padding(
-                        padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
-                        child: DropdownButtonFormField (
-                          // value: _selectedArea,
-                          isExpanded: true,
-                          //decoration: InputDecoration(contentPadding: const EdgeInsets.fromLTRB(10.0, 0.5, 0.0, 0.5),(borderRadius: BorderRadius.circular(5.0),)),
-                          validator: (arg){
-                              if(arg == null){
-                                return 'Please select area.';
-                              }
-                          },
-                          
-                          hint: Text("Select material", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Colors.black), maxLines: 1),
-                          items: _bloodValues.map((item) {
-                          return DropdownMenuItem<String>(
-                            value: item,
-                            child: new Text(item,
-                            //value ?? "",
-                            textAlign: TextAlign.left,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            softWrap: true,
-                            ),
-                          );
-                        }).toList(),
-                          onChanged: (value) {
-                            print(value);
-                            // setState(() {
-                            //   _selectedArea  = value;
-                            //   print(_selectedArea);
-                            // });
-
-                          //getAddressDropdownValue(value);
-                          },
-                        ),
-                        ),
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600),
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
+              child: DropdownButtonFormField (
+                value: _selectedMaterial,
+                isExpanded: true,
+                //decoration: InputDecoration(contentPadding: const EdgeInsets.fromLTRB(10.0, 0.5, 0.0, 0.5),(borderRadius: BorderRadius.circular(5.0),)),
+                validator: (arg){
+                    if(arg == null){
+                      return 'Please select Material.';
+                    }
+                },
+                hint: Text("Select Material", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Colors.black), maxLines: 1),
+                items: _material.map((item) {
+                  return DropdownMenuItem(
+                    value: item,
+                    child: new Text(item,
+                      //value ?? "",
+                      textAlign: TextAlign.left,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      softWrap: true,
                     ),
-                    Container(
-                      color: Colors.white,
-                      child:Padding(
-                        padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
-                        child: DropdownButtonFormField (
-                          // value: _selectedArea,
-                          isExpanded: true,
-                          //decoration: InputDecoration(contentPadding: const EdgeInsets.fromLTRB(10.0, 0.5, 0.0, 0.5),(borderRadius: BorderRadius.circular(5.0),)),
-                          validator: (arg){
-                              if(arg == null){
-                                return 'Please select area.';
-                              }
-                          },
-                          hint: Text("Select unit", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Colors.black), maxLines: 1),
-                          items: _bloodValues.map((item) {
-                          return DropdownMenuItem<String>(
-                            value: item,
-                            child: new Text(item,
-                            //value ?? "",
-                            textAlign: TextAlign.left,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            softWrap: true,
-                            ),
-                          );
-                        }).toList(),
-                          onChanged: (value) {
-                            print(value);
-                            // setState(() {
-                            //   _selectedArea  = value;
-                            //   print(_selectedArea);
-                            // });
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  print(value);
+                  setState(() {
+                    _selectedMaterial  = value;
+                    print(_selectedMaterial);
+                  });
+                  
+                //getAddressDropdownValue(value);
+                },
+              ),
+            ),
 
-                          //getAddressDropdownValue(value);
-                          },
-                        ),
-                        ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
+              child: DropdownButtonFormField (
+                value: _selectedUnit,
+                isExpanded: true,
+                //decoration: InputDecoration(contentPadding: const EdgeInsets.fromLTRB(10.0, 0.5, 0.0, 0.5),(borderRadius: BorderRadius.circular(5.0),)),
+                validator: (arg){
+                    if(arg == null){
+                      return 'Please select area.';
+                    }
+                },
+                hint: Text("Select area", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Colors.black), maxLines: 1),
+                items: _unit.map((item) {
+                  return DropdownMenuItem(
+                    value: item,
+                    child: new Text(item,
+                      //value ?? "",
+                      textAlign: TextAlign.left,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      softWrap: true,
                     ),
-                    Container(
-                      child:Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 18.0,vertical: 10.0),
-                        child: TextFormField(
-                        autofocus: false,
-
-                            validator: (String arg) {
-                              if (arg.length == 0) {
-                                return 'Required Field Password';
-                              }else{
-                                return null;
-                              }
-                            },
-                            decoration: InputDecoration(
-                            hintText: 'Enter Quantity',
-                            fillColor: Colors.grey,
-                            contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                            // errorText: _autoValidate ? 'Value Can\'t Be Empty' : null,
-                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  print(value);
+                  setState(() {
+                    _selectedUnit  = value;
+                    print(_selectedUnit);
+                  });
+                  
+                //getAddressDropdownValue(value);
+                },
+              ),
+            ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
+            child: new TextFormField(
+            onChanged: (value) => updateButtonState(value),
+          decoration: const InputDecoration(
+                                labelText: 'Quantity',
+                                hintText: '',
+                                // prefixIcon: Icon(Icons.account_circle),
+                                ),
+            keyboardType: TextInputType.number,
+            
+            // textCapitalization: TextCapitalization.sentences,
+            controller: quantityCtrl,
+            validator: (String arg) {
+              if(arg.length == 0){
+                return 'Please enter quantity.';
+              }else{
+                return null;
+              }
+            
+            },
+            onSaved: (String val) {
+              quantity = val;
+            },
+          ),
+          ),
+              _total == null
+              ?Container(
+                      
+              ) 
+              :Container(
                       child: Padding(
-                        padding: EdgeInsets.all(0),
+                        padding: EdgeInsets.symmetric(vertical: 10.0),
                         child: Column(
                           children: <Widget> [
                             Text('Total',
@@ -170,7 +171,7 @@ class Dialogs {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            Text('Rs. 0.00',
+                            Text('Rs. ${_total}',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 24.0
@@ -180,9 +181,10 @@ class Dialogs {
                         ),
                       ),
                     ),
+                    
                     Container(
                       child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 0.0),
+                        padding: EdgeInsets.symmetric(vertical: 10.0),
                         child: RaisedButton(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
@@ -200,13 +202,20 @@ class Dialogs {
                         ),
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        );
-      }
-    );
+          ],
+        ),
+      ),
+
+          );
+    
+  }
+  
+  // static Future<void> showLoadingDialog(
+  // BuildContext context, GlobalKey key) async {
+    
+  // }
+  
+  checkValidation(value){
+
   }
 }

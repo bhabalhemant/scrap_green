@@ -112,7 +112,7 @@ class _RequestDetailsState extends State<RequestDetails> {
                                           ),
                                           tooltip: 'Add items',
                                           // onPressed: () {
-                                            
+                                          //   return DialogBox();
                                           // },
                                           onPressed: successAlert,
                                         ),
@@ -440,8 +440,13 @@ class _RequestDetailsState extends State<RequestDetails> {
       ),
     );
   }
-  Widget successAlert() {
-    Dialogs.showLoadingDialog(context, _loadingKey);
+  successAlert() {
+    // DialogBox.showLoadingDialog(context, _loadingKey);
+    // return DialogBox();
+    showDialog(context: context, builder: (context) {
+       return DialogBox();
+       },
+      );
   }
     Widget errorMsg(){
        Alert(
