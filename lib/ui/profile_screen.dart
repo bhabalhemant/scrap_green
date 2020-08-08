@@ -24,6 +24,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   final format = DateFormat("yyyy-MM-dd");
   String _id, schedule_date;
+  String formattedDate;
   TextEditingController 
       _name,
       _email,
@@ -38,6 +39,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       _password,
       _retypePassword;
   String _aadhar_card;
+  String pickedDate;
 
   @override
   void initState() {
@@ -54,6 +56,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _schedule_date = TextEditingController();
     _password = TextEditingController();
     _retypePassword = TextEditingController();
+//    pickedDate = DateTime.now();
     // _getCurrentLocation();
     BlocProvider.of<ProfileBloc>(context).add(GetProfile());
   }
@@ -257,27 +260,62 @@ var now = new DateTime.now();
                 ),
 
               AppSingleton.instance.getSpacer(),
-              FlatButton(
-                onPressed: () {
-                  DatePicker.showDateTimePicker(context, showTitleActions: true, 
-                  onChanged: (date) {
-                    // print('change $date in time zone ' + date.timeZoneOffset.inHours.toString());
-                  }, onConfirm: (date) {
-                    // print('confirm $date');
-                    schedule_date = date.toString();
-                  }, currentTime: now);
-                },
-                child: Text(
-                  'Schedule Date',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(color: Colors.blue),
-                )
+              // Container(
+              //   // color: Colors.grey,
+              //   width: MediaQuery.of(context).size.width,
+              //   child: FlatButton(
+              //     shape: RoundedRectangleBorder(
+              //       borderRadius: BorderRadius.circular(30.0),
+              //       side: BorderSide(
+              //         color: Colors.grey,
+              //       ),
+              //     ),
+              //     onPressed: () {
+              //       DatePicker.showDateTimePicker(context, showTitleActions: true, 
+              //       onChanged: (date) {
+              //         // print('change $date in time zone ' + date.timeZoneOffset.inHours.toString());
+              //       }, onConfirm: (date) {
+              //         print('confirm $date');
+              //         schedule_date = date.toString();
+              //       }, currentTime: now);
+              //     },
+              //     child: Padding(
+              //       padding: EdgeInsets.symmetric(vertical:10.0),
+              //       child: Text(
+              //         'Schedule Date',
+              //         textAlign: TextAlign.left,
+              //         style: TextStyle(fontSize: 16.0),
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              Card(
+                color: Colors.grey[200],
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
+                    side: BorderSide(width: 5, color: Colors.grey[200])
+                ),
+                child: ListTile(
+                  title: Text(
+                    "Schedule Date: ${formattedDate}",
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      color: Colors.black,
+                    ),
+                  ),
+                  trailing: Icon(Icons.access_time,
+                    color: Colors.black,
+                  ),
+                  onTap: _pickDate,
+                ),
               ),
+
                 // Padding(
                 //   padding: EdgeInsets.symmetric(vertical: 0),
                 //     child: DateTimeField(
                 //     format: format,
                 //     controller: _schedule_date,
+
                 //     onShowPicker: (context, currentValue) {
                 //       return showDatePicker(
                 //           context: context,
@@ -303,6 +341,32 @@ var now = new DateTime.now();
                 //   ),
                 // ),
                 AppSingleton.instance.getSizedSpacer(30),
+              SizedBox(
+                width: double.infinity,
+                height: AppSingleton.instance.getHeight(45),
+                child: BlocConsumer(
+                  bloc: BlocProvider.of<ProfileBloc>(context),
+                  listener: (context, state) {
+                    if (state is ProfileError) {
+                      _showError(state.msg);
+                    }
+                    if (state is ProfileLoaded) {
+                      _showSuccessMessage(state.response.msg);
+                    }
+                  },
+                  builder: (context, state) {
+                    if (state is ProfileLoading) {
+                      return AppSingleton.instance
+                          .buildCenterSizedProgressBar();
+                    }
+                    if (state is ProfileLoaded) {
+                      return AppSingleton.instance
+                          .buildCenterSizedProgressBar();
+                    }
+                    return buildUpdateButton();
+                  },
+                ),
+              ),
               buildUpdateButton()
             ],
           ),
@@ -324,22 +388,24 @@ var now = new DateTime.now();
           ),
         ),
         onPressed: () {
+
           if (validate()) {
+
             scaffoldKey.currentState.hideCurrentSnackBar();
             final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
 
     geolocator
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
         .then((Position position) {
-  //         print(position);
-      // setState(() {
+           print(position);
+////       setState(() {
             _currentPosition = position;
             String _position = _currentPosition.latitude.toString() +'-'+ _currentPosition.longitude.toString();
-            // print(_position);
+//             print(_position);
             Map<String, String> body = {
               Constants.PARAM_ID: _id,
               Constants.PARAM_NAME: _name.text,
-            Constants.PARAM_SCHEDULE_DATE: schedule_date,
+            Constants.PARAM_SCHEDULE_DATE: pickedDate,
             Constants.PARAM_MOBILE: _mobile.text,
             Constants.PARAM_ADDRESS1: _address_line1.text,
             Constants.PARAM_ADDRESS2: _address_line2.text,
@@ -349,7 +415,7 @@ var now = new DateTime.now();
             Constants.PARAM_PINCODE: _pin_code.text,
             Constants.PARAM_LATITUDE_LONGITUDE: _position,
             };
-            // print(body);
+             print(body);
             BlocProvider.of<ProfileBloc>(context)
                 .add(UpdateProfile(body: body));
                 }).catchError((e) {
@@ -402,6 +468,22 @@ var now = new DateTime.now();
     } else {
       return true;
     }
+  }
+
+  _pickDate() {
+    DatePicker.showDateTimePicker(context, showTitleActions: true, 
+    onChanged: (date) {
+      // print('change $date in time zone ' + date.timeZoneOffset.inHours.toString());
+    }, onConfirm: (date) {
+//      print('confirm $date');
+      setState(() {
+        formattedDate = DateFormat('dd-MM-yyyy – h:mm a').format(date);
+
+        pickedDate = DateFormat('yyyy-MM-dd hh:mm:ss').format(date);
+                print('confirm $pickedDate');
+      });
+      // schedule_date = date.toString();
+    }, currentTime: now);
   }
 
   void _setData(ProfileResponse response) {

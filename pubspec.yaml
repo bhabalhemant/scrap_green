@@ -35,7 +35,7 @@ dependencies:
   equatable: ^1.0.3
   text_drawable_widget: ^0.0.2
   url_launcher: ^5.4.5
-  geolocator: ^5.3.1
+  geolocator: ^5.3.2+2
   datetime_picker_formfield: ^1.0.0
   circular_check_box: ^1.0.2
   rflutter_alert: ^1.0.3

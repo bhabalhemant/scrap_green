@@ -34,9 +34,9 @@ class _MyContributionState extends State<MyContribution> {
       child: SafeArea(
         child: Scaffold(
           appBar: AppSingleton.instance.buildAppBar(onTap, 'My Contribution'),
-          body: Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
+          body: SingleChildScrollView(
+//            height: MediaQuery.of(context).size.height,
+//            width: MediaQuery.of(context).size.width,
             child: Flex(
               direction: Axis.vertical,
               children: <Widget>[
@@ -60,7 +60,7 @@ class _MyContributionState extends State<MyContribution> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 5),
                   child:Card(
-                    child: Padding(padding: EdgeInsets.symmetric(vertical: 10.0),
+                    child: Padding(padding: EdgeInsets.symmetric(vertical: 5.0),
                       child: ListTile(
                         // leading: Icon(Icons.album),
                         leading: Image.asset('assets/pick.png',
@@ -88,25 +88,25 @@ class _MyContributionState extends State<MyContribution> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 5),
                   child:Card(
-                    child: Padding(padding: EdgeInsets.symmetric(vertical: 10.0),
+                    child: Padding(padding: EdgeInsets.symmetric(vertical: 5.0),
                       child: ListTile(
                         // leading: Icon(Icons.album),
                         leading: Image.asset('assets/pick.png',
                             width: 62, height: 62, fit: BoxFit.contain),
                         title: Text('Congrats!',
                           style: TextStyle(
-                            fontSize: 18.0,
-                            color: Colors.grey,
-                            // fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.bold
+                              fontSize: 18.0,
+                              color: Colors.grey,
+                              // fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.bold
                           ),
                         ),
                         trailing: Text('00',
                           style: TextStyle(
-                            fontSize: 18.0,
-                            color: Colors.green,
-                            // fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.bold
+                              fontSize: 18.0,
+                              color: Colors.green,
+                              // fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.bold
                           ),
                         ),
                       ),
@@ -116,25 +116,25 @@ class _MyContributionState extends State<MyContribution> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 5),
                   child:Card(
-                    child: Padding(padding: EdgeInsets.symmetric(vertical: 10.0),
+                    child: Padding(padding: EdgeInsets.symmetric(vertical: 5.0),
                       child: ListTile(
                         // leading: Icon(Icons.album),
                         leading: Image.asset('assets/pick.png',
                             width: 62, height: 62, fit: BoxFit.contain),
                         title: Text('Congrats!',
                           style: TextStyle(
-                            fontSize: 18.0,
-                            color: Colors.grey,
-                            // fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.bold
+                              fontSize: 18.0,
+                              color: Colors.grey,
+                              // fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.bold
                           ),
                         ),
                         trailing: Text('00',
                           style: TextStyle(
-                            fontSize: 18.0,
-                            color: Colors.green,
-                            // fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.bold
+                              fontSize: 18.0,
+                              color: Colors.green,
+                              // fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.bold
                           ),
                         ),
                       ),
@@ -144,25 +144,25 @@ class _MyContributionState extends State<MyContribution> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 5),
                   child:Card(
-                    child: Padding(padding: EdgeInsets.symmetric(vertical: 10.0),
+                    child: Padding(padding: EdgeInsets.symmetric(vertical: 5.0),
                       child: ListTile(
                         // leading: Icon(Icons.album),
                         leading: Image.asset('assets/pick.png',
                             width: 62, height: 62, fit: BoxFit.contain),
                         title: Text('Congrats!',
                           style: TextStyle(
-                            fontSize: 18.0,
-                            color: Colors.grey,
-                            // fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.bold
+                              fontSize: 18.0,
+                              color: Colors.grey,
+                              // fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.bold
                           ),
                         ),
                         trailing: Text('00',
                           style: TextStyle(
-                            fontSize: 18.0,
-                            color: Colors.green,
-                            // fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.bold
+                              fontSize: 18.0,
+                              color: Colors.green,
+                              // fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.bold
                           ),
                         ),
                       ),
@@ -172,25 +172,25 @@ class _MyContributionState extends State<MyContribution> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 5),
                   child:Card(
-                    child: Padding(padding: EdgeInsets.symmetric(vertical: 10.0),
+                    child: Padding(padding: EdgeInsets.symmetric(vertical: 5.0),
                       child: ListTile(
                         // leading: Icon(Icons.album),
                         leading: Image.asset('assets/pick.png',
                             width: 62, height: 62, fit: BoxFit.contain),
                         title: Text('Congrats!',
                           style: TextStyle(
-                            fontSize: 18.0,
-                            color: Colors.grey,
-                            // fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.bold
+                              fontSize: 18.0,
+                              color: Colors.grey,
+                              // fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.bold
                           ),
                         ),
                         trailing: Text('00',
                           style: TextStyle(
-                            fontSize: 18.0,
-                            color: Colors.green,
-                            // fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.bold
+                              fontSize: 18.0,
+                              color: Colors.green,
+                              // fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.bold
                           ),
                         ),
                       ),
@@ -200,25 +200,25 @@ class _MyContributionState extends State<MyContribution> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 5),
                   child:Card(
-                    child: Padding(padding: EdgeInsets.symmetric(vertical: 10.0),
+                    child: Padding(padding: EdgeInsets.symmetric(vertical: 5.0),
                       child: ListTile(
                         // leading: Icon(Icons.album),
                         leading: Image.asset('assets/pick.png',
                             width: 62, height: 62, fit: BoxFit.contain),
                         title: Text('Congrats!',
                           style: TextStyle(
-                            fontSize: 18.0,
-                            color: Colors.grey,
-                            // fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.bold
+                              fontSize: 18.0,
+                              color: Colors.grey,
+                              // fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.bold
                           ),
                         ),
                         trailing: Text('00',
                           style: TextStyle(
-                            fontSize: 18.0,
-                            color: Colors.green,
-                            // fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.bold
+                              fontSize: 18.0,
+                              color: Colors.green,
+                              // fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.bold
                           ),
                         ),
                       ),
@@ -228,25 +228,25 @@ class _MyContributionState extends State<MyContribution> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 5),
                   child:Card(
-                    child: Padding(padding: EdgeInsets.symmetric(vertical: 10.0),
+                    child: Padding(padding: EdgeInsets.symmetric(vertical: 5.0),
                       child: ListTile(
                         // leading: Icon(Icons.album),
                         leading: Image.asset('assets/pick.png',
                             width: 62, height: 62, fit: BoxFit.contain),
                         title: Text('Congrats!',
                           style: TextStyle(
-                            fontSize: 18.0,
-                            color: Colors.grey,
-                            // fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.bold
+                              fontSize: 18.0,
+                              color: Colors.grey,
+                              // fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.bold
                           ),
                         ),
                         trailing: Text('00',
                           style: TextStyle(
-                            fontSize: 18.0,
-                            color: Colors.green,
-                            // fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.bold
+                              fontSize: 18.0,
+                              color: Colors.green,
+                              // fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.bold
                           ),
                         ),
                       ),
@@ -254,7 +254,63 @@ class _MyContributionState extends State<MyContribution> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                  padding: EdgeInsets.symmetric(horizontal: 5),
+                  child:Card(
+                    child: Padding(padding: EdgeInsets.symmetric(vertical: 5.0),
+                      child: ListTile(
+                        // leading: Icon(Icons.album),
+                        leading: Image.asset('assets/pick.png',
+                            width: 62, height: 62, fit: BoxFit.contain),
+                        title: Text('Congrats!',
+                          style: TextStyle(
+                              fontSize: 18.0,
+                              color: Colors.grey,
+                              // fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+                        trailing: Text('00',
+                          style: TextStyle(
+                              fontSize: 18.0,
+                              color: Colors.green,
+                              // fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 5),
+                  child:Card(
+                    child: Padding(padding: EdgeInsets.symmetric(vertical: 5.0),
+                      child: ListTile(
+                        // leading: Icon(Icons.album),
+                        leading: Image.asset('assets/pick.png',
+                            width: 62, height: 62, fit: BoxFit.contain),
+                        title: Text('Congrats!',
+                          style: TextStyle(
+                              fontSize: 18.0,
+                              color: Colors.grey,
+                              // fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+                        trailing: Text('00',
+                          style: TextStyle(
+                              fontSize: 18.0,
+                              color: Colors.green,
+                              // fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 0),
                   child:Card(
                     child: ListTile(
                       // leading: Icon(Icons.album),

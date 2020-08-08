@@ -11,7 +11,7 @@ final List<String> _unit = [
   ];
   int _total;
   String quantity;
-  TextEditingController quantityCtrl = TextEditingController();
+  TextEditingController quantityCtrl = TextEditingController(text: '0');
   class DialogBox extends StatefulWidget {
   @override
   DialogBoxState createState() => DialogBoxState();
@@ -19,11 +19,7 @@ final List<String> _unit = [
 class DialogBoxState extends State<DialogBox>  {
   String _selectedUnit;
 String _selectedMaterial;
-  updateButtonState(String value){
-    var n = int.parse(value);
-    _total = n*100;
-    print(n*100);
-  }
+  
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -41,7 +37,7 @@ String _selectedMaterial;
             Container(
               width: double.infinity,
               height: 50,
-              alignment: Alignment.bottomCenter,
+              alignment: Alignment.center,
               decoration: BoxDecoration(
                 color: Colors.green,
                 // borderRadius: BorderRadius.only(
@@ -171,7 +167,7 @@ String _selectedMaterial;
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            Text('Rs. ${_total}',
+                            Text('Rs. ${_total}.00',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 24.0
@@ -209,7 +205,22 @@ String _selectedMaterial;
           );
     
   }
-  
+  updateButtonState(String value){
+    
+    setState(() {
+      _selectedUnit;
+      _selectedMaterial;
+      var n = int.parse(value);
+      if(_selectedMaterial == 'Iron'){
+        _total = n*100;
+      }
+      else if(_selectedMaterial == 'Copper'){
+        // var n = int.parse(value);
+        _total = n*200;
+      }  
+    });
+    
+  }
   // static Future<void> showLoadingDialog(
   // BuildContext context, GlobalKey key) async {
     

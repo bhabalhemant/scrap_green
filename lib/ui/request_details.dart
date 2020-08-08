@@ -49,9 +49,9 @@ class _RequestDetailsState extends State<RequestDetails> {
       child: SafeArea(
         child: Scaffold(
           appBar: AppSingleton.instance.buildAppBar(onTap, 'Request Details'),
-          body: Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
+          body: SingleChildScrollView(
+//            height: MediaQuery.of(context).size.height,
+//            width: MediaQuery.of(context).size.width,
             child: Flex(
               direction: Axis.vertical,
               children: <Widget>[
@@ -103,11 +103,11 @@ class _RequestDetailsState extends State<RequestDetails> {
                             ),
                             isThreeLine: true,
                             trailing: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                       children: <Widget>[
                                         IconButton(
                                           icon: Icon(Icons.add_circle,
-                                          size: 38.0,
+                                          size: 28.0,
                                           color: Colors.green,
                                           ),
                                           tooltip: 'Add items',
@@ -144,12 +144,13 @@ class _RequestDetailsState extends State<RequestDetails> {
                     ),
             
                 ),
-                Text('-------------------------------------------',
-                  style: TextStyle(
-                    fontSize: 28.0,
-                    color: Colors.grey
-                  ),
-                ),
+//                Text('-------------------------------------------',
+//                  style: TextStyle(
+//                    fontSize: 28.0,
+//                    color: Colors.grey
+//                  ),
+//                ),
+                Divider(),
                 Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                   child: Text('ITEMS FOR PICKUP',
                     style: TextStyle(
@@ -158,12 +159,13 @@ class _RequestDetailsState extends State<RequestDetails> {
                     ),
                   ),
                 ),
-                Text('-------------------------------------------',
-                  style: TextStyle(
-                    fontSize: 28.0,
-                    color: Colors.grey
-                  ),
-                ),
+//                Text('-------------------------------------------',
+//                  style: TextStyle(
+//                    fontSize: 28.0,
+//                    color: Colors.grey
+//                  ),
+//                ),
+                Divider(),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
                   child: Card(
@@ -190,7 +192,7 @@ class _RequestDetailsState extends State<RequestDetails> {
                             title: Text('IRON',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 20.0
+                                fontSize: 16.0
                               ),
                             ),
                             subtitle: 
@@ -204,14 +206,14 @@ class _RequestDetailsState extends State<RequestDetails> {
                                   style: TextStyle(
                                     color: Colors.blue,
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 18.0
+                                    fontSize: 14.0
                                   ),
                                 ),
                                 SizedBox(
                                   width: AppSingleton.instance.getWidth(10),
                                 ),
                                 Image.asset('assets/criss-cross.png',
-                                width: 32, height: 32, fit: BoxFit.contain),
+                                width: 25, height: 25, fit: BoxFit.contain),
                                 
                               ],
                             ),
@@ -235,40 +237,99 @@ class _RequestDetailsState extends State<RequestDetails> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Image.asset('assets/recycle.png',
-                              width: 28, height: 28),
+                                    width: 28, height: 28),
                                 SizedBox(
                                   width: AppSingleton.instance.getHeight(10.0),
                                 ),
                                 Text('7 KG.',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                  style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                               ],
                             ),
                             title: Text('IRON',
                               style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20.0
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16.0
                               ),
                             ),
-                            subtitle: 
-                                Text('Rs. 100/KG.',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
+                            subtitle:
+                            Text('Rs. 100/KG.',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
                             trailing: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
                                 Text('Rs. 700.00',
                                   style: TextStyle(
-                                    color: Colors.blue,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18.0
+                                      color: Colors.blue,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14.0
                                   ),
                                 ),
                                 SizedBox(
                                   width: AppSingleton.instance.getWidth(10),
                                 ),
                                 Image.asset('assets/criss-cross.png',
-                                width: 32, height: 32, fit: BoxFit.contain),
+                                    width: 25, height: 25, fit: BoxFit.contain),
+
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                  child: Card(
+                    color: Colors.grey[200],
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical:0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[
+                          ListTile(
+                            leading: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Image.asset('assets/recycle.png',
+                                    width: 28, height: 28),
+                                SizedBox(
+                                  width: AppSingleton.instance.getHeight(10.0),
+                                ),
+                                Text('7 KG.',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                            title: Text('IRON',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16.0
+                              ),
+                            ),
+                            subtitle:
+                            Text('Rs. 100/KG.',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Text('Rs. 700.00',
+                                  style: TextStyle(
+                                      color: Colors.blue,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14.0
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: AppSingleton.instance.getWidth(10),
+                                ),
+                                Image.asset('assets/criss-cross.png',
+                                    width: 25, height: 25, fit: BoxFit.contain),
+
                               ],
                             ),
                           ),
@@ -291,41 +352,41 @@ class _RequestDetailsState extends State<RequestDetails> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Image.asset('assets/recycle.png',
-                              width: 28, height: 28),
+                                    width: 28, height: 28),
                                 SizedBox(
                                   width: AppSingleton.instance.getHeight(10.0),
                                 ),
                                 Text('7 KG.',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                  style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                               ],
                             ),
                             title: Text('IRON',
                               style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20.0
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16.0
                               ),
                             ),
-                            subtitle: 
-                                Text('Rs. 100/KG.',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
+                            subtitle:
+                            Text('Rs. 100/KG.',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
                             trailing: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
                                 Text('Rs. 700.00',
                                   style: TextStyle(
-                                    color: Colors.blue,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18.0
+                                      color: Colors.blue,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14.0
                                   ),
                                 ),
                                 SizedBox(
                                   width: AppSingleton.instance.getWidth(10),
                                 ),
                                 Image.asset('assets/criss-cross.png',
-                                width: 32, height: 32, fit: BoxFit.contain),
-                                
+                                    width: 25, height: 25, fit: BoxFit.contain),
+
                               ],
                             ),
                           ),
@@ -348,40 +409,41 @@ class _RequestDetailsState extends State<RequestDetails> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Image.asset('assets/recycle.png',
-                              width: 28, height: 28),
+                                    width: 28, height: 28),
                                 SizedBox(
                                   width: AppSingleton.instance.getHeight(10.0),
                                 ),
                                 Text('7 KG.',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                  style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                               ],
                             ),
                             title: Text('IRON',
                               style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20.0
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16.0
                               ),
                             ),
-                            subtitle: 
-                                Text('Rs. 100/KG.',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
+                            subtitle:
+                            Text('Rs. 100/KG.',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
                             trailing: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
                                 Text('Rs. 700.00',
                                   style: TextStyle(
-                                    color: Colors.blue,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18.0
+                                      color: Colors.blue,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14.0
                                   ),
                                 ),
                                 SizedBox(
                                   width: AppSingleton.instance.getWidth(10),
                                 ),
                                 Image.asset('assets/criss-cross.png',
-                                width: 32, height: 32, fit: BoxFit.contain),
+                                    width: 25, height: 25, fit: BoxFit.contain),
+
                               ],
                             ),
                           ),
@@ -390,9 +452,12 @@ class _RequestDetailsState extends State<RequestDetails> {
                     ),
                   ),
                 ),
+
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 80.0),
+                  padding: EdgeInsets.symmetric(horizontal: 0.0),
                   child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal:10.0),

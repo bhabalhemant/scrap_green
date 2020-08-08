@@ -43,12 +43,13 @@ class _CarouselDemoState extends State<CarouselDemo> {
           // width: double.infinity,
           // height: double.infinity,
           child: Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
+            child: Flex(
+              direction: Axis.vertical,
+//              mainAxisSize: MainAxisSize.max,
               // mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.fromLTRB(0, 250, 0, 0),
+                  padding: EdgeInsets.fromLTRB(0, 74, 0, 0),
                   child: Image.asset('assets/${item.logoPath}',
                       width: 120, height: 120),
                 ),
@@ -154,7 +155,7 @@ class _CarouselDemoState extends State<CarouselDemo> {
                     _current = index;
                   });
                 },
-                height: MediaQuery.of(context).size.height*2),
+                height: MediaQuery.of(context).size.height),
             carouselController: _controller,
           ),
         ),

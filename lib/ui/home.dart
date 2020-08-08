@@ -14,28 +14,30 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-
+  BorderRadiusGeometry _borderRadius = BorderRadius.circular(20);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
+        centerTitle: true,
+        iconTheme: IconThemeData(
+          color: Colors.green, //change your color here
+        ),
+        title: Image.asset(
+            'assets/scrap_green_logo.png',
+            height: 37.0,
+//            alignment: Alignment.center,
+          ),
         actions: <Widget>[
-          IconButton(
-            // icon: new Image.asset('assets/img/scanner.png'),
-            icon: Icon(Icons.menu),
-            onPressed: drawer,
-            color: Colors.lightGreen,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 100.0, vertical: 10.0),
-            child: Image.asset(
-              'assets/scrap_green_logo.png',
-              height: 7.0,
-              alignment: Alignment.center,
-            ),
-          ),
+//          IconButton(
+//            // icon: new Image.asset('assets/img/scanner.png'),
+//            icon: Icon(Icons.menu),
+//            onPressed: drawer,
+//            color: Colors.lightGreen,
+//          ),
+
           IconButton(
             icon: Icon(Icons.account_circle),
             onPressed: () async {
@@ -54,11 +56,13 @@ class _HomeState extends State<Home> {
       ),
       body: Center(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+//          crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Container(
+              width: MediaQuery.of(context).size.width,
               child: Padding(
-                padding: EdgeInsets.all(20.0),
+                padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
                 child: RaisedButton(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(24),
@@ -68,18 +72,19 @@ class _HomeState extends State<Home> {
                   },
                   color: Colors.green,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       Text(
                         // 'Check our latest rate card here',
                         LocaleKeys.check_rate_card,
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.white, fontSize: 13),
+
                         textAlign: TextAlign.left,
                       ).tr(),
                       Text(
                         // 'Rate Card',
                         LocaleKeys.rate_card,
-                        style: TextStyle(color: Colors.yellow),
+                        style: TextStyle(color: Colors.yellow, fontSize: 13),
                         textAlign: TextAlign.right,
                       ).tr(),
                     ],
@@ -88,153 +93,311 @@ class _HomeState extends State<Home> {
               ),
             ),
             Container(
-              child: Row(
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  Column(
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 52),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(
-                                context, Constants.ROUTE_PROFILE);
-                          },
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(color: Colors.white70, width: 1),
-                              borderRadius: BorderRadius.circular(50.0),
+                      Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 0),
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, Constants.ROUTE_PROFILE);
+                              },
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide(color: Colors.white70, width: 1),
+                                  borderRadius: BorderRadius.circular(50.0),
+                                ),
+                                child: Image.asset('assets/pick.png',
+                                    width: 82, height: 82, fit: BoxFit.contain),
+                              ),
                             ),
-                            child: Image.asset('assets/pick.png',
-                                width: 82, height: 82, fit: BoxFit.contain),
                           ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(0, 10, 0, 50),
-                        child: Text(
-                          // "SCHEDULE PICKUP",
-                          LocaleKeys.schedule_pick_up,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(0, 10, 0, 50),
+                            child: Text(
+                              // "SCHEDULE PICKUP",
+                              LocaleKeys.schedule_pick_up,
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ).tr(),
                           ),
-                        ).tr(),
+                        ],
                       ),
+                      Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 0),
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, Constants.ROUTE_HISTORY);
+                              },
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide(color: Colors.white70, width: 1),
+                                  borderRadius: BorderRadius.circular(50.0),
+                                ),
+                                child: Image.asset('assets/history.png',
+                                    width: 82, height: 82, fit: BoxFit.contain),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(0, 10, 0, 50),
+                            child: Text(
+                              // "SCHEDULE PICKUP",
+                              LocaleKeys.check_history,
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ).tr(),
+                          ),
+                        ],
+                      ),
+
+
                     ],
                   ),
-                  Column(
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 52),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(
-                                context, Constants.ROUTE_HISTORY);
-                            // print('object');
-                          },
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(color: Colors.white70, width: 1),
-                              borderRadius: BorderRadius.circular(50.0),
+                      Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 0),
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, Constants.ROUTE_MY_CONTRIBUTION);
+                              },
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide(color: Colors.white70, width: 1),
+                                  borderRadius: BorderRadius.circular(50.0),
+                                ),
+                                child: Image.asset('assets/contribution.png',
+                                    width: 82, height: 82, fit: BoxFit.contain),
+                              ),
                             ),
-                            child: Image.asset('assets/history.png',
-                                width: 82, height: 82, fit: BoxFit.contain),
                           ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(0, 10, 0, 50),
-                        child: Text(
-                          // "CHECK HISTORY",
-                          LocaleKeys.check_history,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(0, 10, 0, 50),
+                            child: Text(
+                              // "SCHEDULE PICKUP",
+                              LocaleKeys.my_contribution,
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ).tr(),
                           ),
-                        ).tr(),
+                        ],
                       ),
+                      Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 0),
+                            child: GestureDetector(
+                              onTap: () {
+//                                Navigator.pushNamed(
+//                                    context, Constants.ROUTE_CAROUSEL_DEMO);
+                              },
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide(color: Colors.white70, width: 1),
+                                  borderRadius: BorderRadius.circular(50.0),
+                                ),
+                                child: Image.asset('assets/help.png',
+                                    width: 82, height: 82, fit: BoxFit.contain),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(0, 10, 0, 50),
+                            child: Text(
+                              // "SCHEDULE PICKUP",
+                              LocaleKeys.ask_help,
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ).tr(),
+                          ),
+                        ],
+                      ),
+
+
                     ],
                   ),
-                ],
-              ),
-            ),
-            Container(
-              child: Row(
-                children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 52),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(
-                                context, Constants.ROUTE_MY_CONTRIBUTION);
-                          },
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(color: Colors.white70, width: 1),
-                              borderRadius: BorderRadius.circular(50.0),
-                            ),
-                            child: Image.asset('assets/contribution.png',
-                                width: 82, height: 82, fit: BoxFit.contain),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(0, 10, 0, 50),
-                        child: Text(
-                          // "MY CONTRIBUTION",
-                          LocaleKeys.my_contribution,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ).tr(),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 52),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(
-                                context, Constants.ROUTE_VENDOR_REQUEST);
-                          },
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(color: Colors.white70, width: 1),
-                              borderRadius: BorderRadius.circular(50.0),
-                            ),
-                            child: Image.asset('assets/help.png',
-                                width: 82, height: 82, fit: BoxFit.contain),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(0, 10, 0, 50),
-                        child: Text(
-                          // "ASK FOR HELP",
-                          LocaleKeys.ask_help,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ).tr(),
-                      ),
-                    ],
-                  ),
+
                 ],
               ),
             ),
           ],
         ),
       ),
+      drawer: Drawer(
+        // Add a ListView to the drawer. This ensures the user can scroll
+        // through the options in the drawer if there isn't enough vertical
+        // space to fit everything.
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    width: 50,
+                    height: 50,
+                    alignment: Alignment.centerLeft,
+                    child: Icon(
+                      Icons.account_circle,
+                      color: Colors.grey,
+                      size: 75,
+                    ),
+                  ),
+                  Padding(
+                      padding: EdgeInsets.fromLTRB(0, 40, 0, 8),
+                      child: Text('Hemant Bhabal',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold
+                        ),
+                      ),
+                  ),
+                ],
+              ),
+            ),
+            ListTile(
+              leading: Image.asset('assets/pick.png',
+                  width: 30, height: 30, fit: BoxFit.contain
+              ),
+
+              title: Text(
+                // "SCHEDULE PICKUP",
+                LocaleKeys.schedule_pick_up,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+              ).tr(),
+              onTap: () {
+                Navigator.pushNamed(
+                    context, Constants.ROUTE_PROFILE);
+              },
+            ),
+            ListTile(
+              leading: Image.asset('assets/history.png',
+                  width: 30, height: 30, fit: BoxFit.contain
+              ),
+              title: Text(
+                // "SCHEDULE PICKUP",
+                LocaleKeys.check_history,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+              ).tr(),
+              onTap: () {
+                Navigator.pushNamed(
+                    context, Constants.ROUTE_HISTORY);
+              },
+            ),
+            ListTile(
+              leading: Image.asset('assets/contribution.png',
+                  width: 30, height: 30, fit: BoxFit.contain
+              ),
+              title: Text(
+                // "SCHEDULE PICKUP",
+                LocaleKeys.my_contribution,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+              ).tr(),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.pushNamed(
+                    context, Constants.ROUTE_MY_CONTRIBUTION);
+              },
+            ),
+            ListTile(
+              leading: Image.asset('assets/help.png',
+                  width: 30, height: 30, fit: BoxFit.contain
+              ),
+              title: Text(
+                // "SCHEDULE PICKUP",
+                LocaleKeys.ask_help,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+              ).tr(),
+              onTap: () {
+//                Navigator.pushNamed(
+//                    context, Constants.ROUTE_);
+              },
+            ),
+            ListTile(
+//              leading: Icon(Icons.lock),
+            leading: Container(
+              width: 30,
+              height: 30,
+//              color: Colors.green,
+              decoration:
+              BoxDecoration(
+                border: Border.all(color: Colors.green),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child:Icon(Icons.lock, color: Colors.green,),
+            ),
+              title: Text(
+                // "SCHEDULE PICKUP",
+//                LocaleKeys.ask_help,
+              'LOGOUT',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+              ).tr(),
+              onTap: () async {
+                var response = await Repository.instance.clearAllShardPrefs();
+                if (response) {
+                  Navigator.pushNamedAndRemoveUntil(scaffoldKey.currentContext,
+                      Constants.ROUTE_SIGN_IN, (Route<dynamic> route) => false);
+                } else {
+                  _showError('Failed to log out');
+                }
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
-
-  void drawer() {}
 
   void _showError(String message) {
     scaffoldKey.currentState.hideCurrentSnackBar();
