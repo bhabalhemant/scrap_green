@@ -21,6 +21,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   Position _currentPosition;
+  String _position;
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   final format = DateFormat("yyyy-MM-dd");
   String _id, schedule_date;
@@ -57,7 +58,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _password = TextEditingController();
     _retypePassword = TextEditingController();
 //    pickedDate = DateTime.now();
-    // _getCurrentLocation();
+     setLocation();
     BlocProvider.of<ProfileBloc>(context).add(GetProfile());
   }
 var now = new DateTime.now();
@@ -297,7 +298,9 @@ var now = new DateTime.now();
                 ),
                 child: ListTile(
                   title: Text(
-                    "Schedule Date: ${formattedDate}",
+                    formattedDate == null
+                    ? "Schedule Date"
+                    : "${formattedDate}",
                     style: TextStyle(
                       fontSize: 14.0,
                       color: Colors.black,
@@ -310,36 +313,6 @@ var now = new DateTime.now();
                 ),
               ),
 
-                // Padding(
-                //   padding: EdgeInsets.symmetric(vertical: 0),
-                //     child: DateTimeField(
-                //     format: format,
-                //     controller: _schedule_date,
-
-                //     onShowPicker: (context, currentValue) {
-                //       return showDatePicker(
-                //           context: context,
-                //           firstDate: DateTime(1900),
-                //           initialDate: currentValue ?? DateTime.now(),
-                //           lastDate: DateTime(2100));
-                //     },
-                //     decoration: InputDecoration(
-                //       // counterStyle: TextStyle(fontSize: 11),
-                //       fillColor: AppSingleton.instance.getLightGrayColor(),
-                //       border: AppSingleton.instance.getLightGrayOutLineBorder(),
-                //       focusedBorder: AppSingleton.instance.getLightGrayOutLineBorder(),
-                //       disabledBorder: AppSingleton.instance.getLightGrayOutLineBorder(),
-                //       enabledBorder: AppSingleton.instance.getLightGrayOutLineBorder(),
-                //       errorBorder: AppSingleton.instance.getLightGrayOutLineBorder(),
-                //       focusedErrorBorder: AppSingleton.instance.getLightGrayOutLineBorder(),
-                //       filled: true,
-                //       hintText: 'Schedule Date',
-                //       // errorText: _autoValidate ? 'Value Can\'t Be Empty' : null,
-                //       contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                //       // border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
-                //     ),
-                //   ),
-                // ),
                 AppSingleton.instance.getSizedSpacer(30),
               SizedBox(
                 width: double.infinity,
@@ -355,19 +328,20 @@ var now = new DateTime.now();
                     }
                   },
                   builder: (context, state) {
+                    print('stste $state');
                     if (state is ProfileLoading) {
                       return AppSingleton.instance
                           .buildCenterSizedProgressBar();
                     }
                     if (state is ProfileLoaded) {
-                      return AppSingleton.instance
-                          .buildCenterSizedProgressBar();
+//                      return AppSingleton.instance
+//                          .buildCenterSizedProgressBar();
+                      return buildUpdateButton();
                     }
                     return buildUpdateButton();
                   },
                 ),
               ),
-              buildUpdateButton()
             ],
           ),
         )
@@ -392,35 +366,22 @@ var now = new DateTime.now();
           if (validate()) {
 
             scaffoldKey.currentState.hideCurrentSnackBar();
-            final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
-
-    geolocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-        .then((Position position) {
-           print(position);
-////       setState(() {
-            _currentPosition = position;
-            String _position = _currentPosition.latitude.toString() +'-'+ _currentPosition.longitude.toString();
-//             print(_position);
             Map<String, String> body = {
               Constants.PARAM_ID: _id,
               Constants.PARAM_NAME: _name.text,
-            Constants.PARAM_SCHEDULE_DATE: pickedDate,
-            Constants.PARAM_MOBILE: _mobile.text,
-            Constants.PARAM_ADDRESS1: _address_line1.text,
-            Constants.PARAM_ADDRESS2: _address_line2.text,
-            Constants.PARAM_COUNTRY: _country.text,
-            Constants.PARAM_STATE: _state.text,
-            Constants.PARAM_CITY: _city.text,
-            Constants.PARAM_PINCODE: _pin_code.text,
-            Constants.PARAM_LATITUDE_LONGITUDE: _position,
+              Constants.PARAM_SCHEDULE_DATE: pickedDate,
+              Constants.PARAM_MOBILE: _mobile.text,
+              Constants.PARAM_ADDRESS1: _address_line1.text,
+              Constants.PARAM_ADDRESS2: _address_line2.text,
+              Constants.PARAM_COUNTRY: _country.text,
+              Constants.PARAM_STATE: _state.text,
+              Constants.PARAM_CITY: _city.text,
+              Constants.PARAM_PINCODE: _pin_code.text,
+              Constants.PARAM_LATITUDE_LONGITUDE: _position,
             };
-             print(body);
             BlocProvider.of<ProfileBloc>(context)
                 .add(UpdateProfile(body: body));
-                }).catchError((e) {
-              print(e);
-            });
+                
           }
         },
         // color: AppSingleton.instance.getPrimaryColor(),
@@ -465,9 +426,29 @@ var now = new DateTime.now();
     } else if (_pin_code.text.isEmpty) {
       _showError('Please enter pincode');
       return false;
+    } else if (pickedDate == null) {
+      _showError('Please enter Pickup date.');
+      return false;
     } else {
       return true;
     }
+  }
+
+  setLocation() {
+    final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+
+    geolocator
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+        .then((Position position) {
+      print(position);
+      setState(() {
+        _currentPosition = position;
+        _position = _currentPosition.latitude.toString() +'-'+ _currentPosition.longitude.toString();
+        print(_position);
+      });
+    }).catchError((e) {
+      print(e);
+    });
   }
 
   _pickDate() {
@@ -480,6 +461,9 @@ var now = new DateTime.now();
         formattedDate = DateFormat('dd-MM-yyyy – h:mm a').format(date);
 
         pickedDate = DateFormat('yyyy-MM-dd hh:mm:ss').format(date);
+              if(pickedDate == null)
+                print('confirm');
+              else
                 print('confirm $pickedDate');
       });
       // schedule_date = date.toString();
