@@ -90,6 +90,7 @@ flutter:
     - assets/check.png
     - assets/criss-cross.png
     - assets/pad.png
+    - assets/settings_background.jpg
 
     - assets/endtoend.png
     - assets/error.png

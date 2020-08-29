@@ -29,6 +29,7 @@ import 'package:scrapgreen/ui/sign_up_screen.dart';
 import 'package:scrapgreen/ui/sign_up_vendor.dart';
 import 'package:scrapgreen/ui/splash_screen.dart';
 import 'package:scrapgreen/ui/vendor_request.dart';
+import 'package:scrapgreen/ui/settings.dart';
 import 'package:scrapgreen/utils/constants.dart' as Constants;
 import 'package:scrapgreen/utils/custom_route.dart';
 import 'package:scrapgreen/utils/simple_bloc_delegate.dart';
@@ -36,6 +37,7 @@ import 'package:scrapgreen/utils/singleton.dart';
 import 'bloc/history_bloc.dart';
 import 'bloc/profile/profile_bloc.dart';
 import 'models/local_notification.dart';
+import 'package:location/location.dart';
 
 final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
@@ -186,6 +188,33 @@ class _MyAppState extends State<MyApp> {
       assert(token != null);
       BlocProvider.of<SplashBloc>(context).add(SplashEvent(fcmId: token));
     });
+    geoloator();
+  }
+
+  geoloator() async {
+    Location location = new Location();
+
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+    LocationData _locationData;
+
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return;
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+
+    _locationData = await location.getLocation();
   }
 
   @override
@@ -244,6 +273,11 @@ class _MyAppState extends State<MyApp> {
           case Constants.ROUTE_REQUEST_DETAILS:
             return CustomRoute(
               builder: (_) => RequestDetails(),
+              settings: settings,
+            );
+          case Constants.ROUTE_SETTING:
+            return CustomRoute(
+              builder: (_) => Settings(),
               settings: settings,
             );
           case Constants.ROUTE_MY_CONTRIBUTION:

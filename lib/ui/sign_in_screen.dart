@@ -212,8 +212,9 @@ class _SignInScreenState extends State<SignInScreen> {
                             .buildCenterSizedProgressBar();
                       }
                       if (state is SignInLoaded) {
-                        return AppSingleton.instance
-                            .buildCenterSizedProgressBar();
+//                        return AppSingleton.instance
+//                            .buildCenterSizedProgressBar();
+                        return buildLoginButton();
                       }
                       return buildLoginButton();
                     },

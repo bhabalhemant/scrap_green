@@ -144,7 +144,7 @@ class _HistoryState extends State<History> {
                     title: Text(
                       'Order No: ${_data[index].id}',
                       style: TextStyle(
-                          fontSize: 14.0, fontWeight: FontWeight.bold),
+                          fontSize: 12.0, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -153,7 +153,7 @@ class _HistoryState extends State<History> {
                           '${_data[index].created_on}',
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                            fontSize: 14.0,
+                            fontSize: 12.0,
                             // fontWeight: FontWeight.bold
                           ),
                         ),
@@ -161,14 +161,14 @@ class _HistoryState extends State<History> {
                           '${_data[index].address_line1}, ${_data[index].address_line2}',
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                              fontSize: 12.0, fontWeight: FontWeight.bold),
+                              fontSize: 11.0, fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
                     isThreeLine: true,
                     trailing: Column(
                       children: <Widget>[
-                        
+
                         _data[index].total_amount == null
                         ? Text(
                           'Rs. 0',
@@ -186,118 +186,97 @@ class _HistoryState extends State<History> {
                         ),
 
                         _data[index].request_status == '0'
-                        ?
-                        Expanded(
-                          child: RaisedButton(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              side: BorderSide(
-                                // color: Colors.blue,
-                                color: Colors.blue,
-                              ),
-                            ),
-                            onPressed: () {},
+                          ?
+                        Container(
+                          padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
+                          height: 20.0,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25.0),
                             color: Colors.blue,
-                            textColor: Colors.white,
-                            child: Text(
-                              "Scheduled",
-                              style: AppTextStyle.regular(
-                                Colors.white,
-                                10.0,
-                              ),
-                            ),
                           ),
-                        )
-                        : _data[index].request_status == '1'
-                        ?
-                        Expanded(
-                          child: RaisedButton(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              side: BorderSide(
-                                // color: Colors.blue,
-                                color: Colors.orange,
+                              child: Text(
+                                'Scheduled',
+//                                textScaleFactor: 2,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                    fontSize: 10.0
+                                ),
                               ),
-                            ),
-                            onPressed: () {},
+                            ):
+                        _data[index].request_status == '1'
+                            ?
+                        Container(
+                          padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
+                          height: 20.0,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25.0),
                             color: Colors.orange,
-                            textColor: Colors.white,
-                            child: Text(
-                              "Assigned",
-                              style: AppTextStyle.regular(
-                                Colors.white,
-                                10.0,
-                              ),
-                            ),
                           ),
-                        )
-                        : _data[index].request_status == '2'
-                        ?
-                        Expanded(
-                          child: RaisedButton(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              side: BorderSide(
-                                // color: Colors.blue,
-                                color: Colors.red,
+                            child: Text(
+                              'Assigned',
+//                                textScaleFactor: 2,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 10.0
                               ),
                             ),
-                            onPressed: () {},
+                          ):
+                        _data[index].request_status == '3'
+                            ?
+                        Container(
+                          padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
+                          height: 20.0,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25.0),
+                            color: Colors.redAccent,
+                          ),
+                            child: Text(
+                              'User Cancelled',
+//                                textScaleFactor: 2,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 10.0
+                              ),
+                            ),
+                          ):
+                        _data[index].request_status == '4'
+                            ?
+                        Container(
+                          padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
+                          height: 20.0,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25.0),
                             color: Colors.red,
-                            textColor: Colors.white,
+                          ),
                             child: Text(
-                              "User Cancelled",
-                              style: AppTextStyle.regular(
-                                Colors.white,
-                                10.0,
+                              'Admin Cancelled',
+//                                textScaleFactor: 2,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 10.0
+                              ),
+                            ),
+                          ):
+                         Container(
+                            padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
+                            height: 20.0,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(25.0),
+                              color: Colors.green,
+                            ),
+                            child: Text(
+                              'Successfull',
+//                                textScaleFactor: 2,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 10.0
                               ),
                             ),
                           ),
-                        )
-                        : _data[index].request_status == '3'
-                        ?
-                        Expanded(
-                          child: RaisedButton(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              side: BorderSide(
-                                // color: Colors.blue,
-                                color: Colors.red,
-                              ),
-                            ),
-                            onPressed: () {},
-                            color: Colors.red,
-                            textColor: Colors.white,
-                            child: Text(
-                              "Admin Cancelled",
-                              style: AppTextStyle.regular(
-                                Colors.white,
-                                10.0,
-                              ),
-                            ),
-                          ),
-                        )
-                        : Expanded(
-                          child: RaisedButton(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              side: BorderSide(
-                                // color: Colors.blue,
-                                color: Colors.green,
-                              ),
-                            ),
-                            onPressed: () {},
-                            color: Colors.green,
-                            textColor: Colors.white,
-                            child: Text(
-                              "Successful",
-                              style: AppTextStyle.regular(
-                                Colors.white,
-                                10.0,
-                              ),
-                            ),
-                          ),
-                        ),
+//                          ),
+//                        ),
+
+
                       ],
                     ),
                   ),

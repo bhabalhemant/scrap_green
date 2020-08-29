@@ -40,8 +40,6 @@ class _CarouselDemoState extends State<CarouselDemo> {
     imageSliders = imgList.map((SliderItem item) {
       return Container(
           color: Colors.green,
-          // width: double.infinity,
-          // height: double.infinity,
           child: Center(
             child: Flex(
               direction: Axis.vertical,

@@ -7,6 +7,7 @@ const ROUTE_SIGN_IN = "/signin";
 const ROUTE_SIGN_IN_VENDOR = "/signinvendor";
 const ROUTE_HOME = "/home";
 const ROUTE_SIGN_UP = "/signup";
+const ROUTE_SETTING = "/settings";
 const ROUTE_PICKUP_REQUEST = "/pick_up_request";
 const ROUTE_VENDOR_REQUEST = "/vendor_request";
 const ROUTE_SIGN_UP_VENDOR = "/signupvendor";

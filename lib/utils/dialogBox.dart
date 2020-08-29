@@ -23,15 +23,7 @@ String _selectedMaterial;
   @override
   Widget build(BuildContext context) {
     return Dialog(
-            // shape: RoundedRectangleBorder(
-            //     borderRadius:
-            //         BorderRadius.circular(20.0)), //this right here
-            child: Container(
-        decoration: BoxDecoration(
-          // borderRadius: BorderRadius.circular(20.0),
-        ),
-        height: 400.0,
-        width: 200.0,
+            child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             Container(
@@ -217,7 +209,7 @@ String _selectedMaterial;
       else if(_selectedMaterial == 'Copper'){
         // var n = int.parse(value);
         _total = n*200;
-      }  
+      }
     });
     
   }

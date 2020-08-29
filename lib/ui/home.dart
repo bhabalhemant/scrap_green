@@ -264,14 +264,14 @@ class _HomeState extends State<Home> {
           children: <Widget>[
             DrawerHeader(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Container(
                     width: 50,
                     height: 50,
-                    alignment: Alignment.centerLeft,
+                    alignment: Alignment.center,
                     child: Icon(
                       Icons.account_circle,
                       color: Colors.grey,
@@ -279,12 +279,12 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                   Padding(
-                      padding: EdgeInsets.fromLTRB(0, 40, 0, 8),
-                      child: Text('Hemant Bhabal',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold
-                        ),
+                    padding: EdgeInsets.fromLTRB(30, 30, 0, 8),
+                    child: Text('Hemant Bhabal',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold
                       ),
+                    ),
                   ),
                 ],
               ),
@@ -295,7 +295,6 @@ class _HomeState extends State<Home> {
               ),
 
               title: Text(
-                // "SCHEDULE PICKUP",
                 LocaleKeys.schedule_pick_up,
                 style: TextStyle(
                   fontSize: 14,
@@ -372,12 +371,42 @@ class _HomeState extends State<Home> {
                 border: Border.all(color: Colors.green),
                 borderRadius: BorderRadius.circular(20),
               ),
-              child:Icon(Icons.lock, color: Colors.green,),
+              child:Icon(Icons.settings, color: Colors.green,),
             ),
+              title: Text(
+              'SETTINGS',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+              ).tr(),
+              onTap: () async {
+                var response = await Repository.instance.clearAllShardPrefs();
+                if (response) {
+                  Navigator.pushNamedAndRemoveUntil(scaffoldKey.currentContext,
+                      Constants.ROUTE_SETTING, (Route<dynamic> route) => false);
+                } else {
+                  _showError('Failed to log out');
+                }
+              },
+            ),
+            ListTile(
+//              leading: Icon(Icons.lock),
+              leading: Container(
+                width: 30,
+                height: 30,
+//              color: Colors.green,
+                decoration:
+                BoxDecoration(
+                  border: Border.all(color: Colors.green),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child:Icon(Icons.lock, color: Colors.green,),
+              ),
               title: Text(
                 // "SCHEDULE PICKUP",
 //                LocaleKeys.ask_help,
-              'LOGOUT',
+                'LOGOUT',
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
