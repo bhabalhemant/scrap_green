@@ -46,7 +46,13 @@ class _RequestDetailsState extends State<RequestDetails> {
       child: SafeArea(
         child: Scaffold(
           appBar: AppSingleton.instance.buildAppBar(onTap, 'Request Details'),
-          body: listing(),
+          body:     ListView.builder
+            (
+              itemCount: itemList.length,
+              itemBuilder: (BuildContext ctxt, int index) {
+                return new Text(itemList[index].material);
+              }
+          ),
         ),
       ),
     );
