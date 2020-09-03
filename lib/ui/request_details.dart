@@ -30,7 +30,7 @@ class _RequestDetailsState extends State<RequestDetails> {
     AddItem('Platinum', '9', '900'),
   ];
   List<Widget> itemsList;
-  var items = [{"quantity": 7, "material": "Iron", "rupees": 700}, {"quantity": 7, "material": "Copper", "rupees": 1400}];
+//  var items = [{"quantity": 7, "material": "Iron", "rupees": 700}, {"quantity": 7, "material": "Copper", "rupees": 1400}];
 //  var items = [{"quantity": "7", "material": "Iron", "rupees": "700"}, {"quantity": "7", "material": "Copper", "rupees": "1400"}];
   @override
   onTap() {
@@ -159,11 +159,19 @@ class _RequestDetailsState extends State<RequestDetails> {
 //          Divider(),
 //        ],
 //    );
-    itemList.map((AddItem item) {
-      print(item.material+' '+item.quantity+' '+item.rupees);
-      return Text(
-        '$item.material'
-      );
+
+    ListView.builder
+      (
+        itemCount: itemList.length,
+        itemBuilder: (BuildContext ctxt, int index) {
+          return new Text(itemList[index].material);
+        }
+    );
+//    itemList.map((AddItem item) {
+//      print(item.material+' '+item.quantity+' '+item.rupees);
+//      return Text(
+//        '${item.material}'
+//      );
 //      return SingleChildScrollView(
 //        child: Padding(
 //        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
@@ -223,7 +231,7 @@ class _RequestDetailsState extends State<RequestDetails> {
 //        ),
 //        ),
 //      );
-    }).toList();
+//    }).toList();
 //    itemList.map((AddItem item) {
 //      print(item.material+' '+item.quantity+' '+item.rupees);
 //      return SingleChildScrollView(

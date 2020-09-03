@@ -59,7 +59,8 @@ class _CarouselDemoState extends State<CarouselDemo> {
                     style: TextStyle(
                         fontSize: 24.0,
                         color: Colors.white,
-                        fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.bold
+                    ),
                   ),
                 ),
                 Padding(
