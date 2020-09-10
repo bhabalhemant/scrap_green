@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:scrapgreen/models/addItem.dart';
 
 final List<String> _material = [
     "Iron",
@@ -9,9 +9,13 @@ final List<String> _unit = [
     "KG"
     // "Copper",
   ];
+
+final List<AddItem> itemList = [];
+//var array = [];
+//array.add({"material" :})
   int _total;
   String quantity;
-  TextEditingController quantityCtrl = TextEditingController(text: '0');
+  TextEditingController quantityCtrl = TextEditingController();
   class DialogBox extends StatefulWidget {
   @override
   DialogBoxState createState() => DialogBoxState();
@@ -177,8 +181,8 @@ String _selectedMaterial;
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          // onPressed: loginCheck,
-                          onPressed: (){},
+                           onPressed: itemCheck,
+//                          onPressed: (){},
                           padding: EdgeInsets.symmetric(vertical:10.0),
                           color: Colors.blue[300],
                           child: Text('ADD', 
@@ -212,6 +216,22 @@ String _selectedMaterial;
       }
     });
     
+  }
+  itemCheck(){
+    _selectedUnit;
+    _selectedMaterial;
+    _total;
+    setState(() {
+      itemList.insert(
+          {
+            "material" :_selectedMaterial,
+            "quantity" :quantityCtrl.text,
+            "unit" :_selectedUnit,
+            "rupees" :_total
+          }
+       );
+    });
+    print(_selectedUnit+' '+_selectedMaterial+' '+quantityCtrl.text);
   }
   // static Future<void> showLoadingDialog(
   // BuildContext context, GlobalKey key) async {
