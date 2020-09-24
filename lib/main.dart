@@ -11,6 +11,8 @@ import 'package:scrapgreen/bloc/sign_in_vendor_bloc.dart';
 import 'package:scrapgreen/bloc/sign_up_bloc.dart';
 import 'package:scrapgreen/bloc/sign_up_vendor_bloc.dart';
 import 'package:scrapgreen/bloc/splash_bloc.dart';
+import 'package:scrapgreen/bloc/profile_page/profile_bloc.dart';
+import 'package:scrapgreen/bloc/settings/profile_bloc.dart';
 import 'package:scrapgreen/generated/codegen_loader.g.dart';
 import 'package:scrapgreen/ui/carousel_demo.dart';
 import 'package:scrapgreen/ui/forgot_password_screen.dart';
@@ -30,6 +32,10 @@ import 'package:scrapgreen/ui/sign_up_vendor.dart';
 import 'package:scrapgreen/ui/splash_screen.dart';
 import 'package:scrapgreen/ui/vendor_request.dart';
 import 'package:scrapgreen/ui/settings.dart';
+import 'package:scrapgreen/ui/profile_1.dart';
+import 'package:scrapgreen/ui/edit_profile.dart';
+import 'package:scrapgreen/ui/change_password.dart';
+import 'package:scrapgreen/ui/contact_us.dart';
 import 'package:scrapgreen/utils/constants.dart' as Constants;
 import 'package:scrapgreen/utils/custom_route.dart';
 import 'package:scrapgreen/utils/simple_bloc_delegate.dart';
@@ -114,6 +120,12 @@ Future<void> main() async {
           ),
           BlocProvider<ForgotPasswordBloc>(
             create: (context) => ForgotPasswordBloc(),
+          ),
+          BlocProvider<ProfilePageBloc>(
+            create: (context) => ProfilePageBloc(),
+          ),
+          BlocProvider<SettingsBloc>(
+            create: (context) => SettingsBloc(),
           ),
         ],
         child: MyApp(),
@@ -333,6 +345,26 @@ class _MyAppState extends State<MyApp> {
           case Constants.ROUTE_FORGOT_PASSWORD:
             return CustomRoute(
               builder: (_) => ForgotPassWordScreen(),
+              settings: settings,
+            );
+          case Constants.ROUTE_PROFILE_PAGE:
+            return CustomRoute(
+              builder: (_) => ProfilePage(),
+              settings: settings,
+            );
+          case Constants.ROUTE_EDIT_PROFILE:
+            return CustomRoute(
+              builder: (_) => EditProfile(),
+              settings: settings,
+            );
+          case Constants.ROUTE_CHANGE_PASSWORD:
+            return CustomRoute(
+              builder: (_) => ChangePassword(),
+              settings: settings,
+            );
+          case Constants.ROUTE_CONTACT_US:
+            return CustomRoute(
+              builder: (_) => ContactUs(),
               settings: settings,
             );
           default:

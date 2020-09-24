@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:scrapgreen/base_widgets/app_textstyle.dart';
 import 'package:scrapgreen/bloc/sign_in_bloc.dart';
 import 'package:scrapgreen/generated/locale_keys.g.dart';
@@ -9,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
+
 class SignInScreen extends StatefulWidget {
   @override
   _SignInScreenState createState() => _SignInScreenState();

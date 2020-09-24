@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:scrapgreen/models/addItem.dart';
-
+import 'package:scrapgreen/utils/constants.dart' as Constants;
 final List<String> _material = [
     "Iron",
     "Copper",
   ];
 final List<String> _unit = [
     "KG"
-    // "Copper",
   ];
 
 final List<AddItem> itemList = [];
-//var array = [];
-//array.add({"material" :})
   int _total;
   String quantity;
   TextEditingController quantityCtrl = TextEditingController();
@@ -23,7 +20,41 @@ final List<AddItem> itemList = [];
 class DialogBoxState extends State<DialogBox>  {
   String _selectedUnit;
 String _selectedMaterial;
-  
+
+  @override
+  void initState() {
+    super.initState();
+//    itemList.clear();
+    quantityCtrl.clear();
+    _total = 0;
+  }
+
+  updateButtonState(String value){
+    setState(() {
+      _selectedUnit;
+      _selectedMaterial;
+      var n = int.parse(value);
+      if(_selectedMaterial == 'Iron'){
+        _total = n*100;
+      }
+      else if(_selectedMaterial == 'Copper'){
+        // var n = int.parse(value);
+        _total = n*200;
+      }
+    });
+  }
+  itemCheck(){
+//    _selectedUnit;
+//    _selectedMaterial;
+//    _total;
+    setState(() {
+      itemList.add(AddItem(_selectedMaterial, quantityCtrl.text, _selectedUnit,_total.toString()));
+    });
+        print(itemList.length);
+    Navigator.pushReplacementNamed(context, Constants.ROUTE_REQUEST_DETAILS);
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -147,7 +178,7 @@ String _selectedMaterial;
             onSaved: (String val) {
               quantity = val;
             },
-          ),
+            ),
           ),
               _total == null
               ?Container(
@@ -201,38 +232,7 @@ String _selectedMaterial;
           );
     
   }
-  updateButtonState(String value){
-    
-    setState(() {
-      _selectedUnit;
-      _selectedMaterial;
-      var n = int.parse(value);
-      if(_selectedMaterial == 'Iron'){
-        _total = n*100;
-      }
-      else if(_selectedMaterial == 'Copper'){
-        // var n = int.parse(value);
-        _total = n*200;
-      }
-    });
-    
-  }
-  itemCheck(){
-    _selectedUnit;
-    _selectedMaterial;
-    _total;
-    setState(() {
-      itemList.insert(
-          {
-            "material" :_selectedMaterial,
-            "quantity" :quantityCtrl.text,
-            "unit" :_selectedUnit,
-            "rupees" :_total
-          }
-       );
-    });
-    print(_selectedUnit+' '+_selectedMaterial+' '+quantityCtrl.text);
-  }
+
   // static Future<void> showLoadingDialog(
   // BuildContext context, GlobalKey key) async {
     

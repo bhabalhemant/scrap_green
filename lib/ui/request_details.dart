@@ -26,15 +26,19 @@ class _RequestDetailsState extends State<RequestDetails> {
 //    {"courseName": "Bachelor of Education (B.Ed)"},
 //    {"courseName": "Master of Education (M.Ed)"}
 //  ];
-  final List<AddItem> itemList = [
-    AddItem('Iron', '7', 'KG', '700'),
-    AddItem('Iron', '8', 'KG', '800'),
-    AddItem('Iron', '9', 'KG', '900'),
-    AddItem('Iron', '10', 'KG', '1000'),
-  ];
+
+
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   final GlobalKey<State> _loadingKey = GlobalKey<State>();
-
+  final List<AddItem> itemList = [];
+  @override
+  void initState() {
+    super.initState();
+    test();
+  }
+  test(){
+    print(itemList.length);
+  }
   @override
   onTap() {
     if (scaffoldKey.currentContext != null) {

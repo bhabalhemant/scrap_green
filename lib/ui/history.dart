@@ -169,16 +169,16 @@ class _HistoryState extends State<History> {
                     trailing: Column(
                       children: <Widget>[
 
-                        _data[index].total_amount == null
+                        _data[index].request_status == '4'
                         ? Text(
-                          'Rs. 0',
+                          'Rs. ${_data[index].total_amount}',
                           style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.bold
                           ),
                         )
                         :Text(
-                          'Rs. ${_data[index].total_amount}',
+                          ' ',
                           style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.bold
@@ -221,7 +221,7 @@ class _HistoryState extends State<History> {
                               ),
                             ),
                           ):
-                        _data[index].request_status == '3'
+                        _data[index].request_status == '2'
                             ?
                         Container(
                           padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
@@ -239,7 +239,7 @@ class _HistoryState extends State<History> {
                               ),
                             ),
                           ):
-                        _data[index].request_status == '4'
+                        _data[index].request_status == '3'
                             ?
                         Container(
                           padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
@@ -275,8 +275,6 @@ class _HistoryState extends State<History> {
                           ),
 //                          ),
 //                        ),
-
-
                       ],
                     ),
                   ),

@@ -41,13 +41,8 @@ class _HomeState extends State<Home> {
           IconButton(
             icon: Icon(Icons.account_circle),
             onPressed: () async {
-              var response = await Repository.instance.clearAllShardPrefs();
-              if (response) {
                 Navigator.pushNamedAndRemoveUntil(scaffoldKey.currentContext,
-                    Constants.ROUTE_SIGN_IN, (Route<dynamic> route) => false);
-              } else {
-                _showError('Failed to log out');
-              }
+                    Constants.ROUTE_PROFILE_PAGE, (Route<dynamic> route) => false);
             },
             color: Colors.lightGreen,
           ),

@@ -1,7 +1,7 @@
 import 'package:scrapgreen/base_widgets/app_textstyle.dart';
-import 'package:scrapgreen/bloc/profile/profile_bloc.dart';
-import 'package:scrapgreen/bloc/profile/profile_event.dart';
-import 'package:scrapgreen/bloc/profile/profile_state.dart';
+import 'package:scrapgreen/bloc/profile_page/profile_bloc.dart';
+import 'package:scrapgreen/bloc/profile_page/profile_event.dart';
+import 'package:scrapgreen/bloc/profile_page/profile_state.dart';
 import 'package:scrapgreen/models/response/profile_response.dart';
 import 'package:scrapgreen/utils/constants.dart' as Constants;
 import 'package:scrapgreen/utils/email_validator.dart';
@@ -9,25 +9,19 @@ import 'package:scrapgreen/utils/singleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:intl/intl.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
-class ProfileScreen extends StatefulWidget {
+class EditProfile extends StatefulWidget {
   @override
-  _ProfileScreenState createState() => _ProfileScreenState();
+  _EditProfileState createState() => _EditProfileState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
-  Position _currentPosition;
-  String _position;
+class _EditProfileState extends State<EditProfile> {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   final format = DateFormat("yyyy-MM-dd");
-  String _id, schedule_date;
-  String formattedDate;
-  TextEditingController 
-      _name,
+  String _id;
+  TextEditingController
+  _name,
       _email,
       _mobile,
       _address_line1,
@@ -39,8 +33,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
       _schedule_date,
       _password,
       _retypePassword;
-  String _aadhar_card;
-  String pickedDate;
+
+  @override
+  void dispose() {
+    _name.dispose();
+    _email.dispose();
+    _mobile.dispose();
+    _address_line1.dispose();
+    _address_line2.dispose();
+    _country.dispose();
+    _state.dispose();
+    _city.dispose();
+    _pin_code.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -54,29 +60,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _state = TextEditingController();
     _city = TextEditingController();
     _pin_code = TextEditingController();
-    _schedule_date = TextEditingController();
-    _password = TextEditingController();
-    _retypePassword = TextEditingController();
-//    pickedDate = DateTime.now();
-     setLocation();
-    BlocProvider.of<ProfileBloc>(context).add(GetProfile());
-  }
-var now = new DateTime.now();
-  @override
-  void dispose() {
-    _name.dispose();
-    _email.dispose();
-    _mobile.dispose();
-    _address_line1.dispose();
-    _address_line2.dispose();
-    _country.dispose();
-    _state.dispose();
-    _city.dispose();
-    _pin_code.dispose();
-    _schedule_date.dispose();
-    _password.dispose();
-    _retypePassword.dispose();
-    super.dispose();
+    BlocProvider.of<ProfilePageBloc>(context).add(GetProfile());
   }
   onTap() {
     if (scaffoldKey.currentContext != null) {
@@ -92,7 +76,7 @@ var now = new DateTime.now();
       },
       child: SafeArea(
         child: Scaffold(
-          appBar: AppSingleton.instance.buildAppBar(onTap, 'Pick up'),
+          appBar: AppSingleton.instance.buildAppBar(onTap, 'Edit Profile'),
           key: scaffoldKey,
           body: Container(
             height: MediaQuery.of(context).size.height,
@@ -103,14 +87,14 @@ var now = new DateTime.now();
                 Flexible(
                   flex: 1,
                   child: BlocConsumer(
-                    bloc: BlocProvider.of<ProfileBloc>(context),
+                    bloc: BlocProvider.of<ProfilePageBloc>(context),
                     listener: (context, state) {
                       if (state is ProfileLoaded) {
                         _setData(state.response);
                       }
                       if (state is ProfileUpdated) {
                         _showSuccessMessage(state.response.msg);
-                        BlocProvider.of<ProfileBloc>(context).add(GetProfile());
+                        BlocProvider.of<ProfilePageBloc>(context).add(GetProfile());
                       }
                       if (state is ProfileError) {
                         _showError(state.msg);
@@ -155,19 +139,19 @@ var now = new DateTime.now();
 
   SizedBox getFormField(
       {@required String hint,
-      @required TextEditingController ctr,
-      TextInputType type,
-      int maxLength,
-      BlacklistingTextInputFormatter restrictFormat,
-      TextCapitalization textCap,
-      bool obscureText = false}) {
+        @required TextEditingController ctr,
+        TextInputType type,
+        int maxLength,
+        BlacklistingTextInputFormatter restrictFormat,
+        TextCapitalization textCap,
+        bool obscureText = false}) {
     return SizedBox(
       height: AppSingleton.instance.getHeight(45),
       child: TextFormField(
         controller: ctr,
         obscureText: obscureText,
         textCapitalization:
-            textCap == null ? TextCapitalization.sentences : textCap,
+        textCap == null ? TextCapitalization.sentences : textCap,
         keyboardType: type == null ? TextInputType.text : type,
         maxLength: maxLength == null ? null : maxLength,
         inputFormatters: restrictFormat == null ? null : [restrictFormat],
@@ -204,121 +188,61 @@ var now = new DateTime.now();
           child: Column(
             children: <Widget>[
               AppSingleton.instance.getSpacer(),
-                getFormField(
-                    ctr: _name,
-                    hint: 'Name',
-                    type: TextInputType.text,
-                    ),
-                AppSingleton.instance.getSpacer(),
-                // getFormField(
-                //     ctr: _email,
-                //     hint: 'Email',
-                //     type: TextInputType.emailAddress,
-                //     textCap: TextCapitalization.none),
-                // AppSingleton.instance.getSpacer(),
-                getFormField(
-                  ctr: _mobile,
-                  hint: 'Mobile Number',
-                  type: TextInputType.number,
-                  maxLength: 10,
-                ),
-                AppSingleton.instance.getSpacer(),
-                getFormField(
-                    ctr: _address_line1,
-                    hint: 'Room No./Street',
-                    type: TextInputType.text,
-                    ),
-                AppSingleton.instance.getSpacer(),
-                getFormField(
-                    ctr: _address_line2,
-                    hint: 'Area',
-                    type: TextInputType.text,
-                    ),
-                AppSingleton.instance.getSpacer(),
-                getFormField(
-                    ctr: _country,
-                    hint: 'Country',
-                    type: TextInputType.text,
-                    ),
-                AppSingleton.instance.getSpacer(),
-                getFormField(
-                    ctr: _state,
-                    hint: 'State',
-                    type: TextInputType.text,
-                    ),
-                AppSingleton.instance.getSpacer(),
-                getFormField(
-                    ctr: _city,
-                    hint: 'City',
-                    type: TextInputType.text,
-                    ),
-                AppSingleton.instance.getSpacer(),
-                getFormField(
-                  ctr: _pin_code,
-                  hint: 'Pin Code',
-                  type: TextInputType.number,
-                  maxLength: 6,
-                ),
-
-              AppSingleton.instance.getSpacer(),
-              // Container(
-              //   // color: Colors.grey,
-              //   width: MediaQuery.of(context).size.width,
-              //   child: FlatButton(
-              //     shape: RoundedRectangleBorder(
-              //       borderRadius: BorderRadius.circular(30.0),
-              //       side: BorderSide(
-              //         color: Colors.grey,
-              //       ),
-              //     ),
-              //     onPressed: () {
-              //       DatePicker.showDateTimePicker(context, showTitleActions: true, 
-              //       onChanged: (date) {
-              //         // print('change $date in time zone ' + date.timeZoneOffset.inHours.toString());
-              //       }, onConfirm: (date) {
-              //         print('confirm $date');
-              //         schedule_date = date.toString();
-              //       }, currentTime: now);
-              //     },
-              //     child: Padding(
-              //       padding: EdgeInsets.symmetric(vertical:10.0),
-              //       child: Text(
-              //         'Schedule Date',
-              //         textAlign: TextAlign.left,
-              //         style: TextStyle(fontSize: 16.0),
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              Card(
-                color: Colors.grey[200],
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
-                    side: BorderSide(width: 5, color: Colors.grey[200])
-                ),
-                child: ListTile(
-                  title: Text(
-                    formattedDate == null
-                    ? "Schedule Date"
-                    : "${formattedDate}",
-                    style: TextStyle(
-                      fontSize: 14.0,
-                      color: Colors.black,
-                    ),
-                  ),
-                  trailing: Icon(Icons.access_time,
-                    color: Colors.black,
-                  ),
-                  onTap: _pickDate,
-                ),
+              getFormField(
+                ctr: _name,
+                hint: 'Name',
+                type: TextInputType.text,
               ),
-
-                AppSingleton.instance.getSizedSpacer(30),
+//              AppSingleton.instance.getSpacer(),
+//              getFormField(
+//                ctr: _mobile,
+//                hint: 'Mobile Number',
+//                type: TextInputType.number,
+//                maxLength: 10,
+//              ),
+              AppSingleton.instance.getSpacer(),
+              getFormField(
+                ctr: _address_line1,
+                hint: 'Room No./Street',
+                type: TextInputType.text,
+              ),
+              AppSingleton.instance.getSpacer(),
+              getFormField(
+                ctr: _address_line2,
+                hint: 'Area',
+                type: TextInputType.text,
+              ),
+              AppSingleton.instance.getSpacer(),
+              getFormField(
+                ctr: _country,
+                hint: 'Country',
+                type: TextInputType.text,
+              ),
+              AppSingleton.instance.getSpacer(),
+              getFormField(
+                ctr: _state,
+                hint: 'State',
+                type: TextInputType.text,
+              ),
+              AppSingleton.instance.getSpacer(),
+              getFormField(
+                ctr: _city,
+                hint: 'City',
+                type: TextInputType.text,
+              ),
+              AppSingleton.instance.getSpacer(),
+              getFormField(
+                ctr: _pin_code,
+                hint: 'Pin Code',
+                type: TextInputType.number,
+                maxLength: 6,
+              ),
+              AppSingleton.instance.getSizedSpacer(30),
               SizedBox(
                 width: double.infinity,
                 height: AppSingleton.instance.getHeight(45),
                 child: BlocConsumer(
-                  bloc: BlocProvider.of<ProfileBloc>(context),
+                  bloc: BlocProvider.of<ProfilePageBloc>(context),
                   listener: (context, state) {
                     if (state is ProfileError) {
                       _showError(state.msg);
@@ -358,43 +282,39 @@ var now = new DateTime.now();
           borderRadius: BorderRadius.circular(30.0),
           side: BorderSide(
             // color: AppSingleton.instance.getPrimaryColor(),
-            color: Colors.green
+              color: Colors.green
           ),
         ),
         onPressed: () {
 
           if (validate()) {
-
             scaffoldKey.currentState.hideCurrentSnackBar();
             Map<String, String> body = {
               Constants.PARAM_ID: _id,
               Constants.PARAM_NAME: _name.text,
-              Constants.PARAM_SCHEDULE_DATE: pickedDate,
-              Constants.PARAM_MOBILE: _mobile.text,
+//              Constants.PARAM_MOBILE: _mobile.text,
               Constants.PARAM_ADDRESS1: _address_line1.text,
               Constants.PARAM_ADDRESS2: _address_line2.text,
               Constants.PARAM_COUNTRY: _country.text,
               Constants.PARAM_STATE: _state.text,
               Constants.PARAM_CITY: _city.text,
               Constants.PARAM_PINCODE: _pin_code.text,
-              Constants.PARAM_LATITUDE_LONGITUDE: _position,
             };
-            BlocProvider.of<ProfileBloc>(context)
+            BlocProvider.of<ProfilePageBloc>(context)
                 .add(UpdateProfile(body: body));
-                
           }
         },
         // color: AppSingleton.instance.getPrimaryColor(),
         color: Colors.green,
         textColor: Colors.white,
         child: Text(
-          "Schedule Pick up",
+          "Update Profile",
           style: AppTextStyle.regular(Colors.white, 14.0),
         ),
       ),
     );
   }
-  
+
   bool validate() {
     if (_address_line2.text.isEmpty) {
       _showError('Please enter your Area');
@@ -402,15 +322,15 @@ var now = new DateTime.now();
     } else if (_name.text.isEmpty) {
       _showError('Please enter your name');
       return false;
-    } else if (!EmailValidator.validate(_email.text)) {
-      _showError('Please enter valid email');
-      return false;
-    } else if (_mobile.text.isEmpty) {
-      _showError('Please enter your mobile number');
-      return false;
-    } else if (_mobile.text.length < 10) {
-      _showError('Please enter valid mobile number');
-      return false;
+//    } else if (!EmailValidator.validate(_email.text)) {
+//      _showError('Please enter valid email');
+//      return false;
+//    } else if (_mobile.text.isEmpty) {
+//      _showError('Please enter your mobile number');
+//      return false;
+//    } else if (_mobile.text.length < 10) {
+//      _showError('Please enter valid mobile number');
+//      return false;
     } else if (_address_line1.text.isEmpty) {
       _showError('Please enter valid Room No./Street');
       return false;
@@ -426,48 +346,9 @@ var now = new DateTime.now();
     } else if (_pin_code.text.isEmpty) {
       _showError('Please enter pincode');
       return false;
-    } else if (pickedDate == null) {
-      _showError('Please enter Pickup date.');
-      return false;
     } else {
       return true;
     }
-  }
-
-  setLocation() {
-    final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
-
-    geolocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-        .then((Position position) {
-      print(position);
-      setState(() {
-        _currentPosition = position;
-        _position = _currentPosition.latitude.toString() +'-'+ _currentPosition.longitude.toString();
-        print(_position);
-      });
-    }).catchError((e) {
-      print(e);
-    });
-  }
-
-  _pickDate() {
-    DatePicker.showDateTimePicker(context, showTitleActions: true, 
-    onChanged: (date) {
-      // print('change $date in time zone ' + date.timeZoneOffset.inHours.toString());
-    }, onConfirm: (date) {
-//      print('confirm $date');
-      setState(() {
-        formattedDate = DateFormat('dd-MM-yyyy – h:mm a').format(date);
-
-        pickedDate = DateFormat('yyyy-MM-dd hh:mm:ss').format(date);
-              if(pickedDate == null)
-                print('confirm');
-              else
-                print('confirm $pickedDate');
-      });
-      // schedule_date = date.toString();
-    }, currentTime: now);
   }
 
   void _setData(ProfileResponse response) {
@@ -485,7 +366,6 @@ var now = new DateTime.now();
   }
 
   void _showSuccessMessage(String message) {
-    Navigator.pushNamed(context, Constants.ROUTE_HISTORY);
     scaffoldKey.currentState.hideCurrentSnackBar();
     scaffoldKey.currentState
         .showSnackBar(AppSingleton.instance.getSuccessSnackBar(message));
