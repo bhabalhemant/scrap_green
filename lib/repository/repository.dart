@@ -11,6 +11,8 @@ import 'package:scrapgreen/models/response/sign_up_response.dart';
 import 'package:scrapgreen/models/response/sign_up_vendor_response.dart';
 import 'package:scrapgreen/models/response/forgot_password_response.dart';
 import 'package:scrapgreen/models/response/update_fcm_response.dart';
+import 'package:scrapgreen/models/response/password_response.dart';
+import 'package:scrapgreen/models/response/password_update_response.dart';
 import 'package:scrapgreen/network/api_provider.dart';
 import 'package:scrapgreen/utils/constants.dart' as Constants;
 import 'package:scrapgreen/models/response/sign_in_vendor_response.dart';
@@ -61,6 +63,11 @@ class Repository {
     return ProfileResponse.fromJson(response);
   }
 
+  Future<PasswordResponse> getUserId(Map<String, String> body) async {
+    final response = await ApiProvider.instance.post("edit_profile", body);
+    return PasswordResponse.fromJson(response);
+  }
+
   Future<PickUpRequestResponse> getPickUpRequestData(String userId,String startFrom) async {
     // final response = await ApiProvider.instance.get("get_user_pickup_request?user_id=4&request_status=0&limit=30&start_from=$startFrom");
         final response = await ApiProvider.instance.get("get_user_pickup_request?user_id=$userId&request_status=0&limit=30&start_from=$startFrom");
@@ -77,11 +84,23 @@ class Repository {
     return ProfileUpdateResponse.fromJson(response);
   }
 
+  Future<PasswordUpdateResponse> updateUserPassword(Map<String, String> body) async {
+    final response = await ApiProvider.instance.post("change_user_password", body);
+    return PasswordUpdateResponse.fromJson(response);
+  }
+
   Future<ProfileResponse> getStoredUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return ProfileResponse.fromJson(
         json.decode(prefs.getString(Constants.PARAM_USER_DATA)));
   }
+
+  Future<PasswordResponse> getStoredUserId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return PasswordResponse.fromJson(
+        json.decode(prefs.getString(Constants.PARAM_USER_DATA)));
+  }
+
 
   Future<PickUpRequestResponse> getStoredPickUpRequestData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

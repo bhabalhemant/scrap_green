@@ -13,6 +13,7 @@ import 'package:scrapgreen/bloc/sign_up_vendor_bloc.dart';
 import 'package:scrapgreen/bloc/splash_bloc.dart';
 import 'package:scrapgreen/bloc/profile_page/profile_bloc.dart';
 import 'package:scrapgreen/bloc/settings/profile_bloc.dart';
+import 'package:scrapgreen/bloc/change_password/cp_bloc.dart';
 import 'package:scrapgreen/generated/codegen_loader.g.dart';
 import 'package:scrapgreen/ui/carousel_demo.dart';
 import 'package:scrapgreen/ui/forgot_password_screen.dart';
@@ -126,6 +127,9 @@ Future<void> main() async {
           ),
           BlocProvider<SettingsBloc>(
             create: (context) => SettingsBloc(),
+          ),
+          BlocProvider<ChangePasswordBloc>(
+            create: (context) => ChangePasswordBloc(),
           ),
         ],
         child: MyApp(),

@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-//import 'package:scrapgreen/bloc/settings/profile_bloc.dart';
+//import 'package:scrapgreen/bloc/settings/cp_bloc.dart';
 import 'package:scrapgreen/utils/singleton.dart';
 import 'package:flutter/material.dart';
 import 'package:scrapgreen/utils/constants.dart' as Constants;
@@ -56,53 +56,53 @@ class _SettingsState extends State<Settings> {
             child: Flex(
               direction: Axis.vertical,
               children: <Widget>[
-//                Flexible(
-//                  flex: 1,
-//                  child: BlocConsumer(
-//                    bloc: BlocProvider.of<ProfilePageBloc>(context),
-//                    listener: (context, state) {
-////                      print(state);
-//                      if (state is ProfileLoaded) {
-//                        _setData(state.response);
-//                      }
-//                      if (state is ProfileUpdated) {
-//                        _showSuccessMessage(state.response.msg);
-//                        BlocProvider.of<ProfilePageBloc>(context).add(GetProfile());
-//                      }
-//                      if (state is ProfileError) {
-//                        _showError(state.msg);
-//                      }
-//                    },
-//                    builder: (context, state) {
-//                      if (state is ProfileLoaded) {
-//                        return profileScreen();
-//                      } else if (state is ProfileLoading) {
-//                        return Center(
-//                          child: AppSingleton.instance.buildCenterSizedProgressBar(),
-//                        );
-//                      } else if (state is ProfileError) {
-//                        return Center(
-//                          child: Text(
-//                            'Failed to get user data error',
-//                            style: AppTextStyle.bold(Colors.red, 30.0),
-//                          ),
-//                        );
-//                      } else if (state is ProfileUploading) {
-//                        return AppSingleton.instance.buildCenterSizedProgressBar();
-//                      } else if (state is ProfileEmpty) {
-//                        return Center(
-//                          child: Text(
-//                            'Failed to get user data profile empty',
-//                            style: AppTextStyle.bold(Colors.red, 30.0),
-//                          ),
-//                        );
-//                      } else {
-//                        return Container();
-//                      }
-//                    },
-//                  ),
-//                ),
-                profileScreen(),
+                Flexible(
+                  flex: 1,
+                  child: BlocConsumer(
+                    bloc: BlocProvider.of<ProfilePageBloc>(context),
+                    listener: (context, state) {
+//                      print(state);
+                      if (state is ProfileLoaded) {
+                        _setData(state.response);
+                      }
+                      if (state is ProfileUpdated) {
+                        _showSuccessMessage(state.response.msg);
+                        BlocProvider.of<ProfilePageBloc>(context).add(GetProfile());
+                      }
+                      if (state is ProfileError) {
+                        _showError(state.msg);
+                      }
+                    },
+                    builder: (context, state) {
+                      if (state is ProfileLoaded) {
+                        return profileScreen();
+                      } else if (state is ProfileLoading) {
+                        return Center(
+                          child: AppSingleton.instance.buildCenterSizedProgressBar(),
+                        );
+                      } else if (state is ProfileError) {
+                        return Center(
+                          child: Text(
+                            'Failed to get user data error',
+                            style: AppTextStyle.bold(Colors.red, 30.0),
+                          ),
+                        );
+                      } else if (state is ProfileUploading) {
+                        return AppSingleton.instance.buildCenterSizedProgressBar();
+                      } else if (state is ProfileEmpty) {
+                        return Center(
+                          child: Text(
+                            'Failed to get user data profile empty',
+                            style: AppTextStyle.bold(Colors.red, 30.0),
+                          ),
+                        );
+                      } else {
+                        return Container();
+                      }
+                    },
+                  ),
+                ),
+//                profileScreen(),
               ],
             ),
           ),

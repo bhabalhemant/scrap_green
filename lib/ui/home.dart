@@ -376,13 +376,9 @@ class _HomeState extends State<Home> {
                 ),
               ).tr(),
               onTap: () async {
-                var response = await Repository.instance.clearAllShardPrefs();
-                if (response) {
-                  Navigator.pushNamedAndRemoveUntil(scaffoldKey.currentContext,
-                      Constants.ROUTE_SETTING, (Route<dynamic> route) => false);
-                } else {
-                  _showError('Failed to log out');
-                }
+
+                  Navigator.pushNamed(
+                      context, Constants.ROUTE_SETTING);
               },
             ),
             ListTile(

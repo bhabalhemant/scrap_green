@@ -3,10 +3,10 @@ import 'package:scrapgreen/utils/singleton.dart';
 import 'package:scrapgreen/base_widgets/app_textstyle.dart';
 import 'package:flutter/services.dart';
 import 'package:scrapgreen/utils/constants.dart' as Constants;
-import 'package:scrapgreen/models/response/profile_response.dart';
-import 'package:scrapgreen/bloc/profile_page/profile_bloc.dart';
-import 'package:scrapgreen/bloc/profile_page/profile_event.dart';
-import 'package:scrapgreen/bloc/profile_page/profile_state.dart';
+import 'package:scrapgreen/models/response/password_response.dart';
+import 'package:scrapgreen/bloc/change_password/cp_bloc.dart';
+import 'package:scrapgreen/bloc/change_password/cp_event.dart';
+import 'package:scrapgreen/bloc/change_password/cp_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChangePassword extends StatefulWidget {
@@ -23,7 +23,7 @@ class _ChangePasswordState extends State<ChangePassword> {
   TextEditingController _confirm_password = TextEditingController();
   void initState() {
     super.initState();
-    BlocProvider.of<ProfilePageBloc>(context).add(GetProfile());
+    BlocProvider.of<ChangePasswordBloc>(context).add(GetPassword());
   }
   Future<bool> _onWillPop(BuildContext context) async {
     Navigator.of(scaffoldKey.currentContext).pop(true);
@@ -50,37 +50,37 @@ class _ChangePasswordState extends State<ChangePassword> {
                 Flexible(
                   flex: 1,
                   child: BlocConsumer(
-                    bloc: BlocProvider.of<ProfilePageBloc>(context),
+                    bloc: BlocProvider.of<ChangePasswordBloc>(context),
                     listener: (context, state) {
                       print(state.response);
-                      if (state is ProfileLoaded) {
+                      if (state is ChangePasswordLoaded) {
                         _setData(state.response);
                       }
-                      if (state is ProfileUpdated) {
+                      if (state is PasswordUpdated) {
                         _showSuccessMessage(state.response.msg);
-                        BlocProvider.of<ProfilePageBloc>(context).add(GetProfile());
+                        BlocProvider.of<ChangePasswordBloc>(context).add(GetPassword());
                       }
-                      if (state is ProfileError) {
+                      if (state is ChangePasswordError) {
                         _showError(state.msg);
                       }
                     },
                     builder: (context, state) {
-                      if (state is ProfileLoaded) {
+                      if (state is ChangePasswordLoaded) {
                         return buildChangePasswordScreen();
-                      } else if (state is ProfileLoading) {
+                      } else if (state is ChangePasswordUploading) {
                         return Center(
                           child: AppSingleton.instance.buildCenterSizedProgressBar(),
                         );
-                      } else if (state is ProfileError) {
+                      } else if (state is ChangePasswordError) {
                         return Center(
                           child: Text(
                             'Failed to get user data error',
                             style: AppTextStyle.bold(Colors.red, 30.0),
                           ),
                         );
-                      } else if (state is ProfileUploading) {
+                      } else if (state is ChangePasswordUploading) {
                         return AppSingleton.instance.buildCenterSizedProgressBar();
-                      } else if (state is ProfileEmpty) {
+                      } else if (state is ChangePasswordEmpty) {
                         return Center(
                           child: Text(
                             'Failed to get user data',
@@ -206,8 +206,8 @@ class _ChangePasswordState extends State<ChangePassword> {
               Constants.PARAM_NEW_PASS: _new_password.text,
             };
             print(body);
-            BlocProvider.of<ProfilePageBloc>(context)
-                .add(UpdateProfile(body: body));
+            BlocProvider.of<ChangePasswordBloc>(context)
+                .add(UpdatePassword(body: body));
           }
         },
         // color: AppSingleton.instance.getPrimaryColor(),
@@ -239,8 +239,8 @@ class _ChangePasswordState extends State<ChangePassword> {
     }
   }
 
-  void _setData(ProfileResponse response) {
-    print(response.data);
+  void _setData(PasswordResponse response) {
+//    print('test ${response.data}');
     _id = response.data.id;
   }
   void _showSuccessMessage(String message) {
