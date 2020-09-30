@@ -23,13 +23,7 @@ class _SettingsState extends State<Settings> {
   String _id,
       _name,
       _email,
-      _mobile,
-      _address_line1,
-      _address_line2,
-      _country,
-      _state,
-      _city,
-      _pin_code;
+      _mobile;
   @override
   void initState() {
     super.initState();
@@ -37,9 +31,10 @@ class _SettingsState extends State<Settings> {
   }
 
   onTap() {
-    if (scaffoldKey.currentContext != null) {
-      Navigator.of(scaffoldKey.currentContext).pop(true);
-    }
+//    if (scaffoldKey.currentContext != null) {
+//      Navigator.of(scaffoldKey.currentContext).pop(true);
+//    }
+      Navigator.pushNamed(context, Constants.ROUTE_HOME);
   }
 
   Widget build(BuildContext context) {
@@ -306,12 +301,6 @@ class _SettingsState extends State<Settings> {
     _name = response.data.name;
     _email = response.data.email;
     _mobile = response.data.mobile;
-    _address_line1 = response.data.address_line1;
-    _address_line2 = response.data.address_line2;
-    _country = response.data.country;
-    _state = response.data.state;
-    _city = response.data.city;
-    _pin_code = response.data.pin_code;
   }
 
   void _showSuccessMessage(String message) {

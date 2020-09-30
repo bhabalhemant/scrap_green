@@ -14,6 +14,8 @@ import 'package:scrapgreen/bloc/splash_bloc.dart';
 import 'package:scrapgreen/bloc/profile_page/profile_bloc.dart';
 import 'package:scrapgreen/bloc/settings/profile_bloc.dart';
 import 'package:scrapgreen/bloc/change_password/cp_bloc.dart';
+import 'package:scrapgreen/bloc/contact_us_bloc.dart';
+import 'package:scrapgreen/bloc/rate_card/rate_card_bloc.dart';
 import 'package:scrapgreen/generated/codegen_loader.g.dart';
 import 'package:scrapgreen/ui/carousel_demo.dart';
 import 'package:scrapgreen/ui/forgot_password_screen.dart';
@@ -49,7 +51,7 @@ import 'package:location/location.dart';
 final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
+FlutterLocalNotificationsPlugin();
 
 NotificationAppLaunchDetails notificationAppLaunchDetails;
 
@@ -57,10 +59,10 @@ Future<void> main() async {
   // needed if you intend to initialize in the `main` function
   WidgetsFlutterBinding.ensureInitialized();
   notificationAppLaunchDetails =
-      await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+  await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
 
   var initializationSettingsAndroid =
-      AndroidInitializationSettings('logo');
+  AndroidInitializationSettings('logo');
   // Note: permissions aren't requested here just to demonstrate that can be done later using the `requestPermissions()` method
   // of the `IOSFlutterLocalNotificationsPlugin` class
   var initializationSettingsIOS = IOSInitializationSettings(
@@ -77,10 +79,10 @@ Future<void> main() async {
 
   await flutterLocalNotificationsPlugin.initialize(initializationSettings,
       onSelectNotification: (String payload) async {
-    if (payload != null) {
-      debugPrint('notification payload: ' + payload);
-    }
-  });
+        if (payload != null) {
+          debugPrint('notification payload: ' + payload);
+        }
+      });
 
   BlocSupervisor.delegate = SimpleBlocDelegate();
 
@@ -130,6 +132,12 @@ Future<void> main() async {
           ),
           BlocProvider<ChangePasswordBloc>(
             create: (context) => ChangePasswordBloc(),
+          ),
+          BlocProvider<ContactUsBloc>(
+            create: (context) => ContactUsBloc(),
+          ),
+          BlocProvider<RateCardBloc>(
+            create: (context) => RateCardBloc(),
           ),
         ],
         child: MyApp(),

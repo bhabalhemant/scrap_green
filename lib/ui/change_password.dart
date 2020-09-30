@@ -8,6 +8,7 @@ import 'package:scrapgreen/bloc/change_password/cp_bloc.dart';
 import 'package:scrapgreen/bloc/change_password/cp_event.dart';
 import 'package:scrapgreen/bloc/change_password/cp_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../repository/repository.dart';
 
 class ChangePassword extends StatefulWidget {
   @override
@@ -21,8 +22,14 @@ class _ChangePasswordState extends State<ChangePassword> {
   TextEditingController _old_password = TextEditingController();
   TextEditingController _new_password = TextEditingController();
   TextEditingController _confirm_password = TextEditingController();
+  bool passwordVisible1;
+  bool passwordVisible2;
+  bool passwordVisible3;
   void initState() {
     super.initState();
+    passwordVisible1 = false;
+    passwordVisible2 = false;
+    passwordVisible3 = false;
     BlocProvider.of<ChangePasswordBloc>(context).add(GetPassword());
   }
   Future<bool> _onWillPop(BuildContext context) async {
@@ -107,47 +114,6 @@ class _ChangePasswordState extends State<ChangePassword> {
     }
   }
 
-  SizedBox getFormField(
-      {@required String hint,
-        @required TextEditingController ctr,
-        TextInputType type,
-        int maxLength,
-        BlacklistingTextInputFormatter restrictFormat,
-        TextCapitalization textCap,
-        bool obscureText = false}) {
-    return SizedBox(
-      height: AppSingleton.instance.getHeight(45),
-      child: TextFormField(
-        controller: ctr,
-        obscureText: obscureText,
-        textCapitalization:
-        textCap == null ? TextCapitalization.sentences : textCap,
-        keyboardType: type == null ? TextInputType.text : type,
-        maxLength: maxLength == null ? null : maxLength,
-        inputFormatters: restrictFormat == null ? null : [restrictFormat],
-        maxLines: 1,
-        maxLengthEnforced: true,
-        decoration: InputDecoration(
-          counterText: '',
-          counterStyle: TextStyle(fontSize: 0),
-          fillColor: AppSingleton.instance.getLightGrayColor(),
-          border: AppSingleton.instance.getLightGrayOutLineBorder(),
-          focusedBorder: AppSingleton.instance.getLightGrayOutLineBorder(),
-          disabledBorder: AppSingleton.instance.getLightGrayOutLineBorder(),
-          enabledBorder: AppSingleton.instance.getLightGrayOutLineBorder(),
-          errorBorder: AppSingleton.instance.getLightGrayOutLineBorder(),
-          focusedErrorBorder: AppSingleton.instance.getLightGrayOutLineBorder(),
-          filled: true,
-          hintText: hint,
-          hintStyle: AppTextStyle.regular(
-            Colors.grey,
-            AppSingleton.instance.getSp(14),
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget buildChangePasswordScreen () {
     return ListView(
       physics: ClampingScrollPhysics(),
@@ -158,22 +124,139 @@ class _ChangePasswordState extends State<ChangePassword> {
           child: Column(
             children: <Widget>[
               AppSingleton.instance.getSpacer(),
-              getFormField(
-                ctr: _old_password,
-                hint: 'Old password',
-                type: TextInputType.text,
+              TextFormField(
+                controller: _old_password,
+                obscureText: !passwordVisible1,
+                maxLines: 1,
+                maxLengthEnforced: true,
+                maxLength: 50,
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.only(left: 25),
+                  counterText: '',
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      passwordVisible1
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      color: Colors.green,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        passwordVisible1 = !passwordVisible1;
+                      });
+                    },
+                  ),
+                  counterStyle: TextStyle(fontSize: 0),
+                  fillColor: AppSingleton.instance.getLightGrayColor(),
+                  border: AppSingleton.instance.getLightGrayOutLineBorder(),
+                  focusedBorder:
+                  AppSingleton.instance.getLightGrayOutLineBorder(),
+                  disabledBorder:
+                  AppSingleton.instance.getLightGrayOutLineBorder(),
+                  enabledBorder:
+                  AppSingleton.instance.getLightGrayOutLineBorder(),
+                  errorBorder:
+                  AppSingleton.instance.getLightGrayOutLineBorder(),
+                  focusedErrorBorder:
+                  AppSingleton.instance.getLightGrayOutLineBorder(),
+                  filled: true,
+                  hintText: 'Old Password',
+                  hintStyle: AppTextStyle.regular(
+                    Colors.grey,
+                    AppSingleton.instance.getSp(14),
+                  ),
+                ),
               ),
               AppSingleton.instance.getSpacer(),
-              getFormField(
-                ctr: _new_password,
-                hint: 'New password',
-                type: TextInputType.text,
+              TextFormField(
+                controller: _new_password,
+                obscureText: !passwordVisible2,
+                maxLines: 1,
+                maxLengthEnforced: true,
+                maxLength: 50,
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.only(left: 25),
+                  counterText: '',
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      passwordVisible2
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      color: Colors.green,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        passwordVisible2 = !passwordVisible2;
+                      });
+                    },
+                  ),
+                  counterStyle: TextStyle(fontSize: 0),
+                  fillColor: AppSingleton.instance.getLightGrayColor(),
+                  border: AppSingleton.instance.getLightGrayOutLineBorder(),
+                  focusedBorder:
+                  AppSingleton.instance.getLightGrayOutLineBorder(),
+                  disabledBorder:
+                  AppSingleton.instance.getLightGrayOutLineBorder(),
+                  enabledBorder:
+                  AppSingleton.instance.getLightGrayOutLineBorder(),
+                  errorBorder:
+                  AppSingleton.instance.getLightGrayOutLineBorder(),
+                  focusedErrorBorder:
+                  AppSingleton.instance.getLightGrayOutLineBorder(),
+                  filled: true,
+                  hintText: 'New Password',
+                  hintStyle: AppTextStyle.regular(
+                    Colors.grey,
+                    AppSingleton.instance.getSp(14),
+                  ),
+                ),
               ),
               AppSingleton.instance.getSpacer(),
-              getFormField(
-                ctr: _confirm_password,
-                hint: 'Confirm new password',
-                type: TextInputType.text,
+              TextFormField(
+                controller: _confirm_password,
+                obscureText: !passwordVisible3,
+                maxLines: 1,
+                maxLengthEnforced: true,
+                maxLength: 50,
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.only(left: 25),
+                  counterText: '',
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      passwordVisible3
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      color: Colors.green,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        passwordVisible3 = !passwordVisible3;
+                      });
+                    },
+                  ),
+                  counterStyle: TextStyle(fontSize: 0),
+                  fillColor: AppSingleton.instance.getLightGrayColor(),
+                  border: AppSingleton.instance.getLightGrayOutLineBorder(),
+                  focusedBorder:
+                  AppSingleton.instance.getLightGrayOutLineBorder(),
+                  disabledBorder:
+                  AppSingleton.instance.getLightGrayOutLineBorder(),
+                  enabledBorder:
+                  AppSingleton.instance.getLightGrayOutLineBorder(),
+                  errorBorder:
+                  AppSingleton.instance.getLightGrayOutLineBorder(),
+                  focusedErrorBorder:
+                  AppSingleton.instance.getLightGrayOutLineBorder(),
+                  filled: true,
+                  hintText: 'Confirm Password',
+                  hintStyle: AppTextStyle.regular(
+                    Colors.grey,
+                    AppSingleton.instance.getSp(14),
+                  ),
+                ),
               ),
               AppSingleton.instance.getSpacer(),
               buildUpdateButton()
@@ -247,12 +330,50 @@ class _ChangePasswordState extends State<ChangePassword> {
     scaffoldKey.currentState.hideCurrentSnackBar();
     scaffoldKey.currentState
         .showSnackBar(AppSingleton.instance.getSuccessSnackBar(message));
+    var context = 'Please login again with new password.';
+    showAlertDialog();
   }
 
   void _showError(String message) {
     scaffoldKey.currentState.hideCurrentSnackBar();
     scaffoldKey.currentState
         .showSnackBar(AppSingleton.instance.getErrorSnackBar(message));
+  }
+
+  showAlertDialog() {  // set up the buttons
+    Widget cancelButton = FlatButton(
+      child: Text("Cancel"),
+      onPressed:  () {
+        Navigator.pushNamed(context, Constants.ROUTE_HOME);
+      },
+    );
+    Widget continueButton = FlatButton(
+      child: Text("Logout"),
+      onPressed:  () async {
+        var response = await Repository.instance.clearAllShardPrefs();
+        if (response) {
+                        Navigator.pushNamedAndRemoveUntil(scaffoldKey.currentContext,
+                            Constants.ROUTE_SIGN_IN, (Route<dynamic> route) => false);
+//          Navigator.pushNamed(context, Constants.ROUTE_SIGN_IN);
+        } else {
+          _showError('Failed to log out');
+        }
+      },
+    );  // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+//      title: Text("AlertDialog"),
+      content: Text("Please login again with new password?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );  // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 
 }

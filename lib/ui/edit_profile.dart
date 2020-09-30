@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'dart:async';
 
 class EditProfile extends StatefulWidget {
   @override
@@ -29,10 +30,9 @@ class _EditProfileState extends State<EditProfile> {
       _country,
       _state,
       _city,
-      _pin_code,
-      _schedule_date,
-      _password,
-      _retypePassword;
+      _pin_code;
+
+  Timer _timer;
 
   @override
   void dispose() {
@@ -186,51 +186,149 @@ class _EditProfileState extends State<EditProfile> {
         Padding(
           padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               AppSingleton.instance.getSpacer(),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
+                  child: Text(
+                    'Name',
+                    style: TextStyle(
+                        fontSize: 15.0,
+                        color: Colors.grey[600]
+                    ),
+                  ),
+                ),
+              ),
+
               getFormField(
                 ctr: _name,
                 hint: 'Name',
                 type: TextInputType.text,
               ),
-//              AppSingleton.instance.getSpacer(),
-//              getFormField(
-//                ctr: _mobile,
-//                hint: 'Mobile Number',
-//                type: TextInputType.number,
-//                maxLength: 10,
-//              ),
               AppSingleton.instance.getSpacer(),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
+                  child: Text(
+                    'Email',
+                    style: TextStyle(
+                        fontSize: 15.0,
+                        color: Colors.grey[600]
+                    ),
+                  ),
+                ),
+              ),
+              getFormField(
+                ctr: _email,
+                hint: 'Email',
+                type: TextInputType.text,
+              ),
+              AppSingleton.instance.getSpacer(),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
+                  child: Text(
+                    'Room No./Street',
+                    style: TextStyle(
+                        fontSize: 15.0,
+                        color: Colors.grey[600]
+                    ),
+                  ),
+                ),
+              ),
               getFormField(
                 ctr: _address_line1,
                 hint: 'Room No./Street',
                 type: TextInputType.text,
               ),
               AppSingleton.instance.getSpacer(),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
+                  child: Text(
+                    'Area',
+                    style: TextStyle(
+                        fontSize: 15.0,
+                        color: Colors.grey[600]
+                    ),
+                  ),
+                ),
+              ),
               getFormField(
                 ctr: _address_line2,
                 hint: 'Area',
                 type: TextInputType.text,
               ),
               AppSingleton.instance.getSpacer(),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
+                  child: Text(
+                    'Country',
+                    style: TextStyle(
+                        fontSize: 15.0,
+                        color: Colors.grey[600]
+                    ),
+                  ),
+                ),
+              ),
               getFormField(
                 ctr: _country,
                 hint: 'Country',
                 type: TextInputType.text,
               ),
               AppSingleton.instance.getSpacer(),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
+                  child: Text(
+                    'State',
+                    style: TextStyle(
+                        fontSize: 15.0,
+                        color: Colors.grey[600]
+                    ),
+                  ),
+                ),
+              ),
               getFormField(
                 ctr: _state,
                 hint: 'State',
                 type: TextInputType.text,
               ),
               AppSingleton.instance.getSpacer(),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
+                  child: Text(
+                    'City',
+                    style: TextStyle(
+                        fontSize: 15.0,
+                        color: Colors.grey[600]
+                    ),
+                  ),
+                ),
+              ),
               getFormField(
                 ctr: _city,
                 hint: 'City',
                 type: TextInputType.text,
               ),
               AppSingleton.instance.getSpacer(),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
+                  child: Text(
+                    'Pin Code',
+                    style: TextStyle(
+                        fontSize: 15.0,
+                        color: Colors.grey[600]
+                    ),
+                  ),
+                ),
+              ),
               getFormField(
                 ctr: _pin_code,
                 hint: 'Pin Code',
@@ -252,7 +350,7 @@ class _EditProfileState extends State<EditProfile> {
                     }
                   },
                   builder: (context, state) {
-                    print('stste $state');
+//                    print('stste $state');
                     if (state is ProfileLoading) {
                       return AppSingleton.instance
                           .buildCenterSizedProgressBar();
@@ -273,6 +371,7 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 
+
   Widget buildUpdateButton() {
     return SizedBox(
       width: double.infinity,
@@ -292,6 +391,7 @@ class _EditProfileState extends State<EditProfile> {
             Map<String, String> body = {
               Constants.PARAM_ID: _id,
               Constants.PARAM_NAME: _name.text,
+              Constants.PARAM_EMAIL: _email.text,
 //              Constants.PARAM_MOBILE: _mobile.text,
               Constants.PARAM_ADDRESS1: _address_line1.text,
               Constants.PARAM_ADDRESS2: _address_line2.text,
@@ -322,9 +422,9 @@ class _EditProfileState extends State<EditProfile> {
     } else if (_name.text.isEmpty) {
       _showError('Please enter your name');
       return false;
-//    } else if (!EmailValidator.validate(_email.text)) {
-//      _showError('Please enter valid email');
-//      return false;
+    } else if (!EmailValidator.validate(_email.text)) {
+      _showError('Please enter valid email');
+      return false;
 //    } else if (_mobile.text.isEmpty) {
 //      _showError('Please enter your mobile number');
 //      return false;
@@ -369,6 +469,10 @@ class _EditProfileState extends State<EditProfile> {
     scaffoldKey.currentState.hideCurrentSnackBar();
     scaffoldKey.currentState
         .showSnackBar(AppSingleton.instance.getSuccessSnackBar(message));
+    _timer = new Timer(const Duration(milliseconds: 1000), () {
+      Navigator.pushNamed(context, Constants.ROUTE_PROFILE_PAGE);
+    });
+
   }
 
   void _showError(String message) {
