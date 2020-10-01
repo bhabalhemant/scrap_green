@@ -41,8 +41,7 @@ class _HomeState extends State<Home> {
           IconButton(
             icon: Icon(Icons.account_circle),
             onPressed: () async {
-                Navigator.pushNamedAndRemoveUntil(scaffoldKey.currentContext,
-                    Constants.ROUTE_PROFILE_PAGE, (Route<dynamic> route) => false);
+              Navigator.pushNamed(context, Constants.ROUTE_SETTING);
             },
             color: Colors.lightGreen,
           ),
@@ -73,7 +72,6 @@ class _HomeState extends State<Home> {
                         // 'Check our latest rate card here',
                         LocaleKeys.check_rate_card,
                         style: TextStyle(color: Colors.white, fontSize: 13),
-
                         textAlign: TextAlign.left,
                       ).tr(),
                       Text(
@@ -258,6 +256,9 @@ class _HomeState extends State<Home> {
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.green,
+              ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
@@ -269,7 +270,7 @@ class _HomeState extends State<Home> {
                     alignment: Alignment.center,
                     child: Icon(
                       Icons.account_circle,
-                      color: Colors.grey,
+                      color: Colors.white,
                       size: 75,
                     ),
                   ),
@@ -277,7 +278,8 @@ class _HomeState extends State<Home> {
                     padding: EdgeInsets.fromLTRB(30, 30, 0, 8),
                     child: Text('Hemant Bhabal',
                       style: TextStyle(
-                        fontWeight: FontWeight.bold
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white
                       ),
                     ),
                   ),

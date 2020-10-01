@@ -1,4 +1,4 @@
-import 'package:scrapgreen/models/response/profile_response.dart';
+import 'package:scrapgreen/models/response/vendor_profile_response.dart';
 import 'package:scrapgreen/models/response/sign_in_vendor_response.dart';
 import 'package:scrapgreen/repository/repository.dart';
 import 'package:scrapgreen/utils/constants.dart' as Constants;
@@ -26,11 +26,11 @@ class SignInVendorBloc extends Bloc<SignInVendorEventBase, SignInVendorState> {
           await Repository.instance.attemptSignInVendor(event.body);
       if (response.status == true) {
         Map<String, String> params = {Constants.PARAM_ID: response.data.id};
-        ProfileResponse profileResponse =
-            await Repository.instance.getUserData(params);
+//        print('qwertyu${params}');
+        VendorProfileResponse vendorProfileResponse =
+            await Repository.instance.getVendorData(response.data.id);
         bool isStored =
-            await Repository.instance.storeUserData(profileResponse.toJson());
-            // print(isStored);
+            await Repository.instance.storeUserData(vendorProfileResponse.toJson());
         if (isStored) {
           yield SignInVendorLoaded(response: response);
         } else {

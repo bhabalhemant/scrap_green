@@ -13,6 +13,7 @@ import 'package:scrapgreen/models/response/password_response.dart';
 import 'package:scrapgreen/models/response/password_update_response.dart';
 import 'package:scrapgreen/models/response/contact_us_response.dart';
 import 'package:scrapgreen/models/response/rate_card_response.dart';
+import 'package:scrapgreen/models/response/vendor_profile_response.dart';
 import 'package:scrapgreen/network/api_provider.dart';
 import 'package:scrapgreen/utils/constants.dart' as Constants;
 import 'package:scrapgreen/models/response/sign_in_vendor_response.dart';
@@ -66,6 +67,17 @@ class Repository {
   Future<ProfileResponse> getUserData(Map<String, String> body) async {
     final response = await ApiProvider.instance.post("edit_profile", body);
     return ProfileResponse.fromJson(response);
+  }
+
+//  Future<VendorProfileResponse> getVendorData(Map<String, String> body) async {
+//    final response = await ApiProvider.instance.post("edit_profile", body);
+//    return VendorProfileResponse.fromJson(response);
+//  }
+
+  Future<VendorProfileResponse> getVendorData(String userId) async {
+    print('asdfghj${userId}');
+    final response = await ApiProvider.instance.get("get_vendor_profile/$userId");
+    return VendorProfileResponse.fromJson(response);
   }
 
   Future<PasswordResponse> getUserId(Map<String, String> body) async {

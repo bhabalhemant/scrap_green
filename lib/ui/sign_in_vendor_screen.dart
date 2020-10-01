@@ -213,8 +213,7 @@ class _SignInVendorScreenState extends State<SignInVendorScreen> {
                             .buildCenterSizedProgressBar();
                       }
                       if (state is SignInVendorLoaded) {
-                        return AppSingleton.instance
-                            .buildCenterSizedProgressBar();
+                        return buildLoginButton();
                       }
                       return buildLoginButton();
                     },
