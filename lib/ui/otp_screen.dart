@@ -236,18 +236,18 @@ class OtpPageState extends State<OtpScreen> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 16.0),
+                    padding: const EdgeInsets.only(top: 15.0),
                     child: Image(
                       image: AssetImage('assets/otp_icon.png'),
-                      height: AppSingleton.instance.getHeight(100),
-                      width: AppSingleton.instance.getWidth(100),
+                      height: AppSingleton.instance.getHeight(80),
+                      width: AppSingleton.instance.getWidth(80),
                     ),
                   ),
-                  SizedBox(
-                    height: 15,
-                  ),
+//                  SizedBox(
+//                    height: 15,
+//                  ),
                   Container(
-                    height: 30,
+                    height: 0,
                     width: AppSingleton.instance.getWidth(140),
                     child: BlocConsumer(
                       bloc: BlocProvider.of<OtpBloc>(context),
@@ -348,7 +348,7 @@ class OtpPageState extends State<OtpScreen> {
                   new Container(
                     child: Padding(
                       padding: const EdgeInsets.only(
-                          left: 8.0, top: 16.0, right: 8.0, bottom: 0.0),
+                          left: 8.0, top: 0.0, right: 8.0, bottom: 0.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,

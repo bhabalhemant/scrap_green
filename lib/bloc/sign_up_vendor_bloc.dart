@@ -5,41 +5,41 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SignUpVendorBloc extends Bloc<SignUpEventBase, SignUpState> {
+class SignUpVendorBloc extends Bloc<SignUpVendorEventBase, SignUpVendorState> {
   SignUpVendorBloc();
 
   @override
-  SignUpState get initialState => Empty();
+  SignUpVendorState get initialState => Empty();
 
   @override
-  Stream<SignUpState> mapEventToState(SignUpEventBase event) async* {
-    if (event is SignUpEvent) {
-      yield* _mapSignUpEvent(event);
+  Stream<SignUpVendorState> mapEventToState(SignUpVendorEventBase event) async* {
+    if (event is SignUpVendorEvent) {
+      yield* _mapSignUpVendorEvent(event);
     } else if (event is FileSelectionEvent) {
       yield* _mapFileSelectionEvent(event);
     }
   }
 
-  Stream<SignUpState> _mapSignUpEvent(SignUpEvent event) async* {
-    yield SignUpLoading();
+  Stream<SignUpVendorState> _mapSignUpVendorEvent(SignUpVendorEvent event) async* {
+    yield SignUpVendorLoading();
     try {
       SignUpVendorResponse response =
           await Repository.instance.attemptSignUpVendor(event.body);
       if (response.status == true) {
-        yield SignUpLoaded(response: response);
+        yield SignUpVendorLoaded(response: response);
       } else {
-        yield SignUpError(msg: response.msg);
+        yield SignUpVendorError(msg: response.msg);
       }
     } catch (e) {
       if (e is String) {
-        yield SignUpError(msg: e);
+        yield SignUpVendorError(msg: e);
       } else {
-        yield SignUpError(msg: '$e');
+        yield SignUpVendorError(msg: '$e');
       }
     }
   }
 
-  Stream<SignUpState> _mapFileSelectionEvent(FileSelectionEvent event) async* {
+  Stream<SignUpVendorState> _mapFileSelectionEvent(FileSelectionEvent event) async* {
     if(event.path!=null&&event.path.isNotEmpty){
       yield FileSelected(path: event.path);
     }else{
@@ -48,20 +48,20 @@ class SignUpVendorBloc extends Bloc<SignUpEventBase, SignUpState> {
   }
 }
 
-abstract class SignUpEventBase extends Equatable {
-  SignUpEventBase();
+abstract class SignUpVendorEventBase extends Equatable {
+  SignUpVendorEventBase();
 }
 
-class SignUpEvent extends SignUpEventBase {
+class SignUpVendorEvent extends SignUpVendorEventBase {
   FormData body;
 
-  SignUpEvent({@required this.body}) : assert(body != null);
+  SignUpVendorEvent({@required this.body}) : assert(body != null);
 
   @override
   List<Object> get props => [body];
 }
 
-class FileSelectionEvent extends SignUpEventBase {
+class FileSelectionEvent extends SignUpVendorEventBase {
   String path;
 
   FileSelectionEvent({@required this.path}) : assert(path != null);
@@ -70,36 +70,36 @@ class FileSelectionEvent extends SignUpEventBase {
   List<Object> get props => [path];
 }
 
-abstract class SignUpState extends Equatable {
-  SignUpState();
+abstract class SignUpVendorState extends Equatable {
+  SignUpVendorState();
 
   @override
   List<Object> get props => [];
 }
 
-class Empty extends SignUpState {}
+class Empty extends SignUpVendorState {}
 
-class SignUpLoading extends SignUpState {}
+class SignUpVendorLoading extends SignUpVendorState {}
 
-class SignUpLoaded extends SignUpState {
+class SignUpVendorLoaded extends SignUpVendorState {
   final SignUpVendorResponse response;
 
-  SignUpLoaded({@required this.response}) : assert(response != null);
+  SignUpVendorLoaded({@required this.response}) : assert(response != null);
 
   @override
   List<Object> get props => [response];
 }
 
-class SignUpError extends SignUpState {
+class SignUpVendorError extends SignUpVendorState {
   final String msg;
 
-  SignUpError({@required this.msg}) : assert(msg != null);
+  SignUpVendorError({@required this.msg}) : assert(msg != null);
 
   @override
   List<Object> get props => [msg];
 }
 
-class FileSelected extends SignUpState {
+class FileSelected extends SignUpVendorState {
   final String path;
 
   FileSelected({@required this.path}) : assert(path != null);
@@ -109,7 +109,7 @@ class FileSelected extends SignUpState {
 }
 
 
-class FileSelectionFailedState extends SignUpState {
+class FileSelectionFailedState extends SignUpVendorState {
 
   FileSelectionFailedState();
 

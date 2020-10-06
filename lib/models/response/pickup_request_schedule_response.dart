@@ -1,34 +1,34 @@
-class PickUpRequestResponse {
+class PickUpRequestScheduleResponse {
   bool status;
-  List<Data> data;
+  List<Data1> data1;
   String msg;
 
-  PickUpRequestResponse({this.status, this.data, this.msg});
+  PickUpRequestScheduleResponse({this.status, this.data1, this.msg});
 
-  PickUpRequestResponse.fromJson(Map<String, dynamic> json) {
+  PickUpRequestScheduleResponse.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     if (json['data'] != null) {
-      data = new List<Data>();
+      data1 = new List<Data1>();
       json['data'].forEach((v) {
-        data.add(new Data.fromJson(v));
+        data1.add(new Data1.fromJson(v));
       });
     }
     msg = json['msg'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    if (this.data != null) {
-      data['data'] = this.data.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data1 = new Map<String, dynamic>();
+    data1['status'] = this.status;
+    if (this.data1 != null) {
+      data1['data'] = this.data1.map((v) => v.toJson()).toList();
     }
-    data['msg'] = this.msg;
+    data1['msg'] = this.msg;
 //    print(data);
-    return data;
+    return data1;
   }
 }
 
-class Data {
+class Data1 {
   String id;
   String user_id;
   String name;
@@ -55,7 +55,7 @@ class Data {
   String last_modified_by;
   String last_modified_on;
 
-  Data(
+  Data1(
       {
         this.id,
         this.user_id,
@@ -85,7 +85,7 @@ class Data {
       }
     );
 
-  Data.fromJson(Map<String, dynamic> json) {
+  Data1.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     user_id = json['user_id'];
     name = json['name'];
@@ -114,33 +114,32 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id; 
-    data['user_id'] = this.user_id; 
-    data['name'] = this.name; 
-    data['mobile'] = this.mobile; 
-    data['address_line1'] = this.address_line1; 
-    data['address_line2'] = this.address_line2; 
-    data['country'] = this.country; 
-    data['state'] = this.state; 
-    data['city'] = this.city; 
-    data['pin_code'] = this.pin_code; 
-    data['latitude_longitude'] = this.latitude_longitude; 
-    data['schedule_date_time'] = this.schedule_date_time; 
-    data['request_status'] = this.request_status; 
-    data['vendor_id'] = this.vendor_id; 
-    data['pickup_date_time'] = this.pickup_date_time; 
-    data['admin_status'] = this.admin_status; 
-    data['warehouse_id'] = this.warehouse_id; 
-    data['payment_status'] = this.payment_status; 
-    data['payment_mode'] = this.payment_mode; 
-    data['payment_txn_id'] = this.payment_txn_id; 
-    data['total_amount'] = this.total_amount; 
-    data['created_on'] = this.created_on; 
-    data['created_by'] = this.created_by; 
-    data['last_modified_by'] = this.last_modified_by; 
-    data['last_modified_on'] = this.last_modified_on; 
-//    print(data);
-    return data;
+    final Map<String, dynamic> data1 = new Map<String, dynamic>();
+    data1['id'] = this.id;
+    data1['user_id'] = this.user_id;
+    data1['name'] = this.name;
+    data1['mobile'] = this.mobile;
+    data1['address_line1'] = this.address_line1;
+    data1['address_line2'] = this.address_line2;
+    data1['country'] = this.country;
+    data1['state'] = this.state;
+    data1['city'] = this.city;
+    data1['pin_code'] = this.pin_code;
+    data1['latitude_longitude'] = this.latitude_longitude;
+    data1['schedule_date_time'] = this.schedule_date_time;
+    data1['request_status'] = this.request_status;
+    data1['vendor_id'] = this.vendor_id;
+    data1['pickup_date_time'] = this.pickup_date_time;
+    data1['admin_status'] = this.admin_status;
+    data1['warehouse_id'] = this.warehouse_id;
+    data1['payment_status'] = this.payment_status;
+    data1['payment_mode'] = this.payment_mode;
+    data1['payment_txn_id'] = this.payment_txn_id;
+    data1['total_amount'] = this.total_amount;
+    data1['created_on'] = this.created_on;
+    data1['created_by'] = this.created_by;
+    data1['last_modified_by'] = this.last_modified_by;
+    data1['last_modified_on'] = this.last_modified_on;
+    return data1;
   }
 }

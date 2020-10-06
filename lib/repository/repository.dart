@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'package:scrapgreen/models/response/otp_verification_response.dart';
+import 'package:scrapgreen/models/response/otp_vendor_verification_response.dart';
 import 'package:scrapgreen/models/response/profile_response.dart';
 import 'package:scrapgreen/models/response/profile_update_response.dart';
 import 'package:scrapgreen/models/response/pickup_request_response.dart';
 import 'package:scrapgreen/models/response/resend_otp_response.dart';
+import 'package:scrapgreen/models/response/resend_otp_vendor_response.dart';
 import 'package:scrapgreen/models/response/sign_in_response.dart';
 import 'package:scrapgreen/models/response/sign_up_response.dart';
 import 'package:scrapgreen/models/response/sign_up_vendor_response.dart';
@@ -14,6 +16,9 @@ import 'package:scrapgreen/models/response/password_update_response.dart';
 import 'package:scrapgreen/models/response/contact_us_response.dart';
 import 'package:scrapgreen/models/response/rate_card_response.dart';
 import 'package:scrapgreen/models/response/vendor_profile_response.dart';
+import 'package:scrapgreen/models/response/pickup_request_schedule_response.dart';
+import 'package:scrapgreen/models/response/pickup_request_assigned_response.dart';
+import 'package:scrapgreen/models/response/pickup_request_success_response.dart';
 import 'package:scrapgreen/network/api_provider.dart';
 import 'package:scrapgreen/utils/constants.dart' as Constants;
 import 'package:scrapgreen/models/response/sign_in_vendor_response.dart';
@@ -59,9 +64,21 @@ class Repository {
     return OtpVerificationResponse.fromJson(response);
   }
 
+  Future<OtpVendorVerificationResponse> vendorOtpVerification(
+      Map<String, String> body) async {
+    final response =
+    await ApiProvider.instance.post("vendor_otp_verification", body);
+    return OtpVendorVerificationResponse.fromJson(response);
+  }
+
   Future<ResendOtpResponse> resendOtp(Map<String, String> body) async {
     final response = await ApiProvider.instance.post("resend_otp", body);
     return ResendOtpResponse.fromJson(response);
+  }
+
+  Future<ResendOtpVendorResponse> resendOtpVendor(Map<String, String> body) async {
+    final response = await ApiProvider.instance.post("resend_vendor_otp", body);
+    return ResendOtpVendorResponse.fromJson(response);
   }
 
   Future<ProfileResponse> getUserData(Map<String, String> body) async {
@@ -69,15 +86,15 @@ class Repository {
     return ProfileResponse.fromJson(response);
   }
 
-//  Future<VendorProfileResponse> getVendorData(Map<String, String> body) async {
-//    final response = await ApiProvider.instance.post("edit_profile", body);
-//    return VendorProfileResponse.fromJson(response);
-//  }
-
   Future<VendorProfileResponse> getVendorData(String userId) async {
-    print('asdfghj${userId}');
     final response = await ApiProvider.instance.get("get_vendor_profile/$userId");
     return VendorProfileResponse.fromJson(response);
+  }
+
+  Future<VendorProfileResponse> getStoredVendorData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return VendorProfileResponse.fromJson(
+        json.decode(prefs.getString(Constants.PARAM_VENDOR_DATA)));
   }
 
   Future<PasswordResponse> getUserId(Map<String, String> body) async {
@@ -85,12 +102,28 @@ class Repository {
     return PasswordResponse.fromJson(response);
   }
 
-
-
   Future<PickUpRequestResponse> getPickUpRequestData(String userId,String startFrom) async {
     // final response = await ApiProvider.instance.get("get_user_pickup_request?user_id=4&request_status=0&limit=30&start_from=$startFrom");
         final response = await ApiProvider.instance.get("get_user_pickup_request?user_id=$userId&request_status=0&limit=30&start_from=$startFrom");
     return PickUpRequestResponse.fromJson(response);
+  }
+
+  Future<PickUpRequestScheduleResponse> getPickUpRequestScheduleData(String userId,String startFrom) async {
+    final response = await ApiProvider.instance.get("get_user_scheduled_pickup_request?user_id=$userId&request_status=0&limit=30&start_from=$startFrom");
+//    print('schedule');
+    return PickUpRequestScheduleResponse.fromJson(response);
+  }
+
+  Future<PickUpRequestAssignedResponse> getPickUpRequestAssignedData(String userId,String startFrom) async {
+//    print('assign');
+    final response = await ApiProvider.instance.get("get_user_assigned_pickup_request?user_id=$userId&request_status=0&limit=30&start_from=$startFrom");
+    return PickUpRequestAssignedResponse.fromJson(response);
+  }
+
+  Future<PickUpRequestSuccessResponse> getPickUpRequestSuccessData(String userId,String startFrom) async {
+//    print('success');
+    final response = await ApiProvider.instance.get("get_user_other_pickup_request?user_id=$userId&request_status=0&limit=30&start_from=$startFrom");
+    return PickUpRequestSuccessResponse.fromJson(response);
   }
 
   Future<ProfileUpdateResponse> updateProfile(Map<String, String> body) async {
@@ -138,15 +171,38 @@ class Repository {
         json.decode(prefs.getString(Constants.PARAM_PICKUP_REQUEST_DATA)));
   }
 
+  Future<PickUpRequestResponse> getStoredPickUpRequestScheduledData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return PickUpRequestResponse.fromJson(
+        json.decode(prefs.getString(Constants.PARAM_PICKUP_REQUEST_SCHEDULE_DATA)));
+  }
+
+  Future<PickUpRequestResponse> getStoredPickUpRequestAssignedData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return PickUpRequestResponse.fromJson(
+        json.decode(prefs.getString(Constants.PARAM_PICKUP_REQUEST_ASSIGNED_DATA)));
+  }
+
+  Future<PickUpRequestResponse> getStoredPickUpRequestSuccessData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return PickUpRequestResponse.fromJson(
+        json.decode(prefs.getString(Constants.PARAM_PICKUP_REQUEST_SUCCESS_DATA)));
+  }
+
   Future<bool> storeUserData(Map<String, dynamic> response) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return await prefs.setString(
         Constants.PARAM_USER_DATA, json.encode(response));
   }
 
+  Future<bool> storeVendorData(Map<String, dynamic> response) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return await prefs.setString(
+        Constants.PARAM_VENDOR_DATA, json.encode(response));
+  }
+
   Future<bool> storeRateCardData(Map<String, dynamic> response) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-//    print(response);
     return await prefs.setString(
         Constants.PARAM_RATE_CARD_DATA, json.encode(response));
   }
@@ -170,6 +226,24 @@ class Repository {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return await prefs.setString(
         Constants.PARAM_PICKUP_REQUEST_DATA, json.encode(response));
+  }
+
+  Future<bool> storePickUpScheduleData(Map<String, dynamic> response) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return await prefs.setString(
+        Constants.PARAM_PICKUP_REQUEST_SCHEDULE_DATA, json.encode(response));
+  }
+
+  Future<bool> storePickUpAssignedData(Map<String, dynamic> response) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return await prefs.setString(
+        Constants.PARAM_PICKUP_REQUEST_ASSIGNED_DATA, json.encode(response));
+  }
+
+  Future<bool> storePickUpSuccessData(Map<String, dynamic> response) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return await prefs.setString(
+        Constants.PARAM_PICKUP_REQUEST_SUCCESS_DATA, json.encode(response));
   }
 
   Future<bool> clearAllShardPrefs() async {

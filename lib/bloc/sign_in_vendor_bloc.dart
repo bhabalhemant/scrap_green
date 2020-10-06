@@ -26,11 +26,10 @@ class SignInVendorBloc extends Bloc<SignInVendorEventBase, SignInVendorState> {
           await Repository.instance.attemptSignInVendor(event.body);
       if (response.status == true) {
         Map<String, String> params = {Constants.PARAM_ID: response.data.id};
-//        print('qwertyu${params}');
         VendorProfileResponse vendorProfileResponse =
             await Repository.instance.getVendorData(response.data.id);
         bool isStored =
-            await Repository.instance.storeUserData(vendorProfileResponse.toJson());
+            await Repository.instance.storeVendorData(vendorProfileResponse.toJson());
         if (isStored) {
           yield SignInVendorLoaded(response: response);
         } else {

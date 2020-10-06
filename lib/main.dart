@@ -1,11 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:scrapgreen/ui/otp_vendor_screen.dart';
 import 'package:scrapgreen/ui/sign_in_vendor_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:scrapgreen/bloc/forgot_password_bloc.dart';
 import 'package:scrapgreen/bloc/otp/otp_bloc.dart';
+import 'package:scrapgreen/bloc/vendor_otp/otp_vendor_bloc.dart';
 import 'package:scrapgreen/bloc/sign_in_bloc.dart';
 import 'package:scrapgreen/bloc/sign_in_vendor_bloc.dart';
 import 'package:scrapgreen/bloc/sign_up_bloc.dart';
@@ -16,6 +18,10 @@ import 'package:scrapgreen/bloc/settings/profile_bloc.dart';
 import 'package:scrapgreen/bloc/change_password/cp_bloc.dart';
 import 'package:scrapgreen/bloc/contact_us_bloc.dart';
 import 'package:scrapgreen/bloc/rate_card/rate_card_bloc.dart';
+import 'package:scrapgreen/bloc/vendor_profile/vendor_profile_bloc.dart';
+import 'package:scrapgreen/bloc/schedule_history_bloc.dart';
+import 'package:scrapgreen/bloc/assigned_history_bloc.dart';
+import 'package:scrapgreen/bloc/success_history_bloc.dart';
 import 'package:scrapgreen/generated/codegen_loader.g.dart';
 import 'package:scrapgreen/ui/carousel_demo.dart';
 import 'package:scrapgreen/ui/forgot_password_screen.dart';
@@ -39,6 +45,7 @@ import 'package:scrapgreen/ui/profile_1.dart';
 import 'package:scrapgreen/ui/edit_profile.dart';
 import 'package:scrapgreen/ui/change_password.dart';
 import 'package:scrapgreen/ui/contact_us.dart';
+import 'package:scrapgreen/ui/otp_screen.dart';
 import 'package:scrapgreen/utils/constants.dart' as Constants;
 import 'package:scrapgreen/utils/custom_route.dart';
 import 'package:scrapgreen/utils/simple_bloc_delegate.dart';
@@ -138,6 +145,21 @@ Future<void> main() async {
           ),
           BlocProvider<RateCardBloc>(
             create: (context) => RateCardBloc(),
+          ),
+          BlocProvider<VendorProfileBloc>(
+            create: (context) => VendorProfileBloc(),
+          ),
+          BlocProvider<OtpVendorBloc>(
+            create: (context) => OtpVendorBloc(),
+          ),
+          BlocProvider<ScheduleHistoryBloc>(
+            create: (context) => ScheduleHistoryBloc(),
+          ),
+          BlocProvider<AssignedHistoryBloc>(
+            create: (context) => AssignedHistoryBloc(),
+          ),
+          BlocProvider<SuccessHistoryBloc>(
+            create: (context) => SuccessHistoryBloc(),
           ),
         ],
         child: MyApp(),
@@ -377,6 +399,11 @@ class _MyAppState extends State<MyApp> {
           case Constants.ROUTE_CONTACT_US:
             return CustomRoute(
               builder: (_) => ContactUs(),
+              settings: settings,
+            );
+          case Constants.ROUTE_VENDOR_OTP:
+            return CustomRoute(
+              builder: (_) => OtpVendorScreen(),
               settings: settings,
             );
           default:

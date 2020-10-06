@@ -32,9 +32,8 @@ class _RateCardState extends State<RateCard> {
   String _last_modified_by;
   @override
   onTap() {
-    if (scaffoldKey.currentContext != null) {
-      Navigator.of(scaffoldKey.currentContext).pop(true);
-    }
+    Navigator.pushNamed(
+        context, Constants.ROUTE_HOME);
   }
   void initState() {
     super.initState();

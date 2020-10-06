@@ -1,5 +1,5 @@
 import 'package:scrapgreen/base_widgets/app_textstyle.dart';
-import 'package:scrapgreen/bloc/otp/otp_bloc.dart';
+import 'package:scrapgreen/bloc/vendor_otp/otp_vendor_bloc.dart';
 import 'package:scrapgreen/models/response/sign_up_vendor_response.dart';
 import 'package:scrapgreen/utils/constants.dart' as Constants;
 import 'package:scrapgreen/utils/count_down_timer.dart';
@@ -41,7 +41,7 @@ class OtpPageState extends State<OtpVendorScreen> {
   void initState() {
     super.initState();
     currController = controller1;
-    BlocProvider.of<OtpBloc>(context).add(TimerStopEvent(flag: false));
+    BlocProvider.of<OtpVendorBloc>(context).add(TimerStopEvent(flag: false));
   }
 
   @override
@@ -250,12 +250,12 @@ class OtpPageState extends State<OtpVendorScreen> {
                     height: 30,
                     width: AppSingleton.instance.getWidth(140),
                     child: BlocConsumer(
-                      bloc: BlocProvider.of<OtpBloc>(context),
+                      bloc: BlocProvider.of<OtpVendorBloc>(context),
                       listener: (context, state) {
-                        if (state is ResendOtpError) {
+                        if (state is ResendOtpVendorError) {
                           _showError(state.msg);
                         }
-                        if (state is ResendOtpLoaded) {
+                        if (state is ResendOtpVendorLoaded) {
                           _showSuccessMessage(state.response.msg);
                         }
                       },
@@ -265,7 +265,7 @@ class OtpPageState extends State<OtpVendorScreen> {
                             return CountDownTimer(
                               secondsRemaining: 10,
                               whenTimeExpires: () {
-                                BlocProvider.of<OtpBloc>(context)
+                                BlocProvider.of<OtpVendorBloc>(context)
                                     .add(TimerStopEvent(flag: true));
                               },
                               countDownTimerStyl: TextStyle(
@@ -276,14 +276,14 @@ class OtpPageState extends State<OtpVendorScreen> {
                             );
                           }
                         }
-                        if (state is ResendOtpError) {
+                        if (state is ResendOtpVendorError) {
                           return buildResendButton();
                         }
-                        if (state is ResendOtpLoading) {
+                        if (state is ResendOtpVendorLoading) {
                           return AppSingleton.instance.buildCenterSizedProgressBar();
                         }
-                        if (state is ResendOtpLoaded) {
-                          BlocProvider.of<OtpBloc>(context)
+                        if (state is ResendOtpVendorLoaded) {
+                          BlocProvider.of<OtpVendorBloc>(context)
                               .add(TimerStopEvent(flag: false));
                           return buildResendButton();
                         }
@@ -295,23 +295,23 @@ class OtpPageState extends State<OtpVendorScreen> {
                     height: 30,
                     width: 30,
                     child: BlocConsumer(
-                      bloc: BlocProvider.of<OtpBloc>(context),
+                      bloc: BlocProvider.of<OtpVendorBloc>(context),
                       listener: (context, state) {
-                        if (state is OtpVerificationError) {
+                        if (state is OtpVendorVerificationError) {
                           _showError(state.msg);
                         }
-                        if (state is OtpVerificationLoaded) {
+                        if (state is OtpVendorVerificationLoaded) {
                           matchOtp();
                         }
                       },
                       builder: (context, state) {
-                        if (state is OtpVerificationError) {
+                        if (state is OtpVendorVerificationError) {
                           return AppSingleton.instance.getBlankContainer();
                         }
-                        if (state is OtpVerificationLoaded) {
+                        if (state is OtpVendorVerificationLoaded) {
                           return AppSingleton.instance.getBlankContainer();
                         }
-                        if (state is OtpVerificationLoading) {
+                        if (state is OtpVendorVerificationLoading) {
                           return AppSingleton.instance.buildCenterSizedProgressBar();
                         }
                         return AppSingleton.instance.getBlankContainer();
@@ -508,8 +508,8 @@ class OtpPageState extends State<OtpVendorScreen> {
                                 Constants.PARAM_OTP: otp,
                                 Constants.PARAM_EMAIL_KEY: _data.data.emailKey,
                               };
-                              BlocProvider.of<OtpBloc>(context)
-                                  .add(OtpVerificationEvent(body: body));
+                              BlocProvider.of<OtpVendorBloc>(context)
+                                  .add(OtpVendorVerificationEvent(body: body));
                             },
                             child: Image.asset('assets/success.png',
                                 width: 25.0, height: 25.0),
@@ -538,7 +538,7 @@ class OtpPageState extends State<OtpVendorScreen> {
       ),
       onPressed: () {
         Map<String, String> body = {Constants.PARAM_MOBILE: _data.data.mobile};
-        BlocProvider.of<OtpBloc>(context).add(ResendOtpEvent(body: body));
+        BlocProvider.of<OtpVendorBloc>(context).add(ResendOtpVendorEvent(body: body));
       },
       color: AppSingleton.instance.getPrimaryColor(),
       textColor: AppSingleton.instance.getDarkBlueColor(),
@@ -563,12 +563,13 @@ class OtpPageState extends State<OtpVendorScreen> {
                   onPressed: () {
                     Navigator.pushNamedAndRemoveUntil(
                         scaffoldKey.currentContext,
-                        Constants.ROUTE_SIGN_IN,
+                        Constants.ROUTE_SIGN_IN_VENDOR,
                         (Route<dynamic> route) => false);
                   })
             ],
           );
         });
+
   }
 
   void inputTextToField(String str) {

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:scrapgreen/base_widgets/app_textstyle.dart';
 import 'package:scrapgreen/bloc/sign_up_vendor_bloc.dart';
 import 'package:scrapgreen/models/response/sign_up_vendor_response.dart';
@@ -262,20 +264,20 @@ class _SignUpVendorState extends State<SignUpVendor> {
                   child: BlocConsumer(
                     bloc: BlocProvider.of<SignUpVendorBloc>(context),
                     listener: (context, state) {
-                      if (state is SignUpError) {
+                      if (state is SignUpVendorError) {
                         _showError(state.msg);
                       }
-                      if (state is SignUpLoaded) {
+                      if (state is SignUpVendorLoaded) {
                         _showSuccessMessage(
                             state.response.data.msg, state.response);
                       }
                     },
                     builder: (context, state) {
-                      if (state is SignUpLoading) {
+                      if (state is SignUpVendorLoading) {
                         return AppSingleton.instance
                             .buildCenterSizedProgressBar();
                       }
-                      if (state is SignUpLoaded) {
+                      if (state is SignUpVendorLoaded) {
                         return AppSingleton.instance
                             .buildCenterSizedProgressBar();
                       }
@@ -389,7 +391,8 @@ class _SignUpVendorState extends State<SignUpVendor> {
                 _logo,
                 filename: fileName)
           });
-          BlocProvider.of<SignUpVendorBloc>(context).add(SignUpEvent(body: formData));
+          print(formData);
+          BlocProvider.of<SignUpVendorBloc>(context).add(SignUpVendorEvent(body: formData));
         //   }).catchError((e) {
         //   print(e);
         // });
@@ -470,12 +473,12 @@ class _SignUpVendorState extends State<SignUpVendor> {
     scaffoldKey.currentState.hideCurrentSnackBar();
     scaffoldKey.currentState
         .showSnackBar(AppSingleton.instance.getSuccessSnackBar(message));
-    // Timer(Duration(seconds: 1), () {
-    //   if (response != null && response.data.emailKey != null) {
-    //     Navigator.pushReplacementNamed(context, Constants.ROUTE_OTP,
-    //         arguments: response);
-    //   }
-    // });
+    Timer(Duration(seconds: 1), () {
+      if (response != null && response.data.emailKey != null) {
+        Navigator.pushReplacementNamed(context, Constants.ROUTE_VENDOR_OTP,
+            arguments: response);
+      }
+    });
   }
 
   void _showError(String message) {

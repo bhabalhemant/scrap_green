@@ -25,7 +25,7 @@ class HistoryBloc extends Bloc<HistoryEventBase, HistoryState> {
           await Repository.instance.getStoredUserData();
       if (storedData != null && storedData.data.id != null) {
         PickUpRequestResponse response =
-            await Repository.instance.getPickUpRequestData(storedData.data.id,event.startFrom);
+        await Repository.instance.getPickUpRequestData(storedData.data.id,event.startFrom);
         if (response.status) {
           yield HistoryLoaded(response: response);
         } else {
