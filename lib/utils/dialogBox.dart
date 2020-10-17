@@ -1,10 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:scrapgreen/models/addItem.dart';
+import 'package:scrapgreen/bloc/request_details/request_details_bloc.dart';
+import 'package:scrapgreen/bloc/request_details/request_details_event.dart';
+import 'package:scrapgreen/bloc/request_details/request_details_state.dart';
+import 'package:scrapgreen/models/material.dart';
 import 'package:scrapgreen/utils/constants.dart' as Constants;
+import 'package:scrapgreen/utils/singleton.dart';
+import 'package:dio/dio.dart' as dio;
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 final List<String> _material = [
     "Iron",
     "Copper",
   ];
+final List<MaterialItem> materialList = [
+  MaterialItem('1', 'IRON'),
+  MaterialItem('2', 'COPPER'),
+];
 final List<String> _unit = [
     "KG"
   ];
@@ -20,7 +32,8 @@ final List<AddItem> itemList = [];
 class DialogBoxState extends State<DialogBox>  {
   String _selectedUnit;
 String _selectedMaterial;
-
+String _amount;
+  final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   @override
   void initState() {
     super.initState();
@@ -29,31 +42,7 @@ String _selectedMaterial;
     _total = 0;
   }
 
-  updateButtonState(String value){
-    setState(() {
-      _selectedUnit;
-      _selectedMaterial;
-      var n = int.parse(value);
-      if(_selectedMaterial == 'Iron'){
-        _total = n*100;
-      }
-      else if(_selectedMaterial == 'Copper'){
-        // var n = int.parse(value);
-        _total = n*200;
-      }
-    });
-  }
-  itemCheck(){
-//    _selectedUnit;
-//    _selectedMaterial;
-//    _total;
-    setState(() {
-      itemList.add(AddItem(_selectedMaterial, quantityCtrl.text, _selectedUnit,_total.toString()));
-    });
-        print(itemList.length);
-    Navigator.pushReplacementNamed(context, Constants.ROUTE_REQUEST_DETAILS);
 
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,11 +84,10 @@ String _selectedMaterial;
                     }
                 },
                 hint: Text("Select Material", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Colors.black), maxLines: 1),
-                items: _material.map((item) {
+                items: materialList.map((item) {
                   return DropdownMenuItem(
-                    value: item,
-                    child: new Text(item,
-                      //value ?? "",
+                    value: item.id,
+                    child: new Text(item.material,
                       textAlign: TextAlign.left,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
@@ -108,7 +96,7 @@ String _selectedMaterial;
                   );
                 }).toList(),
                 onChanged: (value) {
-                  print(value);
+//                  print(value);
                   setState(() {
                     _selectedMaterial  = value;
                     print(_selectedMaterial);
@@ -144,10 +132,10 @@ String _selectedMaterial;
                   );
                 }).toList(),
                 onChanged: (value) {
-                  print(value);
+//                  print(value);
                   setState(() {
                     _selectedUnit  = value;
-                    print(_selectedUnit);
+//                    print(_selectedUnit);
                   });
                   
                 //getAddressDropdownValue(value);
@@ -237,8 +225,56 @@ String _selectedMaterial;
   // BuildContext context, GlobalKey key) async {
     
   // }
-  
-  checkValidation(value){
+  bool validate() {
+    if (_selectedMaterial.isEmpty) {
+      _showError('Please select Material.');
+      return false;
+    } else if (_selectedUnit.isEmpty) {
+      _showError('Please select unit.');
+      return false;
+    } else if (quantityCtrl.text.isEmpty) {
+      _showError('Please enter quantity.');
+      return false;
+    } else {
+      return true;
+    }
+  }
 
+  updateButtonState(String value){
+    setState(() {
+      _selectedUnit;
+      _selectedMaterial;
+      var n = int.parse(value);
+      if(_selectedMaterial == '1'){
+        _total = n*100;
+        _amount = _total.toString();
+      }
+      else if(_selectedMaterial == '2'){
+        // var n = int.parse(value);
+        _total = n*200;
+        _amount = _total.toString();
+      }
+    });
+  }
+
+  itemCheck() async{
+    if (validate()) {
+        Map<String, String> body = {
+          Constants.PARAM_USER_ID: "2",
+          Constants.PARAM_MATERIAL: _selectedMaterial,
+          Constants.PARAM_UNIT: _selectedUnit,
+          Constants.PARAM_QUANTITY: quantityCtrl.text,
+          Constants.PARAM_REQUEST_ID: "1",
+          Constants.PARAM_RATE_ID: "2",
+          Constants.PARAM_AMOUNT: _amount,
+        };
+      BlocProvider.of<RequestDetailsBloc>(context).add(UpdateRequestDetails(body: body));
+    }
+  }
+
+  void _showError(String message) {
+    scaffoldKey.currentState.hideCurrentSnackBar();
+    scaffoldKey.currentState
+        .showSnackBar(AppSingleton.instance.getErrorSnackBar(message));
   }
 }

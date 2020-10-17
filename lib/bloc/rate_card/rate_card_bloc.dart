@@ -25,15 +25,17 @@ class RateCardBloc extends Bloc<RateCardEvent, RateCardState> {
   Stream<RateCardState> _mapGetRateCardToState(GetRateCard event) async* {
     yield RateCardLoading();
     try {
-      print('try');
+//      print('try');
+      RateCardResponse response = await Repository.instance.getAllRateCards();
+      print(response.status);
 //      RateCardResponse storedData =
 //          await Repository.instance.getStoredRateCards();
 //      if (storedData != null) {
-        RateCardResponse response = await Repository.instance.getAllRateCards();
-        print(response.data);
+//        RateCardResponse response = await Repository.instance.getAllRateCards();
+//        print(response.data);
 //        bool isStored =
 //            await Repository.instance.storeRateCardData(response.toJson());
-        if (response.status) {
+        if (response.status == true) {
           yield RateCardLoaded(response: response);
         } else {
           yield RateCardError(msg: 'Failed to store user data!');
@@ -42,10 +44,12 @@ class RateCardBloc extends Bloc<RateCardEvent, RateCardState> {
 //        yield RateCardError(msg: 'Failed to get stored user data!');
 //      }
     } catch (e) {
-      print('no');
+
       if (e is String) {
+        print('no1'+e);
         yield RateCardError(msg: e);
       } else {
+        print('no2$e');
         yield RateCardError(msg: '$e');
       }
     }

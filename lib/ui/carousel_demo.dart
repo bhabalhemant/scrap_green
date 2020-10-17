@@ -148,7 +148,7 @@ class _CarouselDemoState extends State<CarouselDemo> {
             options: CarouselOptions(
                 enlargeCenterPage: true,
                 autoPlay: false,
-                carouselController: _controller,
+//                carouselController: _controller,
                 onPageChanged: (index, reason) {
                   setState(() {
                     _current = index;

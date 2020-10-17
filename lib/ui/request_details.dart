@@ -41,9 +41,10 @@ class _RequestDetailsState extends State<RequestDetails> {
   }
   @override
   onTap() {
-    if (scaffoldKey.currentContext != null) {
-      Navigator.of(scaffoldKey.currentContext).pop(true);
-    }
+//    if (scaffoldKey.currentContext != null) {
+//      Navigator.of(scaffoldKey.currentContext).pop(true);
+//    }
+    Navigator.pushNamed(context, Constants.ROUTE_VENDOR_REQUEST);
   }
 
   Widget build(BuildContext context) {

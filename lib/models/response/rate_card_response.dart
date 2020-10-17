@@ -1,13 +1,18 @@
 class RateCardResponse {
   bool status;
-  Data data;
+  List<Data> data;
   String msg;
 
   RateCardResponse({this.status, this.data, this.msg});
 
   RateCardResponse.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    if (json['data'] != null) {
+      data = new List<Data>();
+      json['data'].forEach((v) {
+        data.add(new Data.fromJson(v));
+      });
+    }
     msg = json['msg'];
   }
 
@@ -15,10 +20,9 @@ class RateCardResponse {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['status'] = this.status;
     if (this.data != null) {
-      data['data'] = this.data.toJson();
+      data['data'] = this.data.map((v) => v.toJson()).toList();
     }
     data['msg'] = this.msg;
-    print(data);
     return data;
   }
 }
@@ -37,7 +41,8 @@ class Data {
   String last_modified_on;
   String last_modified_by;
 
-  Data({
+  Data(
+      {
         this.id,
         this.icon,
         this.icon_original,
@@ -49,8 +54,9 @@ class Data {
         this.created_on,
         this.created_by,
         this.last_modified_on,
-        this.last_modified_by,
-      });
+        this.last_modified_by
+      }
+      );
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];

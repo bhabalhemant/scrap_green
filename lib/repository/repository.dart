@@ -19,6 +19,7 @@ import 'package:scrapgreen/models/response/vendor_profile_response.dart';
 import 'package:scrapgreen/models/response/pickup_request_schedule_response.dart';
 import 'package:scrapgreen/models/response/pickup_request_assigned_response.dart';
 import 'package:scrapgreen/models/response/pickup_request_success_response.dart';
+import 'package:scrapgreen/models/response/request_details_response.dart';
 import 'package:scrapgreen/network/api_provider.dart';
 import 'package:scrapgreen/utils/constants.dart' as Constants;
 import 'package:scrapgreen/models/response/sign_in_vendor_response.dart';
@@ -66,8 +67,7 @@ class Repository {
 
   Future<OtpVendorVerificationResponse> vendorOtpVerification(
       Map<String, String> body) async {
-    final response =
-    await ApiProvider.instance.post("vendor_otp_verification", body);
+    final response = await ApiProvider.instance.post("vendor_otp_verification", body);
     return OtpVendorVerificationResponse.fromJson(response);
   }
 
@@ -109,26 +109,31 @@ class Repository {
   }
 
   Future<PickUpRequestScheduleResponse> getPickUpRequestScheduleData(String userId,String startFrom) async {
-    final response = await ApiProvider.instance.get("get_user_scheduled_pickup_request?user_id=$userId&request_status=0&limit=30&start_from=$startFrom");
-//    print('schedule');
+    final response = await ApiProvider.instance.get("get_scheduled_pickup_request?user_id=$userId&request_status=0&limit=30&start_from=$startFrom");
+    print('schedule');
     return PickUpRequestScheduleResponse.fromJson(response);
   }
 
   Future<PickUpRequestAssignedResponse> getPickUpRequestAssignedData(String userId,String startFrom) async {
 //    print('assign');
-    final response = await ApiProvider.instance.get("get_user_assigned_pickup_request?user_id=$userId&request_status=0&limit=30&start_from=$startFrom");
+    final response = await ApiProvider.instance.get("get_assigned_pickup_request?user_id=$userId&request_status=0&limit=30&start_from=$startFrom");
     return PickUpRequestAssignedResponse.fromJson(response);
   }
 
   Future<PickUpRequestSuccessResponse> getPickUpRequestSuccessData(String userId,String startFrom) async {
 //    print('success');
-    final response = await ApiProvider.instance.get("get_user_other_pickup_request?user_id=$userId&request_status=0&limit=30&start_from=$startFrom");
+    final response = await ApiProvider.instance.get("get_other_pickup_request?user_id=$userId&request_status=0&limit=30&start_from=$startFrom");
     return PickUpRequestSuccessResponse.fromJson(response);
   }
 
   Future<ProfileUpdateResponse> updateProfile(Map<String, String> body) async {
     final response = await ApiProvider.instance.post("pickup_request", body);
     return ProfileUpdateResponse.fromJson(response);
+  }
+
+  Future<RequestDetailsResponse> addRequestDetails(Map<String, String> body) async {
+    final response = await ApiProvider.instance.post("add_pickup_items", body);
+    return RequestDetailsResponse.fromJson(response);
   }
 
   Future<ProfileUpdateResponse> updateUserProfile(Map<String, String> body) async {

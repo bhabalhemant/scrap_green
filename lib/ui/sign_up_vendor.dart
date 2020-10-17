@@ -365,15 +365,6 @@ class _SignUpVendorState extends State<SignUpVendor> {
       onPressed: () async {
         if (validate()) {
           scaffoldKey.currentState.hideCurrentSnackBar();
-          // _getCurrentLocation();
-    //       final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
-
-    // geolocator
-    //     .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-    //     .then((Position position) {
-    //         _currentPosition = position;
-    //         String _position = _currentPosition.latitude.toString() +'-'+ _currentPosition.longitude.toString();
-    //         print(_position);
         
           String fileName = _logo.split('/').last;
           dio.FormData formData = dio.FormData.fromMap({

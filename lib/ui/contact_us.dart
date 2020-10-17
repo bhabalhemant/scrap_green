@@ -6,6 +6,7 @@ import 'package:scrapgreen/bloc/contact_us_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scrapgreen/utils/constants.dart' as Constants;
 import 'dart:async';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class ContactUs extends StatefulWidget {
   @override
@@ -105,6 +106,8 @@ class _ContactUsState extends State<ContactUs> {
           child: Column(
             children: <Widget>[
               AppSingleton.instance.getSpacer(),
+              aboutUsBlock (),
+              AppSingleton.instance.getSpacer(),
               firstBlock (),
               AppSingleton.instance.getSpacer(),
               getFormField(
@@ -160,6 +163,113 @@ class _ContactUsState extends State<ContactUs> {
     );
   }
 
+  Widget aboutUsBlock () {
+    return Column(
+      children: <Widget>[
+        Align(
+          alignment: Alignment.center,
+          child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
+            child: Text(
+              'ABOUT US',
+              style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black
+              ),
+            ),
+          ),
+        ),
+        AnimatedContainer(
+          // Use the properties stored in the State class.
+          width: MediaQuery.of(context).size.width,
+          height: 600.0,
+          decoration: BoxDecoration(
+            color: Colors.grey[300],
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          // Define how long the animation should take.
+          duration: Duration(seconds: 1),
+          // Provide an optional curve to make the animation feel smoother.
+          curve: Curves.fastOutSlowIn,
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                  child: Text(
+                    'We intend to help out busy people to collect their recyclables by offering free pickup service. We offer doorstep collection service for individual houses and societies. Initially we started our services by collecting the old newspapers, milk packets and plastic bottles by raising awareness about the importance of recycling. We collect the recyclable material from consumer then send to respective manufacturing plant to make the new products. We offer free pickup service, accurate weight and right value for the recyclable materials  conveying social message to plant the trees and save the environment.',
+                    style: TextStyle(
+
+                    ),
+                      textAlign: TextAlign.justify,
+                  ),
+              ),
+              Align(
+                alignment: Alignment.center,
+//                child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
+                  child: Text(
+                    'WEBSITE',
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black
+                    ),
+//                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                child: Text(
+                  'www.scrapgreen.com',
+                  textAlign: TextAlign.justify,
+                ),
+              ),
+              Align(
+                alignment: Alignment.center,
+//                child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
+                child: Text(
+                  'PRIVACY',
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black
+                  ),
+//                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                child: Text(
+                  'www.scrapgreen.com/privacy',
+                  textAlign: TextAlign.justify,
+                ),
+              ),
+              Align(
+                alignment: Alignment.center,
+//                child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
+                child: Text(
+                  'TERMS & CONDITIONS',
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black
+                  ),
+//                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                child: Text(
+                  'www.scrapgreen.com/termsandcondition',
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget firstBlock () {
     return Column(
         children: <Widget>[
@@ -197,7 +307,7 @@ class _ContactUsState extends State<ContactUs> {
                     Icon(Icons.location_on),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Text('Allahabad Bank, Chembur.'),
+                      child: Text('Mulund, India'),
                     ),
                   ],
                 ),
@@ -209,7 +319,7 @@ class _ContactUsState extends State<ContactUs> {
                     Icon(Icons.call),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Text('+91 7738242013'),
+                      child: Text('(091) 367 09876'),
                     ),
                   ],
                 ),
@@ -221,7 +331,7 @@ class _ContactUsState extends State<ContactUs> {
                     Icon(Icons.email),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Text('hemant@apptroid.com'),
+                      child: Text('info@scrapgreen.com'),
                     ),
                   ],
                 ),

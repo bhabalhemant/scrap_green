@@ -39,11 +39,11 @@ class _HistoryState extends State<History> with SingleTickerProviderStateMixin{
     super.initState();
     _controller.addListener(_scrollListener);
     _tabController = new TabController(vsync: this, length: 3);
-//    _data1.clear();
-//    _data2.clear();
-//    _data3.clear();
-    BlocProvider.of<HistoryBloc>(context)
-        .add(HistoryEvent(startFrom: startFrom.toString()));
+    _data1.clear();
+    _data2.clear();
+    _data3.clear();
+//    BlocProvider.of<HistoryBloc>(context)
+//        .add(HistoryEvent(startFrom: startFrom.toString()));
     BlocProvider.of<ScheduleHistoryBloc>(context)
         .add(ScheduleHistoryEvent(startFrom: startFrom.toString()));
     BlocProvider.of<AssignedHistoryBloc>(context)
@@ -202,7 +202,6 @@ class _HistoryState extends State<History> with SingleTickerProviderStateMixin{
           ),
         ],
       ),
-//          ),
     );
   }
 
@@ -243,7 +242,6 @@ class _HistoryState extends State<History> with SingleTickerProviderStateMixin{
           ),
         ],
       ),
-//          ),
     );
   }
 

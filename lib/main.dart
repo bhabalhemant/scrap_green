@@ -22,6 +22,10 @@ import 'package:scrapgreen/bloc/vendor_profile/vendor_profile_bloc.dart';
 import 'package:scrapgreen/bloc/schedule_history_bloc.dart';
 import 'package:scrapgreen/bloc/assigned_history_bloc.dart';
 import 'package:scrapgreen/bloc/success_history_bloc.dart';
+import 'package:scrapgreen/bloc/schedule_pickup_bloc.dart';
+import 'package:scrapgreen/bloc/assigned_pickup_bloc.dart';
+import 'package:scrapgreen/bloc/success_pickup_bloc.dart';
+import 'package:scrapgreen/bloc/request_details/request_details_bloc.dart';
 import 'package:scrapgreen/generated/codegen_loader.g.dart';
 import 'package:scrapgreen/ui/carousel_demo.dart';
 import 'package:scrapgreen/ui/forgot_password_screen.dart';
@@ -160,6 +164,18 @@ Future<void> main() async {
           ),
           BlocProvider<SuccessHistoryBloc>(
             create: (context) => SuccessHistoryBloc(),
+          ),
+          BlocProvider<SchedulePickupBloc>(
+            create: (context) => SchedulePickupBloc(),
+          ),
+          BlocProvider<AssignedPickupBloc>(
+            create: (context) => AssignedPickupBloc(),
+          ),
+          BlocProvider<SuccessPickupBloc>(
+            create: (context) => SuccessPickupBloc(),
+          ),
+          BlocProvider<RequestDetailsBloc>(
+            create: (context) => RequestDetailsBloc(),
           ),
         ],
         child: MyApp(),

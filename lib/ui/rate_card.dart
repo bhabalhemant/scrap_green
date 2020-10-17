@@ -16,29 +16,64 @@ class RateCard extends StatefulWidget {
   _RateCardState createState() => _RateCardState();
 }
 
-class _RateCardState extends State<RateCard> {
+class _RateCardState extends State<RateCard> with SingleTickerProviderStateMixin {
+  TabController _tabController;
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-  String _id;
-  String _icon;
-  String _icon_original;
-  String _material;
-  String _unit;
-  String _unit_qty;
-  String _rate;
-  String _status;
-  String _created_on;
-  String _created_by;
-  String _last_modified_on;
-  String _last_modified_by;
+  String _id,
+      _name,
+      _email,
+      _mobile,
+      _address_line1,
+      _address_line2,
+      _country,
+      _state,
+      _city,
+      _pin_code,
+      _logo,
+      _logo_original;
+  String logo_path = 'https://apptroidtechnology.in/scrap_green/uploads/images/aaab7f8d09e7350e13201682ba2e4030.jpg';
+
+  int startFrom = 0;
+  ScrollController _controller = ScrollController();
+  List<Data> _data = List();
+  bool _isLoading = false;
+  bool _hasMoreItems = true;
+
   @override
-  onTap() {
-    Navigator.pushNamed(
-        context, Constants.ROUTE_HOME);
+  void dispose() {
+    _controller.removeListener(_scrollListener);
+    super.dispose();
   }
+
+  @override
   void initState() {
     super.initState();
+    _controller.addListener(_scrollListener);
+    _tabController = new TabController(vsync: this, length: 3);
+    _data.clear();
     BlocProvider.of<RateCardBloc>(context).add(GetRateCard());
   }
+
+  _scrollListener() {
+    if (!_isLoading) {
+      if (_controller.position.pixels == _controller.position.maxScrollExtent &&
+          _hasMoreItems) {
+        startFrom += 30;
+        _isLoading = true;
+
+        BlocProvider.of<RateCardBloc>(context).add(GetRateCard());
+      }
+    }
+  }
+
+  @override
+  onTap() {
+//    if (scaffoldKey.currentContext != null) {
+//      Navigator.of(scaffoldKey.currentContext).pop(true);
+//    }
+    Navigator.pushNamed(context, Constants.ROUTE_HOME);
+  }
+
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () {
@@ -47,135 +82,237 @@ class _RateCardState extends State<RateCard> {
       child: SafeArea(
         child: Scaffold(
           appBar: AppSingleton.instance.buildAppBar(onTap, 'Rate Card'),
-//          body: buildRateScreen(),
-            body: Container(
+//          appBar: new AppBar(
+//            automaticallyImplyLeading: true,
+//            centerTitle: true,
+//            iconTheme: IconThemeData(
+//              color: Colors.green, //change your color here
+//            ),
+//            title: Image.asset(
+//              'assets/scrap_green_logo.png',
+//              height: 37.0,
+////            alignment: Alignment.center,
+//            ),
+//            actions: <Widget>[
+//              IconButton(
+//                icon: Icon(Icons.account_circle),
+//                onPressed: () async {
+////                  Navigator.pushNamed(context, Constants.ROUTE_SETTING);
+//                },
+//                color: Colors.lightGreen,
+//              ),
+//            ],
+//            backgroundColor: Colors.white,
+//            bottom: new TabBar(
+//              labelColor: Colors.green,
+//              unselectedLabelColor: Colors.lightGreen,
+//              indicatorColor: Colors.green,
+//              tabs: <Tab>[
+//                new Tab(
+//                  text: "SCHEDULE",
+////                  icon: new Icon(Icons.history),
+//                ),
+//                new Tab(
+//                  text: "ASSIGNED",
+////                  icon: new Icon(Icons.history),
+//                ),
+//                new Tab(
+//                  text: "SUCCESS",
+////                  icon: new Icon(Icons.history),
+//                ),
+//              ],
+//              controller: _tabController,
+//            ),
+//          ),
+//          body: test(),
+          body: Container(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-            child: Flex(
-              direction: Axis.vertical,
-              children: <Widget>[
-                Flexible(
-                  flex: 1,
+//            child: Flex(
+//              direction: Axis.vertical,
+//              children: <Widget>[
+                child: Expanded(
+//                  flex: 1,
                   child: BlocConsumer(
                     bloc: BlocProvider.of<RateCardBloc>(context),
                     listener: (context, state) {
-//                      print(state);
                       if (state is RateCardLoaded) {
-                        _setData(state.response);
-                      }
-                      if (state is RateCardUpdated) {
-                        _showSuccessMessage(state.response.msg);
-                        BlocProvider.of<RateCardBloc>(context).add(GetRateCard());
-                      }
-                      if (state is RateCardError) {
-                        _showError(state.msg);
+                        _isLoading = false;
+                        if (state.response.data.isEmpty) {
+                          _hasMoreItems = false;
+                        }
+                        _data.addAll(state.response.data);
                       }
                     },
                     builder: (context, state) {
-                      if (state is RateCardLoaded) {
-                        return buildRateScreen();
-                      } else if (state is RateCardLoading) {
-                        return Center(
-                          child: AppSingleton.instance.buildCenterSizedProgressBar(),
-                        );
-                      } else if (state is RateCardError) {
-                        return Center(
-                          child: Text(
-                            'Failed to get rate card error',
-                            style: AppTextStyle.bold(Colors.red, 30.0),
-                          ),
-                        );
-                      } else if (state is RateCardUploading) {
-                        return AppSingleton.instance.buildCenterSizedProgressBar();
-                      } else if (state is RateCardEmpty) {
-                        return Center(
-                          child: Text(
-                            'Failed to get rate card data profile empty',
-                            style: AppTextStyle.bold(Colors.red, 30.0),
-                          ),
-                        );
-                      } else {
-                        return Container();
+                      if (state is RateCardLoading) {
+                        return AppSingleton.instance
+                            .buildCenterSizedProgressBar();
                       }
+                      if (state is RateCardError) {
+                        return Center(
+                          child: Text(state.msg),
+                        );
+                      }
+                      if (state is RateCardLoaded) {
+                        return buildRateScreen(state.response.msg);
+                      }
+                      return buildRateScreen('');
                     },
                   ),
                 ),
-    //                profileScreen(),
-              ],
-            ),
+                //                profileScreen(),
+//              ],
+//            ),
           ),
         ),
-      ), 
+      ),
     );
   }
 
-  Widget buildRateScreen() {
-    return GridView.count(
-      // Create a grid with 2 columns. If you change the scrollDirection to
-      // horizontal, this produces 2 rows.
+  Widget buildRateScreen(String message) {
+    return _data.length > 0 ? GridView.count(
       crossAxisCount: 2,
-      // Generate 100 widgets that display their index in the List.
-       children: List.generate(4, (index) {
-       return Center(
-       child:Column(
-      children: <Widget>[
-        Padding(
-          padding: EdgeInsets.fromLTRB(2, 10, 2, 2),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              Card(
-                color: Colors.green,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical:10, horizontal:10),
-                  child: Icon(
-                    Icons.email,
-                    color: Colors.white,
-                    size: 100.0,
+//      crossAxisSpacing: 160,
+//      childAspectRatio: 3,
+      children: _data.map((value) {
+        return Center(
+              child: Column(
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(2, 10, 2, 2),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: <Widget>[
+                        Card(
+                          color: Colors.green,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 10),
+//                            child: Icon(
+//                              Icons.email,
+//                              color: Colors.white,
+//                              size: 100.0,
+//                            ),
+                  child: Image.network(
+                    Constants.BASE_URL + 'logo/' + value.icon_original,
+                    width: 100.0,
+                    height: 100.0,
                   ),
-//                  child: Image.network(Constants.BASE_URL + _icon_original),
-                ),
-              ),
-              Text('${_material}-810/KG',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold
-                ),
-              ),
-            ],
-          ),
-        ),
+                          ),
+                        ),
+                        Text('${value.material}-${value.rate}/KG',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
 
-      ],
-       ),
-       );
-       }),
+                ],
+              ),
+            );
+      }).toList(),
+    ):
+    Container(
+      child: Text('No data to display!')
     );
+//    return _data.length > 0 ? ListView.builder(
+//      physics: ClampingScrollPhysics(),
+//      shrinkWrap: true,
+//      itemCount: _data.length,
+//      itemBuilder: (context, index) {
+////        return Container(
+////          child: Text('${_data[index].material}'),
+////        );
+//        return GridView.count(
+//          crossAxisCount: 2,
+//          children: List.generate(_data.length, (index) {
+//            return Center(
+//              child: Column(
+//                children: <Widget>[
+//                  Padding(
+//                    padding: EdgeInsets.fromLTRB(2, 10, 2, 2),
+//                    child: Column(
+//                      mainAxisSize: MainAxisSize.max,
+//                      children: <Widget>[
+//                        Card(
+//                          color: Colors.green,
+//                          child: Padding(
+//                            padding: EdgeInsets.symmetric(
+//                                vertical: 10, horizontal: 10),
+//                            child: Icon(
+//                              Icons.email,
+//                              color: Colors.white,
+//                              size: 100.0,
+//                            ),
+////                  child: Image.network(Constants.BASE_URL + _icon_original),
+//                          ),
+//                        ),
+//                        Text('${_data[index].material}-${_data[index].rate}/KG',
+//                          style: TextStyle(
+//                              fontWeight: FontWeight.bold
+//                          ),
+//                        ),
+//                      ],
+//                    ),
+//                  ),
+//
+//                ],
+//              ),
+//            );
+//          }),
+//        );
+//      },
+
   }
 
-  void _setData(RateCardResponse response) {
-    print('no0${response.data}');
-    _id = response.data.id;
-    _icon = response.data.icon;
-    _icon_original = response.data.icon_original;
-    _material = response.data.material;
-    _unit = response.data.unit;
-    _unit_qty = response.data.unit_qty;
-    _rate = response.data.rate;
-    _status = response.data.status;
-    _created_on = response.data.created_on;
-    _created_by = response.data.created_by;
-    _last_modified_on = response.data.last_modified_on;
-    _last_modified_by = response.data.last_modified_by;
+  Widget test(){
+        return GridView.count(
+          crossAxisCount: 2,
+          children: List.generate(1, (index) {
+            return Center(
+              child: Column(
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(2, 10, 2, 2),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: <Widget>[
+                        Card(
+                          color: Colors.green,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 10),
+                            child: Icon(
+                              Icons.email,
+                              color: Colors.white,
+                              size: 100.0,
+                            ),
+//                  child: Image.network(Constants.BASE_URL + _icon_original),
+                          ),
+                        ),
+                        Text('tets material-40/KG',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                ],
+              ),
+            );
+          }),
+        );
   }
 
-  void _showSuccessMessage(String message) {
-    scaffoldKey.currentState.hideCurrentSnackBar();
-    scaffoldKey.currentState
-        .showSnackBar(AppSingleton.instance.getSuccessSnackBar(message));
-  }
   void _showError(String message) {
     scaffoldKey.currentState.hideCurrentSnackBar();
     scaffoldKey.currentState
         .showSnackBar(AppSingleton.instance.getErrorSnackBar(message));
   }
+
 }
