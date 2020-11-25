@@ -92,6 +92,7 @@ flutter:
     - assets/criss-cross.png
     - assets/pad.png
     - assets/settings_background.jpg
+    - assets/add-button.png
 
     - assets/endtoend.png
     - assets/error.png

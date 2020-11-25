@@ -2,6 +2,7 @@ import 'package:scrapgreen/models/response/password_response.dart';
 import 'package:scrapgreen/models/response/password_update_response.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:scrapgreen/models/response/vendor_profile_response.dart';
 
 abstract class ChangePasswordState extends Equatable {
   ChangePasswordState();
@@ -20,6 +21,16 @@ class ChangePasswordLoaded extends ChangePasswordState {
   final PasswordResponse response;
 
   ChangePasswordLoaded({@required this.response}) : assert(response != null);
+
+  @override
+  List<Object> get props => [response];
+
+}
+
+class VendorIdLoaded extends ChangePasswordState {
+  final PasswordResponse response;
+
+  VendorIdLoaded({@required this.response}) : assert(response != null);
 
   @override
   List<Object> get props => [response];

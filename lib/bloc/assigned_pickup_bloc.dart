@@ -22,7 +22,7 @@ class AssignedPickupBloc extends Bloc<AssignedPickupEventBase, AssignedPickupSta
     yield AssignedPickupLoading();
     try {
       VendorProfileResponse storedData =
-          await Repository.instance.getStoredVendorData();
+      await Repository.instance.getStoredVendorData();
       if (storedData != null && storedData.data.id != null) {
         PickUpRequestAssignedResponse response =
         await Repository.instance.getPickUpRequestAssignedData(storedData.data.id,event.startFrom);

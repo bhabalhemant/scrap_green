@@ -18,15 +18,14 @@ class VendorProfileBloc extends Bloc<VendorProfileEvent, VendorProfileState> {
     if (event is GetProfile) {
       yield* _mapGetProfileToState(event);
     }
-//    else if (event is UpdateProfile) {
-//      yield* _mapUpdateProfileToState(event);
-//    }
+    else if (event is UpdateProfile) {
+      yield* _mapUpdateProfileToState(event);
+    }
   }
 
   Stream<VendorProfileState> _mapGetProfileToState(GetProfile event) async* {
     yield VendorProfileLoading();
     try {
-      print('try');
       VendorProfileResponse storedData =
           await Repository.instance.getStoredVendorData();
       if (storedData != null && storedData.data.id != null) {
@@ -42,8 +41,6 @@ class VendorProfileBloc extends Bloc<VendorProfileEvent, VendorProfileState> {
         yield VendorProfileError(msg: 'Failed to get stored user data!');
       }
     } catch (e) {
-
-      print('catch');
       if (e is String) {
         yield VendorProfileError(msg: e);
       } else {
@@ -52,22 +49,21 @@ class VendorProfileBloc extends Bloc<VendorProfileEvent, VendorProfileState> {
     }
   }
 
-//  Stream<VendorProfileState> _mapUpdateProfileToState(UpdateProfile event) async* {
-//    yield VendorProfileLoading();
-//    try {
-//      ProfileUpdateResponse response =
-//          await Repository.instance.updateUserProfile(event.body);
-//      if (response.status) {
-//        yield VendorProfileUpdated(response: response);
-//      } else {
-//        yield ProfileError(msg: response.msg);
-//      }
-//    } catch (e) {
-//      if (e is String) {
-//        yield ProfileError(msg: e);
-//      } else {
-//        yield ProfileError(msg: '$e');
-//      }
-//    }
-//  }
+  Stream<VendorProfileState> _mapUpdateProfileToState(UpdateProfile event) async* {
+    yield VendorProfileLoading();
+    try {
+      ProfileUpdateResponse response = await Repository.instance.updateVendorProfile(event.body);
+      if (response.status) {
+        yield VendorProfileUpdated(response: response);
+      } else {
+        yield VendorProfileError(msg: response.msg);
+      }
+    } catch (e) {
+      if (e is String) {
+        yield VendorProfileError(msg: e);
+      } else {
+        yield VendorProfileError(msg: '$e');
+      }
+    }
+  }
 }

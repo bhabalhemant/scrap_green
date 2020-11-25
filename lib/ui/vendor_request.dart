@@ -105,28 +105,6 @@ class _VendorRequestState extends State<VendorRequest> with SingleTickerProvider
       },
       child: SafeArea(
         child: Scaffold(
-//          appBar: AppBar(
-//            automaticallyImplyLeading: true,
-//            centerTitle: true,
-//            iconTheme: IconThemeData(
-//              color: Colors.green, //change your color here
-//            ),
-//            title: Image.asset(
-//              'assets/scrap_green_logo.png',
-//              height: 37.0,
-////            alignment: Alignment.center,
-//            ),
-//            actions: <Widget>[
-//              IconButton(
-//                icon: Icon(Icons.account_circle),
-//                onPressed: () async {
-////                  Navigator.pushNamed(context, Constants.ROUTE_SETTING);
-//                },
-//                color: Colors.lightGreen,
-//              ),
-//            ],
-//            backgroundColor: Colors.white,
-//          ),
           appBar: new AppBar(
             automaticallyImplyLeading: true,
             centerTitle: true,
@@ -142,7 +120,7 @@ class _VendorRequestState extends State<VendorRequest> with SingleTickerProvider
               IconButton(
                 icon: Icon(Icons.account_circle),
                 onPressed: () async {
-//                  Navigator.pushNamed(context, Constants.ROUTE_SETTING);
+                  Navigator.pushNamed(context, Constants.ROUTE_VENDOR_SETTINGS);
                 },
                 color: Colors.lightGreen,
               ),
@@ -153,7 +131,6 @@ class _VendorRequestState extends State<VendorRequest> with SingleTickerProvider
               unselectedLabelColor: Colors.lightGreen,
               indicatorColor: Colors.green,
               tabs: <Tab>[
-
                 new Tab(
                   text: "SCHEDULE",
 //                  icon: new Icon(Icons.history),
@@ -172,9 +149,121 @@ class _VendorRequestState extends State<VendorRequest> with SingleTickerProvider
           ),
           body: new TabBarView(
             children: <Widget>[
-              Schedule(),
-              Assigned(),
-              Success(),
+//              Schedule(),
+              Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  children: <Widget>[
+                    Expanded(
+                      child: BlocConsumer(
+                        bloc: BlocProvider.of<SchedulePickupBloc>(context),
+                        listener: (context, state) {
+                          if (state is SchedulePickupLoaded) {
+                            _isLoading = false;
+                            if (state.response.data1.isEmpty) {
+                              _hasMoreItems = false;
+                            }
+                            _data1.addAll(state.response.data1);
+                          }
+                        },
+                        builder: (context, state) {
+                          if (state is SchedulePickupLoading) {
+                            return AppSingleton.instance
+                                .buildCenterSizedProgressBar();
+                          }
+                          if (state is SchedulePickupError) {
+                            return Center(
+                              child: Text(state.msg),
+                            );
+                          }
+                          if(state is SchedulePickupLoaded){
+                            return buildListSchedule(state.response.data1);
+                          }
+                          return buildListSchedule(state.response.data1);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+//              Assigned(),
+              Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  children: <Widget>[
+                    Expanded(
+                      child: BlocConsumer(
+                        bloc: BlocProvider.of<AssignedPickupBloc>(context),
+                        listener: (context, state) {
+//                          print(state);
+                          if (state is AssignedPickupLoaded) {
+                            _isLoading = false;
+                            if (state.response.data2.isEmpty) {
+                              _hasMoreItems = false;
+                            }
+                            _data2.addAll(state.response.data2);
+                          }
+                        },
+                        builder: (context, state) {
+                          if (state is AssignedPickupLoading) {
+                            return AppSingleton.instance
+                                .buildCenterSizedProgressBar();
+                          }
+                          if (state is AssignedPickupError) {
+                            return Center(
+                              child: Text(state.msg),
+                            );
+                          }
+                          if(state is AssignedPickupLoaded){
+                            return buildListAssigned(state.response.data2);
+                          }
+                          return buildListAssigned(state.response.data2);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+//              Icon(Icons.directions_bike),
+              Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  children: <Widget>[
+                    Expanded(
+                      child: BlocConsumer(
+                        bloc: BlocProvider.of<SuccessPickupBloc>(context),
+                        listener: (context, state) {
+                          if (state is SuccessPickupLoaded) {
+                            _isLoading = false;
+                            if (state.response.data3.isEmpty) {
+                              _hasMoreItems = false;
+                            }
+                            _data3.addAll(state.response.data3);
+                          }
+                        },
+                        builder: (context, state) {
+                          if (state is SuccessPickupLoading) {
+                            return AppSingleton.instance
+                                .buildCenterSizedProgressBar();
+                          }
+                          if (state is SuccessPickupError) {
+                            return Center(
+                              child: Text(state.msg),
+                            );
+                          }
+                          if(state is SuccessPickupLoaded){
+                            return buildListSucces(state.response.data3);
+                          }
+                          return buildListSucces(state.response.data3);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
             controller: _tabController,
           ),
@@ -250,7 +339,30 @@ class _VendorRequestState extends State<VendorRequest> with SingleTickerProvider
                     ],
                   ),
                 ),
-
+                ListTile(
+//              leading: Icon(Icons.lock),
+                  leading: Container(
+                    width: 30,
+                    height: 30,
+//              color: Colors.green,
+                    decoration:
+                    BoxDecoration(
+                      border: Border.all(color: Colors.green),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child:Icon(Icons.settings, color: Colors.green,),
+                  ),
+                  title: Text(
+                    'SETTINGS',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ).tr(),
+                  onTap: () async {
+                    Navigator.pushNamed(context, Constants.ROUTE_VENDOR_SETTINGS);
+                  },
+                ),
                 ListTile(
 //              leading: Icon(Icons.lock),
                   leading: Container(
@@ -291,126 +403,126 @@ class _VendorRequestState extends State<VendorRequest> with SingleTickerProvider
       ),
     );
   }
-  Widget Schedule() {
-    return Container(
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
-      child: Column(
-        children: <Widget>[
-          Expanded(
-            child: BlocConsumer(
-              bloc: BlocProvider.of<SchedulePickupBloc>(context),
-              listener: (context, state) {
-                if (state is SchedulePickupLoaded) {
-                  _isLoading = false;
-                  if (state.response.data1.isEmpty) {
-                    _hasMoreItems = false;
-                  }
-                  _data1.addAll(state.response.data1);
-                }
-              },
-              builder: (context, state) {
-                if (state is SchedulePickupLoading) {
-                  return AppSingleton.instance
-                      .buildCenterSizedProgressBar();
-                }
-                if (state is SchedulePickupError) {
-                  return Center(
-                    child: Text(state.msg),
-                  );
-                }
-                if(state is SchedulePickupLoaded){
-                  return buildListSchedule(state.response.msg);
-                }
-                return buildListSchedule('');
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-  Widget Assigned() {
-    return Container(
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
-      child: Column(
-        children: <Widget>[
-          Expanded(
-            child: BlocConsumer(
-              bloc: BlocProvider.of<AssignedPickupBloc>(context),
-              listener: (context, state) {
-                print(state);
-                if (state is AssignedPickupLoaded) {
-                  _isLoading = false;
-                  if (state.response.data2.isEmpty) {
-                    _hasMoreItems = false;
-                  }
-                  _data2.addAll(state.response.data2);
-                }
-              },
-              builder: (context, state) {
-                if (state is AssignedPickupLoading) {
-                  return AppSingleton.instance
-                      .buildCenterSizedProgressBar();
-                }
-                if (state is AssignedPickupError) {
-                  return Center(
-                    child: Text(state.msg),
-                  );
-                }
-                if(state is AssignedPickupLoaded){
-                  return buildListAssigned(state.response.msg);
-                }
-                return buildListAssigned('');
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-  Widget Success(){
-    return Container(
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
-      child: Column(
-        children: <Widget>[
-          Expanded(
-            child: BlocConsumer(
-              bloc: BlocProvider.of<SuccessPickupBloc>(context),
-              listener: (context, state) {
-                if (state is SuccessPickupLoaded) {
-                  _isLoading = false;
-                  if (state.response.data3.isEmpty) {
-                    _hasMoreItems = false;
-                  }
-                  _data3.addAll(state.response.data3);
-                }
-              },
-              builder: (context, state) {
-                if (state is SuccessPickupLoading) {
-                  return AppSingleton.instance
-                      .buildCenterSizedProgressBar();
-                }
-                if (state is SuccessPickupError) {
-                  return Center(
-                    child: Text(state.msg),
-                  );
-                }
-                if(state is SuccessPickupLoaded){
-                  return buildListSucces(state.response.msg);
-                }
-                return buildListSucces('');
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-  Widget buildListSchedule(String message) {
-    return _data1.length > 0 ? ListView.builder(
+//  Widget Schedule() {
+//    return Container(
+//      height: MediaQuery.of(context).size.height,
+//      width: MediaQuery.of(context).size.width,
+//      child: Column(
+//        children: <Widget>[
+//          Expanded(
+//            child: BlocConsumer(
+//              bloc: BlocProvider.of<SchedulePickupBloc>(context),
+//              listener: (context, state) {
+//                if (state is SchedulePickupLoaded) {
+//                  _isLoading = false;
+//                  if (state.response.data1.isEmpty) {
+//                    _hasMoreItems = false;
+//                  }
+//                  _data1.addAll(state.response.data1);
+//                }
+//              },
+//              builder: (context, state) {
+//                if (state is SchedulePickupLoading) {
+//                  return AppSingleton.instance
+//                      .buildCenterSizedProgressBar();
+//                }
+//                if (state is SchedulePickupError) {
+//                  return Center(
+//                    child: Text(state.msg),
+//                  );
+//                }
+//                if(state is SchedulePickupLoaded){
+//                  return buildListSchedule(state.response.msg);
+//                }
+//                return buildListSchedule('');
+//              },
+//            ),
+//          ),
+//        ],
+//      ),
+//    );
+//  }
+//  Widget Assigned() {
+//    return Container(
+//      height: MediaQuery.of(context).size.height,
+//      width: MediaQuery.of(context).size.width,
+//      child: Column(
+//        children: <Widget>[
+//          Expanded(
+//            child: BlocConsumer(
+//              bloc: BlocProvider.of<AssignedPickupBloc>(context),
+//              listener: (context, state) {
+//                print(state);
+//                if (state is AssignedPickupLoaded) {
+//                  _isLoading = false;
+//                  if (state.response.data2.isEmpty) {
+//                    _hasMoreItems = false;
+//                  }
+//                  _data2.addAll(state.response.data2);
+//                }
+//              },
+//              builder: (context, state) {
+//                if (state is AssignedPickupLoading) {
+//                  return AppSingleton.instance
+//                      .buildCenterSizedProgressBar();
+//                }
+//                if (state is AssignedPickupError) {
+//                  return Center(
+//                    child: Text(state.msg),
+//                  );
+//                }
+//                if(state is AssignedPickupLoaded){
+//                  return buildListAssigned(state.response.msg);
+//                }
+//                return buildListAssigned('');
+//              },
+//            ),
+//          ),
+//        ],
+//      ),
+//    );
+//  }
+//  Widget Success(){
+//    return Container(
+//      height: MediaQuery.of(context).size.height,
+//      width: MediaQuery.of(context).size.width,
+//      child: Column(
+//        children: <Widget>[
+//          Expanded(
+//            child: BlocConsumer(
+//              bloc: BlocProvider.of<SuccessPickupBloc>(context),
+//              listener: (context, state) {
+//                if (state is SuccessPickupLoaded) {
+//                  _isLoading = false;
+//                  if (state.response.data3.isEmpty) {
+//                    _hasMoreItems = false;
+//                  }
+//                  _data3.addAll(state.response.data3);
+//                }
+//              },
+//              builder: (context, state) {
+//                if (state is SuccessPickupLoading) {
+//                  return AppSingleton.instance
+//                      .buildCenterSizedProgressBar();
+//                }
+//                if (state is SuccessPickupError) {
+//                  return Center(
+//                    child: Text(state.msg),
+//                  );
+//                }
+//                if(state is SuccessPickupLoaded){
+//                  return buildListSucces(state.response.msg);
+//                }
+//                return buildListSucces('');
+//              },
+//            ),
+//          ),
+//        ],
+//      ),
+//    );
+//  }
+  Widget buildListSchedule(List<Data1> _data1) {
+    return ListView.builder(
       physics: ClampingScrollPhysics(),
       shrinkWrap: true,
       itemCount: _data1.length,
@@ -429,7 +541,11 @@ class _VendorRequestState extends State<VendorRequest> with SingleTickerProvider
                     children: <Widget>[
                       ListTile(
                         onTap: (){
-                          print('${_data1[index].id}');
+                          Map<String, String> body = {
+                            Constants.PARAM_REQUEST_ID: _data1[index].id,
+                          };
+//                        String request_id = _data1[index].id;
+                          BlocProvider.of<SchedulePickupBloc>(context).add(StoreRequestIdEvent(body: body));
                           Navigator.pushNamed(context, Constants.ROUTE_REQUEST_DETAILS);
                         },
                         leading: Image.asset('assets/recycle.png',
@@ -499,14 +615,12 @@ class _VendorRequestState extends State<VendorRequest> with SingleTickerProvider
 
         );
       },
-    ):  Container(
-        child: Text('No data to display!')
     );
   }
 
-  Widget buildListAssigned(String message) {
+  Widget buildListAssigned(List<Data2> _data2) {
 //    print(_data2.length);
-    return _data2.length > 0 ? ListView.builder(
+    return ListView.builder(
       physics: ClampingScrollPhysics(),
       shrinkWrap: true,
       itemCount: _data2.length,
@@ -598,13 +712,11 @@ class _VendorRequestState extends State<VendorRequest> with SingleTickerProvider
           ),
         );
       },
-    ):  Container(
-        child: Text('No data to display!')
     );
   }
 
-  Widget buildListSucces(String message) {
-    return _data3.length > 0 ? ListView.builder(
+  Widget buildListSucces(List<Data3> _data3) {
+    return ListView.builder(
       physics: ClampingScrollPhysics(),
       shrinkWrap: true,
       itemCount: _data3.length,
@@ -832,8 +944,6 @@ class _VendorRequestState extends State<VendorRequest> with SingleTickerProvider
           ),
         );
       },
-    ):  Container(
-        child: Text('No data to display!')
     );
   }
   Widget buildVendorScreen() {
@@ -879,8 +989,8 @@ class _VendorRequestState extends State<VendorRequest> with SingleTickerProvider
                           width: 62, height: 62, fit: BoxFit.contain),
                       title: Text('Order No: REC007',
                         style: TextStyle(
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.bold
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.bold
                         ),
                       ),
                       // subtitle: Text('19.05.2020 12:29PM \nGhatkopar-West,400084.'),
@@ -889,10 +999,10 @@ class _VendorRequestState extends State<VendorRequest> with SingleTickerProvider
                         children: <Widget>[
                           Text('19.05.2020 12:29PM',
 //                            textAlign: TextAlign.left,
-                             style: TextStyle(
+                            style: TextStyle(
 //                                 fontWeight: FontWeight.bold,
-                               fontSize: 10.0
-                             ),
+                                fontSize: 10.0
+                            ),
                           ),
                           Text('Ghatkopar-West,400084.',
 //                            textAlign: TextAlign.le,

@@ -22,7 +22,7 @@ class SuccessPickupBloc extends Bloc<SuccessPickupEventBase, SuccessPickupState>
     yield SuccessPickupLoading();
     try {
       VendorProfileResponse storedData =
-          await Repository.instance.getStoredVendorData();
+      await Repository.instance.getStoredVendorData();
       if (storedData != null && storedData.data.id != null) {
         PickUpRequestSuccessResponse response =
         await Repository.instance.getPickUpRequestSuccessData(storedData.data.id,event.startFrom);

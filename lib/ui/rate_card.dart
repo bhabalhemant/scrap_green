@@ -82,49 +82,6 @@ class _RateCardState extends State<RateCard> with SingleTickerProviderStateMixin
       child: SafeArea(
         child: Scaffold(
           appBar: AppSingleton.instance.buildAppBar(onTap, 'Rate Card'),
-//          appBar: new AppBar(
-//            automaticallyImplyLeading: true,
-//            centerTitle: true,
-//            iconTheme: IconThemeData(
-//              color: Colors.green, //change your color here
-//            ),
-//            title: Image.asset(
-//              'assets/scrap_green_logo.png',
-//              height: 37.0,
-////            alignment: Alignment.center,
-//            ),
-//            actions: <Widget>[
-//              IconButton(
-//                icon: Icon(Icons.account_circle),
-//                onPressed: () async {
-////                  Navigator.pushNamed(context, Constants.ROUTE_SETTING);
-//                },
-//                color: Colors.lightGreen,
-//              ),
-//            ],
-//            backgroundColor: Colors.white,
-//            bottom: new TabBar(
-//              labelColor: Colors.green,
-//              unselectedLabelColor: Colors.lightGreen,
-//              indicatorColor: Colors.green,
-//              tabs: <Tab>[
-//                new Tab(
-//                  text: "SCHEDULE",
-////                  icon: new Icon(Icons.history),
-//                ),
-//                new Tab(
-//                  text: "ASSIGNED",
-////                  icon: new Icon(Icons.history),
-//                ),
-//                new Tab(
-//                  text: "SUCCESS",
-////                  icon: new Icon(Icons.history),
-//                ),
-//              ],
-//              controller: _tabController,
-//            ),
-//          ),
-//          body: test(),
           body: Container(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
@@ -195,7 +152,7 @@ class _RateCardState extends State<RateCard> with SingleTickerProviderStateMixin
 //                              size: 100.0,
 //                            ),
                   child: Image.network(
-                    Constants.BASE_URL + 'logo/' + value.icon_original,
+                    Constants.BASE_URL + 'uploads/rate_cards/' + value.icon_original,
                     width: 100.0,
                     height: 100.0,
                   ),

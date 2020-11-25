@@ -83,7 +83,7 @@ class Data2 {
         this.last_modified_by,
         this.last_modified_on,
       }
-    );
+      );
 
   Data2.fromJson(Map<String, dynamic> json) {
     id = json['id'];

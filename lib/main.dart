@@ -43,13 +43,16 @@ import 'package:scrapgreen/ui/sign_in_screen.dart';
 import 'package:scrapgreen/ui/sign_up_screen.dart';
 import 'package:scrapgreen/ui/sign_up_vendor.dart';
 import 'package:scrapgreen/ui/splash_screen.dart';
+import 'package:scrapgreen/ui/vendor_change_password.dart';
 import 'package:scrapgreen/ui/vendor_request.dart';
 import 'package:scrapgreen/ui/settings.dart';
 import 'package:scrapgreen/ui/profile_1.dart';
 import 'package:scrapgreen/ui/edit_profile.dart';
 import 'package:scrapgreen/ui/change_password.dart';
 import 'package:scrapgreen/ui/contact_us.dart';
+import 'package:scrapgreen/ui/vendor_settings.dart';
 import 'package:scrapgreen/ui/otp_screen.dart';
+import 'package:scrapgreen/ui/vendor_edit_profile.dart';
 import 'package:scrapgreen/utils/constants.dart' as Constants;
 import 'package:scrapgreen/utils/custom_route.dart';
 import 'package:scrapgreen/utils/simple_bloc_delegate.dart';
@@ -420,6 +423,21 @@ class _MyAppState extends State<MyApp> {
           case Constants.ROUTE_VENDOR_OTP:
             return CustomRoute(
               builder: (_) => OtpVendorScreen(),
+              settings: settings,
+            );
+          case Constants.ROUTE_VENDOR_SETTINGS:
+            return CustomRoute(
+              builder: (_) => VendorSettings(),
+              settings: settings,
+            );
+          case Constants.ROUTE_VENDOR_EDIT_PROFILE:
+            return CustomRoute(
+              builder: (_) => VendorEditProfile(),
+              settings: settings,
+            );
+          case Constants.ROUTE_VENDOR_CHANGE_PASSWORD:
+            return CustomRoute(
+              builder: (_) => VendorChangePassword(),
               settings: settings,
             );
           default:

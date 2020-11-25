@@ -105,8 +105,8 @@ class _ContactUsState extends State<ContactUs> {
           padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
           child: Column(
             children: <Widget>[
-              AppSingleton.instance.getSpacer(),
-              aboutUsBlock (),
+//              AppSingleton.instance.getSpacer(),
+//              aboutUsBlock (),
               AppSingleton.instance.getSpacer(),
               firstBlock (),
               AppSingleton.instance.getSpacer(),

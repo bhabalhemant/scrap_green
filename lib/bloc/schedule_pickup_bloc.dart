@@ -1,6 +1,7 @@
 import 'package:scrapgreen/models/response/pickup_request_schedule_response.dart';
 import 'package:scrapgreen/models/response/profile_response.dart';
 import 'package:scrapgreen/models/response/vendor_profile_response.dart';
+import 'package:scrapgreen/models/response/request_id_response.dart';
 import 'package:scrapgreen/repository/repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,8 @@ class SchedulePickupBloc extends Bloc<SchedulePickupEventBase, SchedulePickupSta
   Stream<SchedulePickupState> mapEventToState(SchedulePickupEventBase event) async* {
     if (event is SchedulePickupEvent) {
       yield* _mapPickupEvent(event);
+    } else if (event is StoreRequestIdEvent) {
+      yield* _mapStoreRequestId(event);
     }
   }
 
@@ -23,7 +26,7 @@ class SchedulePickupBloc extends Bloc<SchedulePickupEventBase, SchedulePickupSta
     yield SchedulePickupLoading();
     try {
       VendorProfileResponse storedData =
-          await Repository.instance.getStoredVendorData();
+      await Repository.instance.getStoredVendorData();
       if (storedData != null && storedData.data.id != null) {
         PickUpRequestScheduleResponse response =
         await Repository.instance.getPickUpRequestScheduleData(storedData.data.id,event.startFrom);
@@ -35,6 +38,19 @@ class SchedulePickupBloc extends Bloc<SchedulePickupEventBase, SchedulePickupSta
       } else {
         yield SchedulePickupError(msg: 'Failed to get stored user data!');
       }
+    } catch (e) {
+      if (e is String) {
+        yield SchedulePickupError(msg: e);
+      } else {
+        yield SchedulePickupError(msg: '$e');
+      }
+    }
+  }
+
+  Stream<SchedulePickupState> _mapStoreRequestId(StoreRequestIdEvent event) async* {
+    yield SchedulePickupLoading();
+    try {
+      bool storedData = await Repository.instance.storeRequestId(event.body);
     } catch (e) {
       if (e is String) {
         yield SchedulePickupError(msg: e);
@@ -56,6 +72,15 @@ class SchedulePickupEvent extends SchedulePickupEventBase {
 
   @override
   List<Object> get props => [startFrom];
+}
+
+class StoreRequestIdEvent extends SchedulePickupEventBase {
+  Map<String, dynamic> body;
+
+  StoreRequestIdEvent({@required this.body}) : assert(body != null);
+
+  @override
+  List<Object> get props => [body];
 }
 
 abstract class SchedulePickupState extends Equatable {

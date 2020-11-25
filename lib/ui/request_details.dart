@@ -1,8 +1,15 @@
 import 'package:scrapgreen/base_widgets/app_textstyle.dart';
-import 'package:scrapgreen/bloc/profile/profile_bloc.dart';
-import 'package:scrapgreen/bloc/profile/profile_event.dart';
-import 'package:scrapgreen/bloc/profile/profile_state.dart';
-import 'package:scrapgreen/models/response/profile_response.dart';
+import 'package:scrapgreen/bloc/vendor_profile/vendor_profile_bloc.dart';
+import 'package:scrapgreen/bloc/vendor_profile/vendor_profile_event.dart';
+import 'package:scrapgreen/bloc/vendor_profile/vendor_profile_state.dart';
+import 'package:scrapgreen/models/response/vendor_profile_response.dart';
+import 'dart:async';
+import 'package:scrapgreen/bloc/request_details/request_details_bloc.dart';
+import 'package:scrapgreen/bloc/request_details/request_details_state.dart';
+import 'package:scrapgreen/bloc/request_details/request_details_event.dart';
+
+import 'package:scrapgreen/models/response/request_details_response.dart';
+import 'package:scrapgreen/models/response/display_items_response.dart';
 import 'package:scrapgreen/utils/constants.dart' as Constants;
 import 'package:scrapgreen/utils/email_validator.dart';
 import 'package:scrapgreen/utils/singleton.dart';
@@ -22,11 +29,34 @@ class RequestDetails extends StatefulWidget {
 }
 
 class _RequestDetailsState extends State<RequestDetails> {
-//  List uploadDocList = [
-//    {"courseName": "Bachelor of Education (B.Ed)"},
-//    {"courseName": "Master of Education (M.Ed)"}
-//  ];
-
+  String _v_id;
+  String _id;
+  String _user_id;
+  String _name;
+  String _mobile;
+  String _address_line1;
+  String _address_line2;
+  String _country;
+  String _state;
+  String _city;
+  String _pin_code;
+  String _latitude_longitude;
+  String _schedule_date_time;
+  String _request_status;
+  String _vendor_id;
+  String _pickup_date_time;
+  String _admin_status;
+  String _warehouse_id;
+  String _payment_status;
+  String _payment_mode;
+  String _payment_txn_id;
+  String _total_amount;
+  String _created_on;
+  String _created_by;
+  String _last_modified_by;
+  String _last_modified_on;
+  String amount;
+  List<Data1> _data1 = List();
 
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   final GlobalKey<State> _loadingKey = GlobalKey<State>();
@@ -34,16 +64,11 @@ class _RequestDetailsState extends State<RequestDetails> {
   @override
   void initState() {
     super.initState();
-    test();
-  }
-  test(){
-    print(itemList.length);
+    BlocProvider.of<RequestDetailsBloc>(context).add(GetVendorProfile());
+    BlocProvider.of<RequestDetailsBloc>(context).add(GetRequestDetailsEvent());
   }
   @override
   onTap() {
-//    if (scaffoldKey.currentContext != null) {
-//      Navigator.of(scaffoldKey.currentContext).pop(true);
-//    }
     Navigator.pushNamed(context, Constants.ROUTE_VENDOR_REQUEST);
   }
 
@@ -55,235 +80,70 @@ class _RequestDetailsState extends State<RequestDetails> {
       child: SafeArea(
         child: Scaffold(
           appBar: AppSingleton.instance.buildAppBar(onTap, 'Request Details'),
-          body: SingleChildScrollView(
-//            height: MediaQuery.of(context).size.height,
-//            width: MediaQuery.of(context).size.width,
-            child: Column(
-//              direction: Axis.vertical,
+//          body: buildRequestScreen(),
+          body: Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: Flex(
+              direction: Axis.vertical,
               children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 5.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      children: <Widget>[
-                        ListTile(
-                          title: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(0, 5.0, 0, 0),
-                                child: Text('Order No.:REC007.',
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(0, 5.0, 0, 0),
-                                child: Text('19.05.2020 12:29PM',
-                                  textAlign: TextAlign.left,
-                                ),
-                              ),
-                            ],
-                          ),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(0, 5.0, 0, 0),
-                                child: Text('Ghatkopar-West,400084.',
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(fontWeight: FontWeight.bold,
-                                      color: Colors.black
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(0, 5.0, 0, 0),
-                                child: Text('Total: Rs. 0.00',
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20.0
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          isThreeLine: true,
-                          trailing: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              IconButton(
-                                icon: Icon(Icons.add_circle,
-                                  size: 28.0,
-                                  color: Colors.green,
-                                ),
-                                tooltip: 'Add items',
-                                // onPressed: () {
-                                //   return DialogBox();
-                                // },
-                                onPressed: successAlert,
-                              ),
-                              RaisedButton(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                  BorderRadius.circular(30.0),
-                                  side: BorderSide(
-                                    color: Colors.blue,
-                                  ),
-                                ),
-                                onPressed: () {},
-                                color: Colors.blue,
-                                textColor: Colors.white,
-                                child: Text(
-                                  "In Progress",
-                                  style: AppTextStyle.regular(
-                                    Colors.white, 10.0,
-                                  ),
-                                ),
-                              ),
+                Flexible(
+                  flex: 1,
+                  child: BlocConsumer(
+                    bloc: BlocProvider.of<RequestDetailsBloc>(context),
+                    listener: (context, state) {
+                      print('state ${state}');
+                      if (state is RequestDetailsLoaded) {
+                        _setData(state.response);
+                        _data1.addAll(state.response.data1);
+                      }
+                      if (state is RequestDetailsUpdated) {
+                        _showSuccessMessage(state.response.msg);
+                        BlocProvider.of<RequestDetailsBloc>(context).add(GetRequestDetailsEvent());
+                      }
+                      if (state is RequestDetailsError) {
+                        _showError(state.msg);
+                      }
+                      if (state is RequestDetailsComplete) {
+                        _showSuccessMessage(state.response.msg);
+                        Navigator.pushNamed(context, Constants.ROUTE_REQUEST_DETAILS);
 
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                ),
-//                Text('-------------------------------------------',
-//                  style: TextStyle(
-//                    fontSize: 28.0,
-//                    color: Colors.grey
-//                  ),
-//                ),
-                Divider(),
-                Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  child: Text('ITEMS FOR PICKUP',
-                    style: TextStyle(
-                        fontSize: 22.0,
-                        fontWeight: FontWeight.w600
-                    ),
-                  ),
-                ),
-//                Text('-------------------------------------------',
-//                  style: TextStyle(
-//                    fontSize: 28.0,
-//                    color: Colors.grey
-//                  ),
-//                ),
-                Divider(),
-                Container(
-                  height: 300,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: itemList.length,
-                    itemBuilder: (context, index) {
-                      return
-                        //Card(child:Column(children: <Widget>[new ListTile(title:new Text(applicationList[index]['customerName'])), new ListTile(title:new Text(applicationList[index]['tokenNumber']))]), elevation: 6,)
-
-                        Padding(
-                          padding:
-                          EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-                          child: Card(
-                            elevation: 8,
-                            child: ListTile(
-                              leading: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Image.asset('assets/recycle.png',
-                                      width: 28, height: 28),
-                                  SizedBox(
-                                    width: AppSingleton.instance.getHeight(
-                                        10.0),
-                                  ),
-                                  Text(itemList[index].quantity + ' KG.',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                              title: Text(itemList[index].material,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16.0
-                                ),
-                              ),
-                              subtitle:
-                              Text('Rs. 100/KG.',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              trailing: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  Text('Rs. ' + itemList[index].rupees + '.00',
-                                    style: TextStyle(
-                                        color: Colors.blue,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14.0
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: AppSingleton.instance.getWidth(10),
-                                  ),
-                                  Image.asset('assets/criss-cross.png',
-                                      width: 25, height: 25, fit: BoxFit.contain
-                                  ),
-                                ],
-                              ),
-                            ),
+                      }
+                      if (state is RequestDetailsItemRemoved) {
+                        _showSuccessMessage(state.response.msg);
+                        Navigator.pushNamed(context, Constants.ROUTE_REQUEST_DETAILS);
+//                        _showSuccessMessage(state.response.msg);
+                      }
+                      if (state is VendorProfileeLoaded) {
+                        _setData1(state.response);
+//                        _data1.addAll(state.response.data);
+                      }
+                    },
+                    builder: (context, state) {
+                      if (state is RequestDetailsLoaded) {
+                        return buildRequestScreen();
+                      } else if (state is RequestDetailsLoading) {
+                        return Center(
+                          child: AppSingleton.instance.buildCenterSizedProgressBar(),
+                        );
+                      } else if (state is RequestDetailsError) {
+                        return Center(
+                          child: Text(
+                            'Failed to get user data error',
+                            style: AppTextStyle.bold(Colors.red, 30.0),
                           ),
                         );
+                      } else if (state is RequestDetailsEmpty) {
+                        return Center(
+                          child: Text(
+                            'Failed to get user data',
+                            style: AppTextStyle.bold(Colors.red, 30.0),
+                          ),
+                        );
+                      } else {
+                        return Container();
+                      }
                     },
-                  ),
-                ),
-
-
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 0.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10.0),
-                        child: RaisedButton(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          // onPressed: loginCheck,
-                          onPressed: () {},
-                          padding: EdgeInsets.symmetric(vertical: 10.0),
-                          color: Colors.green,
-                          child: Text('SAVE',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10.0),
-                        child: RaisedButton(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          // onPressed: loginCheck,
-                          onPressed: () {},
-                          padding: EdgeInsets.symmetric(vertical: 10.0),
-                          color: Colors.red,
-                          child: Text('CANCEL',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
                   ),
                 ),
               ],
@@ -294,6 +154,290 @@ class _RequestDetailsState extends State<RequestDetails> {
     );
   }
 
+  Widget buildRequestScreen() {
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 5.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  ListTile(
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(0, 5.0, 0, 0),
+                          child: Text('Order No.: ${_id}',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(0, 5.0, 0, 0),
+                          child: Text('${_schedule_date_time}',
+                            textAlign: TextAlign.left,
+                          ),
+                        ),
+                      ],
+                    ),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(0, 5.0, 0, 0),
+                          child: Text('${_address_line1} ${_address_line2}',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(fontWeight: FontWeight.bold,
+                                color: Colors.black
+                            ),
+                          ),
+                        ),
+                        amount != null
+                            ? Padding(
+                          padding: EdgeInsets.fromLTRB(0, 5.0, 0, 0),
+                          child: Text('Total: Rs. ${amount}',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20.0
+                            ),
+                          ),
+                        )
+                            :Padding(
+                          padding: EdgeInsets.fromLTRB(0, 5.0, 0, 0),
+                          child: Text('Total: Rs. 0.00',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20.0
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    isThreeLine: true,
+                    trailing: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        InkWell(
+                          onTap: () {
+//                                print('yes');
+                            showDialog(context: context, builder: (context) {
+                              return DialogBox();
+                            });
+                          },
+                          child: Image.asset('assets/add-button.png',
+                              width: 25, height: 25, fit: BoxFit.contain
+                          ),
+                        ),
+                        SizedBox(
+                          height: AppSingleton.instance.getHeight(10),
+                        ),
+                        _request_status == '0'
+                        ? Container(
+                          padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
+                          height: 20.0,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25.0),
+                            color: Colors.blue,
+                          ),
+                          child: Text(
+                            'In Progress',
+//                                textScaleFactor: 2,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 10.0
+                            ),
+                          ),
+                        ):
+                        Container(
+                          padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
+                          height: 20.0,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25.0),
+                            color: Colors.green,
+                          ),
+                          child: Text(
+                            'Complete',
+//                                textScaleFactor: 2,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 10.0
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+          ),
+//                Text('-------------------------------------------',
+//                  style: TextStyle(
+//                    fontSize: 28.0,
+//                    color: Colors.grey
+//                  ),
+//                ),
+          Divider(),
+          Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+            child: Text('ITEMS FOR PICKUP',
+              style: TextStyle(
+                  fontSize: 22.0,
+                  fontWeight: FontWeight.w600
+              ),
+            ),
+          ),
+          Divider(),
+          buildItemsList(),
+          _data1.length > 0
+          ? Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10.0),
+            child: RaisedButton(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              // onPressed: loginCheck,
+              onPressed: (){
+                Map<String, String> body = {
+                  Constants.PARAM_REQUEST_ID: _id,
+//                  Constants.PARAM_VENDOR_ID: _v_id,
+                  Constants.PARAM_AMOUNT: amount,
+                };
+//                print(body);
+                BlocProvider.of<RequestDetailsBloc>(context).add(CompleteRequestDetails(body: body));
+              },
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+              color: Colors.green,
+              child: Text('Complete',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold
+                ),
+              ),
+            ),
+          ):
+          Container(),
+        ],
+      ),
+    );
+  }
+
+  Widget buildItemsList() {
+    return _data1.length > 0 ? ListView.builder(
+      physics: ClampingScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: _data1.length,
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+          child: Card(
+            color: Colors.blueGrey[50],
+            elevation: 2,
+            child: ListTile(
+              leading: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Image.asset('assets/recycle.png',
+                      width: 28, height: 28),
+                  SizedBox(
+                    width: AppSingleton.instance.getHeight(
+                        10.0),
+                  ),
+                  Text(_data1[index].unit_qty + _data1[index].unit,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              title: Text(_data1[index].material_id,
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.0
+                ),
+              ),
+              subtitle:
+              Text('Rs. '+ _data1[index].rate +'/' +  _data1[index].unit,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Text('Rs. ' + _data1[index].amount + '.00',
+                    style: TextStyle(
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14.0
+                    ),
+                  ),
+                  SizedBox(
+                    width: AppSingleton.instance.getWidth(10),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      String id = _data1[index].id;
+                      showAlertDialog(id);
+                    },
+                    child: Image.asset('assets/criss-cross.png',
+                        width: 25, height: 25, fit: BoxFit.contain
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    ):
+        Container(
+          child: Text(
+            'no items picked up.',
+            style: TextStyle(
+              color: Colors.red,
+              fontWeight: FontWeight.bold
+            ),
+          )
+        );
+  }
+
+  showAlertDialog(id) {  // set up the buttons
+    Widget cancelButton = FlatButton(
+      child: Text("Cancel"),
+//      onPressed:  () {
+//        Navigator.pushNamed(context, Constants.ROUTE_HOME);
+//      },
+      onPressed: () => Navigator.pop(context),
+    );
+    Widget continueButton = FlatButton(
+      child: Text("Remove"),
+      onPressed:  () async {
+        Map<String, String> body = {
+          Constants.PARAM_ITEM_ID: id,
+        };
+//        print(body);
+        BlocProvider.of<RequestDetailsBloc>(context).add(RemoveItemRequestDetails(body: body));
+      },
+    );  // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      content: Text("Do you want to remove item from list?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );  // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   successAlert() {
     // DialogBox.showLoadingDialog(context, _loadingKey);
     // return DialogBox();
@@ -301,5 +445,49 @@ class _RequestDetailsState extends State<RequestDetails> {
       return DialogBox();
     },
     );
+  }
+
+  void _setData(RequestDetailsResponse response) {
+    _id = response.data.id;
+    _user_id = response.data.user_id;
+    _name = response.data.name;
+    _mobile = response.data.mobile;
+    _address_line1 = response.data.address_line1;
+    _address_line2 = response.data.address_line2;
+    _country = response.data.country;
+    _state = response.data.state;
+    _city = response.data.city;
+    _pin_code = response.data.pin_code;
+    _latitude_longitude = response.data.latitude_longitude;
+    _schedule_date_time = response.data.schedule_date_time;
+    _request_status = response.data.request_status;
+    _vendor_id = response.data.vendor_id;
+    _pickup_date_time = response.data.pickup_date_time;
+    _admin_status = response.data.admin_status;
+    _warehouse_id = response.data.warehouse_id;
+    _payment_status = response.data.payment_status;
+    _payment_mode = response.data.payment_mode;
+    _payment_txn_id = response.data.payment_txn_id;
+    _total_amount = response.data.total_amount;
+    _created_on = response.data.created_on;
+    _last_modified_by = response.data.last_modified_by;
+    _last_modified_on = response.data.last_modified_on;
+    amount = response.data.amount;
+  }
+
+  void _setData1(VendorProfileResponse response) {
+    _v_id = response.data.id;
+  }
+
+  void _showSuccessMessage(String message) {
+      scaffoldKey.currentState.hideCurrentSnackBar();
+      scaffoldKey.currentState
+          .showSnackBar(AppSingleton.instance.getSuccessSnackBar(message));
+  }
+
+  void _showError(String message) {
+    scaffoldKey.currentState.hideCurrentSnackBar();
+    scaffoldKey.currentState
+        .showSnackBar(AppSingleton.instance.getErrorSnackBar(message));
   }
 }

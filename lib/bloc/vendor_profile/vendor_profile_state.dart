@@ -34,11 +34,11 @@ class VendorProfileError extends VendorProfileState {
   @override
   List<Object> get props => [msg];
 }
-//class VendorProfileUpdated extends VendorProfileState {
-//  final VendorProfileUpdateResponse response;
-//
-//  VendorProfileUpdated({@required this.response}) : assert(response != null);
-//
-//  @override
-//  List<Object> get props => [response];
-//}
+class VendorProfileUpdated extends VendorProfileState {
+  final ProfileUpdateResponse response;
+
+  VendorProfileUpdated({@required this.response}) : assert(response != null);
+
+  @override
+  List<Object> get props => [response];
+}

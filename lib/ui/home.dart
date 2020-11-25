@@ -210,8 +210,8 @@ class _HomeState extends State<Home> {
                             padding: EdgeInsets.symmetric(horizontal: 0),
                             child: GestureDetector(
                               onTap: () {
-//                                Navigator.pushNamed(
-//                                    context, Constants.ROUTE_CAROUSEL_DEMO);
+                                Navigator.pushNamed(
+                                    context, Constants.ROUTE_CONTACT_US);
                               },
                               child: Card(
                                 shape: RoundedRectangleBorder(

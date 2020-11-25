@@ -1,16 +1,26 @@
 import 'package:scrapgreen/base_widgets/app_textstyle.dart';
-import 'package:scrapgreen/bloc/history_bloc.dart';
+import 'package:scrapgreen/bloc/vendor_profile/vendor_profile_bloc.dart';
+import 'package:scrapgreen/bloc/vendor_profile/vendor_profile_event.dart';
+import 'package:scrapgreen/bloc/vendor_profile/vendor_profile_state.dart';
 import 'package:scrapgreen/bloc/schedule_history_bloc.dart';
 import 'package:scrapgreen/bloc/assigned_history_bloc.dart';
 import 'package:scrapgreen/bloc/success_history_bloc.dart';
-import 'package:scrapgreen/models/response/pickup_request_response.dart';
-import 'package:scrapgreen/models/response/pickup_request_schedule_response.dart';
-import 'package:scrapgreen/models/response/pickup_request_assigned_response.dart';
-import 'package:scrapgreen/models/response/pickup_request_success_response.dart';
+import 'package:scrapgreen/generated/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:scrapgreen/utils/constants.dart' as Constants;
+import 'package:scrapgreen/repository/repository.dart';
 import 'package:scrapgreen/utils/singleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:scrapgreen/models/response/vendor_profile_response.dart';
+import 'package:scrapgreen/models/response/pickup_request_schedule_response.dart';
+import 'package:scrapgreen/models/response/pickup_request_success_response.dart';
+import 'package:scrapgreen/models/response/pickup_request_assigned_response.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/material.dart';
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:intl/intl.dart';
+import 'package:geolocator/geolocator.dart';
 
 class History extends StatefulWidget {
   @override
@@ -20,6 +30,19 @@ class History extends StatefulWidget {
 class _HistoryState extends State<History> with SingleTickerProviderStateMixin{
   TabController _tabController;
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+  String _id,
+      _name,
+      _email,
+      _mobile,
+      _address_line1,
+      _address_line2,
+      _country,
+      _state,
+      _city,
+      _pin_code,
+      _logo,
+      _logo_original;
+
   int startFrom = 0;
   ScrollController _controller = ScrollController();
   List<Data1> _data1 = List();
@@ -69,13 +92,12 @@ class _HistoryState extends State<History> with SingleTickerProviderStateMixin{
       }
     }
   }
-
+  @override
   onTap() {
     if (scaffoldKey.currentContext != null) {
       Navigator.of(scaffoldKey.currentContext).pop(true);
     }
   }
-
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () {
@@ -88,8 +110,8 @@ class _HistoryState extends State<History> with SingleTickerProviderStateMixin{
             leading: onTap(),
             title: new Text('HISTORY',
               style: TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold
               ),
             ),
             bottom: new TabBar(
@@ -112,141 +134,380 @@ class _HistoryState extends State<History> with SingleTickerProviderStateMixin{
           ),
           body: new TabBarView(
             children: <Widget>[
-              Schedule(),
-              Assigned(),
-              Success(),
+//              Schedule(),
+              Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  children: <Widget>[
+                    Expanded(
+                      child: BlocConsumer(
+                        bloc: BlocProvider.of<ScheduleHistoryBloc>(context),
+                        listener: (context, state) {
+                          if (state is SuccessHistoryLoaded) {
+                            _isLoading = false;
+//                            if (state.response.data1.isEmpty) {
+//                              _hasMoreItems = false;
+//                            }
+//                            _data1.addAll(state.response.data1);
+                          }
+                        },
+                        builder: (context, state) {
+                          if (state is ScheduleHistoryLoading) {
+                            return AppSingleton.instance
+                                .buildCenterSizedProgressBar();
+                          }
+                          if (state is ScheduleHistoryError) {
+                            return Center(
+                              child: Text(state.msg),
+                            );
+                          }
+                          if(state is ScheduleHistoryLoaded){
+                            return buildListSchedule(state.response.data1);
+                          }
+                          return buildListSchedule(state.response.data1);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+//              Assigned(),
+              Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  children: <Widget>[
+                    Expanded(
+                      child: BlocConsumer(
+                        bloc: BlocProvider.of<AssignedHistoryBloc>(context),
+                        listener: (context, state) {
+//                          print(state);
+                          if (state is AssignedHistoryLoaded) {
+                            _isLoading = false;
+                            if (state.response.data2.isEmpty) {
+                              _hasMoreItems = false;
+                            }
+                            _data2.addAll(state.response.data2);
+                          }
+                        },
+                        builder: (context, state) {
+                          if (state is AssignedHistoryLoading) {
+                            return AppSingleton.instance
+                                .buildCenterSizedProgressBar();
+                          }
+                          if (state is AssignedHistoryError) {
+                            return Center(
+                              child: Text(state.msg),
+                            );
+                          }
+                          if(state is AssignedHistoryLoaded){
+                            return buildListAssigned(state.response.data2);
+                          }
+                          return buildListAssigned(state.response.data2);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+//              Icon(Icons.directions_bike),
+              Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  children: <Widget>[
+                    Expanded(
+                      child: BlocConsumer(
+                        bloc: BlocProvider.of<SuccessHistoryBloc>(context),
+                        listener: (context, state) {
+                          if (state is SuccessHistoryLoaded) {
+                            _isLoading = false;
+                            if (state.response.data3.isEmpty) {
+                              _hasMoreItems = false;
+                            }
+                            _data3.addAll(state.response.data3);
+                          }
+                        },
+                        builder: (context, state) {
+                          if (state is SuccessHistoryLoading) {
+                            return AppSingleton.instance
+                                .buildCenterSizedProgressBar();
+                          }
+                          if (state is SuccessHistoryError) {
+                            return Center(
+                              child: Text(state.msg),
+                            );
+                          }
+                          if(state is SuccessHistoryLoaded){
+                            return buildListSucces(state.response.data3);
+                          }
+                          return buildListSucces(state.response.data3);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
             controller: _tabController,
+          ),
+
+          drawer: Drawer(
+            // Add a ListView to the drawer. This ensures the user can scroll
+            // through the options in the drawer if there isn't enough vertical
+            // space to fit everything.
+            child: ListView(
+              // Important: Remove any padding from the ListView.
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                DrawerHeader(
+                  decoration: BoxDecoration(
+                    color: Colors.green,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        width: 50,
+                        height: 50,
+                        alignment: Alignment.center,
+                        child: Icon(
+                          Icons.account_circle,
+                          color: Colors.white,
+                          size: 75,
+                        ),
+
+//                        child: Image.network(logo_path ,fit: BoxFit.cover,),
+//                        child: CircleAvatar(
+//                          radius: 50.0,
+//                          backgroundImage:
+//                          NetworkImage('https://apptroidtechnology.in/scrap_green/uploads/images/aaab7f8d09e7350e13201682ba2e4030.jpg'),
+//                          backgroundColor: Colors.transparent,
+//                        )
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                        child: Text(
+                          'Hemant Bhabal',
+                          style: TextStyle(
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+                        child: Text(
+                          '+91 7738242013',
+                          style: TextStyle(
+                              fontSize: 14.0,
+                              color: Colors.white
+//                          fontWeight: FontWeight.bold
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+                        child: Text(
+                          'bhabalhemant@gmail.com',
+                          style: TextStyle(
+                              fontSize: 14.0,
+                              color: Colors.white
+//                          fontWeight: FontWeight.bold
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                ListTile(
+//              leading: Icon(Icons.lock),
+                  leading: Container(
+                    width: 30,
+                    height: 30,
+//              color: Colors.green,
+                    decoration:
+                    BoxDecoration(
+                      border: Border.all(color: Colors.green),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child:Icon(Icons.settings, color: Colors.green,),
+                  ),
+                  title: Text(
+                    'SETTINGS',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ).tr(),
+                  onTap: () async {
+                    Navigator.pushNamed(context, Constants.ROUTE_VENDOR_SETTINGS);
+                  },
+                ),
+                ListTile(
+//              leading: Icon(Icons.lock),
+                  leading: Container(
+                    width: 30,
+                    height: 30,
+//              color: Colors.green,
+                    decoration:
+                    BoxDecoration(
+                      border: Border.all(color: Colors.green),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child:Icon(Icons.lock, color: Colors.green,),
+                  ),
+                  title: Text(
+//                LocaleKeys.ask_help,
+                    'LOGOUT',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ).tr(),
+                  onTap: () async {
+                    var response = await Repository.instance.clearAllShardPrefs();
+//                    print(response);
+                    if (response) {
+                      Navigator.pushNamed(context, Constants.ROUTE_SIGN_IN_VENDOR);
+//                      Navigator.pushNamedAndRemoveUntil(scaffoldKey.currentContext,
+//                          Constants.ROUTE_SIGN_IN_VENDOR, (Route<dynamic> route) => false);
+                    } else {
+                      _showError('Failed to log out');
+                    }
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
-
-  Widget Schedule(){
-    return Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            child: Column(
-              children: <Widget>[
-                Expanded(
-                  child: BlocConsumer(
-                    bloc: BlocProvider.of<ScheduleHistoryBloc>(context),
-                    listener: (context, state) {
-                      if (state is ScheduleHistoryLoaded) {
-                        _isLoading = false;
-                        if (state.response.data1.isEmpty) {
-                          _hasMoreItems = false;
-                        }
-                        _data1.addAll(state.response.data1);
-                      }
-                    },
-                    builder: (context, state) {
-                      if (state is ScheduleHistoryLoading) {
-                        return AppSingleton.instance
-                            .buildCenterSizedProgressBar();
-                      }
-                      if (state is ScheduleHistoryError) {
-                        return Center(
-                          child: Text(state.msg),
-                        );
-                      }
-                      if(state is ScheduleHistoryLoaded){
-                        return buildListSchedule(state.response.msg);
-                      }
-                      return buildListSchedule('');
-                    },
-                  ),
-                ),
-              ],
-            ),
+//  Widget Schedule() {
+//    return Container(
+//      height: MediaQuery.of(context).size.height,
+//      width: MediaQuery.of(context).size.width,
+//      child: Column(
+//        children: <Widget>[
+//          Expanded(
+//            child: BlocConsumer(
+//              bloc: BlocProvider.of<SchedulePickupBloc>(context),
+//              listener: (context, state) {
+//                if (state is SchedulePickupLoaded) {
+//                  _isLoading = false;
+//                  if (state.response.data1.isEmpty) {
+//                    _hasMoreItems = false;
+//                  }
+//                  _data1.addAll(state.response.data1);
+//                }
+//              },
+//              builder: (context, state) {
+//                if (state is SchedulePickupLoading) {
+//                  return AppSingleton.instance
+//                      .buildCenterSizedProgressBar();
+//                }
+//                if (state is SchedulePickupError) {
+//                  return Center(
+//                    child: Text(state.msg),
+//                  );
+//                }
+//                if(state is SchedulePickupLoaded){
+//                  return buildListSchedule(state.response.msg);
+//                }
+//                return buildListSchedule('');
+//              },
+//            ),
 //          ),
-    );
-  }
-
-  Widget Assigned(){
-    return Container(
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
-      child: Column(
-        children: <Widget>[
-          Expanded(
-            child: BlocConsumer(
-              bloc: BlocProvider.of<AssignedHistoryBloc>(context),
-              listener: (context, state) {
-                      print(state);
-                if (state is AssignedHistoryLoaded) {
-                  _isLoading = false;
-                  if (state.response.data2.isEmpty) {
-                    _hasMoreItems = false;
-                  }
-                  _data2.addAll(state.response.data2);
-                }
-              },
-              builder: (context, state) {
-                if (state is AssignedHistoryLoading) {
-                  return AppSingleton.instance
-                      .buildCenterSizedProgressBar();
-                }
-                if (state is AssignedHistoryError) {
-                  return Center(
-                    child: Text(state.msg),
-                  );
-                }
-                if(state is AssignedHistoryLoaded){
-                  return buildListAssigned(state.response.msg);
-                }
-                return buildListAssigned('');
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget Success(){
-    return Container(
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
-      child: Column(
-        children: <Widget>[
-          Expanded(
-            child: BlocConsumer(
-              bloc: BlocProvider.of<SuccessHistoryBloc>(context),
-              listener: (context, state) {
-                if (state is SuccessHistoryLoaded) {
-                  _isLoading = false;
-                  if (state.response.data3.isEmpty) {
-                    _hasMoreItems = false;
-                  }
-                  _data3.addAll(state.response.data3);
-                }
-              },
-              builder: (context, state) {
-                if (state is SuccessHistoryLoading) {
-                  return AppSingleton.instance
-                      .buildCenterSizedProgressBar();
-                }
-                if (state is SuccessHistoryError) {
-                  return Center(
-                    child: Text(state.msg),
-                  );
-                }
-                if(state is SuccessHistoryLoaded){
-                  return buildListSucces(state.response.msg);
-                }
-                return buildListSucces('');
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildListSchedule(String message) {
-    return _data1.length > 0 ? ListView.builder(
+//        ],
+//      ),
+//    );
+//  }
+//  Widget Assigned() {
+//    return Container(
+//      height: MediaQuery.of(context).size.height,
+//      width: MediaQuery.of(context).size.width,
+//      child: Column(
+//        children: <Widget>[
+//          Expanded(
+//            child: BlocConsumer(
+//              bloc: BlocProvider.of<AssignedPickupBloc>(context),
+//              listener: (context, state) {
+//                print(state);
+//                if (state is AssignedPickupLoaded) {
+//                  _isLoading = false;
+//                  if (state.response.data2.isEmpty) {
+//                    _hasMoreItems = false;
+//                  }
+//                  _data2.addAll(state.response.data2);
+//                }
+//              },
+//              builder: (context, state) {
+//                if (state is AssignedPickupLoading) {
+//                  return AppSingleton.instance
+//                      .buildCenterSizedProgressBar();
+//                }
+//                if (state is AssignedPickupError) {
+//                  return Center(
+//                    child: Text(state.msg),
+//                  );
+//                }
+//                if(state is AssignedPickupLoaded){
+//                  return buildListAssigned(state.response.msg);
+//                }
+//                return buildListAssigned('');
+//              },
+//            ),
+//          ),
+//        ],
+//      ),
+//    );
+//  }
+//  Widget Success(){
+//    return Container(
+//      height: MediaQuery.of(context).size.height,
+//      width: MediaQuery.of(context).size.width,
+//      child: Column(
+//        children: <Widget>[
+//          Expanded(
+//            child: BlocConsumer(
+//              bloc: BlocProvider.of<SuccessPickupBloc>(context),
+//              listener: (context, state) {
+//                if (state is SuccessPickupLoaded) {
+//                  _isLoading = false;
+//                  if (state.response.data3.isEmpty) {
+//                    _hasMoreItems = false;
+//                  }
+//                  _data3.addAll(state.response.data3);
+//                }
+//              },
+//              builder: (context, state) {
+//                if (state is SuccessPickupLoading) {
+//                  return AppSingleton.instance
+//                      .buildCenterSizedProgressBar();
+//                }
+//                if (state is SuccessPickupError) {
+//                  return Center(
+//                    child: Text(state.msg),
+//                  );
+//                }
+//                if(state is SuccessPickupLoaded){
+//                  return buildListSucces(state.response.msg);
+//                }
+//                return buildListSucces('');
+//              },
+//            ),
+//          ),
+//        ],
+//      ),
+//    );
+//  }
+  Widget buildListSchedule(List<Data1> _data1) {
+    return ListView.builder(
       physics: ClampingScrollPhysics(),
       shrinkWrap: true,
       itemCount: _data1.length,
@@ -256,7 +517,7 @@ class _HistoryState extends State<History> with SingleTickerProviderStateMixin{
           child: Column(
             children: <Widget>[
               _data1[index].request_status == '0'
-              ? Card(
+                  ? Card(
                 color: Colors.grey[200],
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: 0.0),
@@ -264,6 +525,15 @@ class _HistoryState extends State<History> with SingleTickerProviderStateMixin{
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       ListTile(
+//                        onTap: (){
+//                          Map<String, String> body = {
+//                            Constants.PARAM_REQUEST_ID: _data1[index].id,
+//                          };
+//                          print(body);
+//                        String request_id = _data1[index].id;
+//                          BlocProvider.of<ScheduleHistoryBloc>(context).add(StoreRequestIdEvent(body: body));
+//                          Navigator.pushNamed(context, Constants.ROUTE_REQUEST_DETAILS);
+//                        },
                         leading: Image.asset('assets/recycle.png',
                             width: 62, height: 62, fit: BoxFit.contain),
                         title: Text(
@@ -331,14 +601,12 @@ class _HistoryState extends State<History> with SingleTickerProviderStateMixin{
 
         );
       },
-    ):  Container(
-        child: Text('No data to display!')
     );
   }
 
-  Widget buildListAssigned(String message) {
+  Widget buildListAssigned(List<Data2> _data2) {
 //    print(_data2.length);
-    return _data2.length > 0 ? ListView.builder(
+    return ListView.builder(
       physics: ClampingScrollPhysics(),
       shrinkWrap: true,
       itemCount: _data2.length,
@@ -348,7 +616,7 @@ class _HistoryState extends State<History> with SingleTickerProviderStateMixin{
           child: Column(
             children: <Widget>[
               _data2[index].request_status == '1'
-              ? Card(
+                  ? Card(
                 color: Colors.grey[200],
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: 0.0),
@@ -430,13 +698,11 @@ class _HistoryState extends State<History> with SingleTickerProviderStateMixin{
           ),
         );
       },
-    ):  Container(
-      child: Text('No data to display!')
     );
   }
 
-  Widget buildListSucces(String message) {
-    return _data3.length > 0 ? ListView.builder(
+  Widget buildListSucces(List<Data3> _data3) {
+    return ListView.builder(
       physics: ClampingScrollPhysics(),
       shrinkWrap: true,
       itemCount: _data3.length,
@@ -446,7 +712,7 @@ class _HistoryState extends State<History> with SingleTickerProviderStateMixin{
           child: Column(
             children: <Widget>[
               _data3[index].request_status == '2'
-              ? Card(
+                  ? Card(
                 color: Colors.grey[200],
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: 0.0),
@@ -659,13 +925,474 @@ class _HistoryState extends State<History> with SingleTickerProviderStateMixin{
                   ),
                 ),
               ):
-                  Container()
+              Container()
             ],
           ),
         );
       },
-    ):  Container(
-        child: Text('No data to display!')
     );
+  }
+  Widget buildVendorScreen() {
+    return SingleChildScrollView(
+//      height: MediaQuery.of(context).size.height,
+//      width: MediaQuery.of(context).size.width,
+      child: Flex(
+        direction: Axis.vertical,
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.all(20),
+            child: SizedBox(
+              height: AppSingleton.instance.getHeight(50),
+              child: TextField(
+                keyboardType: TextInputType.text,
+                maxLines: 1,
+                decoration: InputDecoration(
+                    suffixIcon: Icon(Icons.search),
+                    border: OutlineInputBorder(
+                      borderRadius: const BorderRadius.all(
+                        const Radius.circular(50.0),
+                      ),
+                    ),
+                    filled: true,
+                    hintStyle: AppTextStyle.regular(Colors.black38, 15.0),
+                    hintText: "Search",
+                    fillColor: Colors.white70),
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+            child: Card(
+              color: Colors.grey[200],
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical:0.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                    ListTile(
+                      // leading: Icon(Icons.album),
+                      leading: Image.asset('assets/recycle.png',
+                          width: 62, height: 62, fit: BoxFit.contain),
+                      title: Text('Order No: REC007',
+                        style: TextStyle(
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      // subtitle: Text('19.05.2020 12:29PM \nGhatkopar-West,400084.'),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text('19.05.2020 12:29PM',
+//                            textAlign: TextAlign.left,
+                            style: TextStyle(
+//                                 fontWeight: FontWeight.bold,
+                                fontSize: 10.0
+                            ),
+                          ),
+                          Text('Ghatkopar-West,400084.',
+//                            textAlign: TextAlign.le,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12.0
+                            ),
+                          ),
+                        ],
+                      ),
+                      isThreeLine: true,
+                      trailing: Row(
+                        // crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Image.asset('assets/criss-cross.png',
+                              width: 32, height: 32, fit: BoxFit.contain),
+                          SizedBox(
+                            width: AppSingleton.instance.getWidth(2),
+                          ),
+                          Image.asset('assets/check.png',
+                              width: 30, height: 30, fit: BoxFit.contain),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+            child: Card(
+              color: Colors.grey[200],
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical:0.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                    ListTile(
+                      // leading: Icon(Icons.album),
+                      leading: Image.asset('assets/recycle.png',
+                          width: 62, height: 62, fit: BoxFit.contain),
+                      title: Text('Order No: REC007',
+                        style: TextStyle(
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      // subtitle: Text('19.05.2020 12:29PM \nGhatkopar-West,400084.'),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text('19.05.2020 12:29PM',
+//                            textAlign: TextAlign.left,
+                            style: TextStyle(
+//                                 fontWeight: FontWeight.bold,
+                                fontSize: 10.0
+                            ),
+                          ),
+                          Text('Ghatkopar-West,400084.',
+//                            textAlign: TextAlign.le,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12.0
+                            ),
+                          ),
+                        ],
+                      ),
+                      isThreeLine: true,
+                      trailing: Row(
+                        // crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Image.asset('assets/criss-cross.png',
+                              width: 32, height: 32, fit: BoxFit.contain),
+                          SizedBox(
+                            width: AppSingleton.instance.getWidth(2),
+                          ),
+                          Image.asset('assets/check.png',
+                              width: 30, height: 30, fit: BoxFit.contain),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+            child: Card(
+              color: Colors.grey[200],
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical:0.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                    ListTile(
+                      // leading: Icon(Icons.album),
+                      leading: Image.asset('assets/recycle.png',
+                          width: 62, height: 62, fit: BoxFit.contain),
+                      title: Text('Order No: REC007',
+                        style: TextStyle(
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      // subtitle: Text('19.05.2020 12:29PM \nGhatkopar-West,400084.'),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text('19.05.2020 12:29PM',
+//                            textAlign: TextAlign.left,
+                            style: TextStyle(
+//                                 fontWeight: FontWeight.bold,
+                                fontSize: 10.0
+                            ),
+                          ),
+                          Text('Ghatkopar-West,400084.',
+//                            textAlign: TextAlign.le,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12.0
+                            ),
+                          ),
+                        ],
+                      ),
+                      isThreeLine: true,
+                      trailing: Row(
+                        // crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Image.asset('assets/criss-cross.png',
+                              width: 32, height: 32, fit: BoxFit.contain),
+                          SizedBox(
+                            width: AppSingleton.instance.getWidth(2),
+                          ),
+                          Image.asset('assets/check.png',
+                              width: 30, height: 30, fit: BoxFit.contain),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+            child: Card(
+              color: Colors.grey[200],
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical:0.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                    ListTile(
+                      // leading: Icon(Icons.album),
+                      leading: Image.asset('assets/recycle.png',
+                          width: 62, height: 62, fit: BoxFit.contain),
+                      title: Text('Order No: REC007',
+                        style: TextStyle(
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      // subtitle: Text('19.05.2020 12:29PM \nGhatkopar-West,400084.'),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text('19.05.2020 12:29PM',
+//                            textAlign: TextAlign.left,
+                            style: TextStyle(
+//                                 fontWeight: FontWeight.bold,
+                                fontSize: 10.0
+                            ),
+                          ),
+                          Text('Ghatkopar-West,400084.',
+//                            textAlign: TextAlign.le,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12.0
+                            ),
+                          ),
+                        ],
+                      ),
+                      isThreeLine: true,
+                      trailing: Row(
+                        // crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Image.asset('assets/criss-cross.png',
+                              width: 32, height: 32, fit: BoxFit.contain),
+                          SizedBox(
+                            width: AppSingleton.instance.getWidth(2),
+                          ),
+                          Image.asset('assets/check.png',
+                              width: 30, height: 30, fit: BoxFit.contain),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+            child: Card(
+              color: Colors.grey[200],
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical:0.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                    ListTile(
+                      // leading: Icon(Icons.album),
+                      leading: Image.asset('assets/recycle.png',
+                          width: 62, height: 62, fit: BoxFit.contain),
+                      title: Text('Order No: REC007',
+                        style: TextStyle(
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      // subtitle: Text('19.05.2020 12:29PM \nGhatkopar-West,400084.'),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text('19.05.2020 12:29PM',
+//                            textAlign: TextAlign.left,
+                            style: TextStyle(
+//                                 fontWeight: FontWeight.bold,
+                                fontSize: 10.0
+                            ),
+                          ),
+                          Text('Ghatkopar-West,400084.',
+//                            textAlign: TextAlign.le,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12.0
+                            ),
+                          ),
+                        ],
+                      ),
+                      isThreeLine: true,
+                      trailing: Row(
+                        // crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Image.asset('assets/criss-cross.png',
+                              width: 32, height: 32, fit: BoxFit.contain),
+                          SizedBox(
+                            width: AppSingleton.instance.getWidth(2),
+                          ),
+                          Image.asset('assets/check.png',
+                              width: 30, height: 30, fit: BoxFit.contain),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+            child: Card(
+              color: Colors.grey[200],
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical:0.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                    ListTile(
+                      // leading: Icon(Icons.album),
+                      leading: Image.asset('assets/recycle.png',
+                          width: 62, height: 62, fit: BoxFit.contain),
+                      title: Text('Order No: REC007',
+                        style: TextStyle(
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      // subtitle: Text('19.05.2020 12:29PM \nGhatkopar-West,400084.'),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text('19.05.2020 12:29PM',
+//                            textAlign: TextAlign.left,
+                            style: TextStyle(
+//                                 fontWeight: FontWeight.bold,
+                                fontSize: 10.0
+                            ),
+                          ),
+                          Text('Ghatkopar-West,400084.',
+//                            textAlign: TextAlign.le,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12.0
+                            ),
+                          ),
+                        ],
+                      ),
+                      isThreeLine: true,
+                      trailing: Row(
+                        // crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Image.asset('assets/criss-cross.png',
+                              width: 32, height: 32, fit: BoxFit.contain),
+                          SizedBox(
+                            width: AppSingleton.instance.getWidth(2),
+                          ),
+                          Image.asset('assets/check.png',
+                              width: 30, height: 30, fit: BoxFit.contain),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+            child: Card(
+              color: Colors.grey[200],
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical:0.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                    ListTile(
+                      // leading: Icon(Icons.album),
+                      leading: Image.asset('assets/recycle.png',
+                          width: 62, height: 62, fit: BoxFit.contain),
+                      title: Text('Order No: REC007',
+                        style: TextStyle(
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text('19.05.2020 12:29PM',
+                            style: TextStyle(
+                                fontSize: 10.0
+                            ),
+                          ),
+                          Text('Ghatkopar-West,400084.',
+//                            textAlign: TextAlign.le,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12.0
+                            ),
+                          ),
+                        ],
+                      ),
+                      isThreeLine: true,
+                      trailing: Row(
+                        // crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Image.asset('assets/criss-cross.png',
+                              width: 32, height: 32, fit: BoxFit.contain),
+                          SizedBox(
+                            width: AppSingleton.instance.getWidth(2),
+                          ),
+                          Image.asset('assets/check.png',
+                              width: 30, height: 30, fit: BoxFit.contain),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+  void _showError(String message) {
+    scaffoldKey.currentState.hideCurrentSnackBar();
+    scaffoldKey.currentState
+        .showSnackBar(AppSingleton.instance.getErrorSnackBar(message));
+  }
+
+  void _setData(VendorProfileResponse response) {
+    _id = response.data.id;
+    _name = response.data.name;
+    _email = response.data.email;
+    _mobile = response.data.mobile;
+    _address_line1 = response.data.address_line1;
+    _address_line2 = response.data.address_line2;
+    _country = response.data.country;
+    _state = response.data.state;
+    _city = response.data.city;
+    _pin_code = response.data.pin_code;
+    setState(() {
+      _logo = response.data.logo;
+    });
   }
 }

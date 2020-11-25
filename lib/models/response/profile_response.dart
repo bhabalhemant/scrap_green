@@ -18,7 +18,6 @@ class ProfileResponse {
       data['data'] = this.data.toJson();
     }
     data['msg'] = this.msg;
-    print(data);
     return data;
   }
 }
@@ -28,6 +27,7 @@ class Data {
   String name;
   String email;
   String mobile;
+  String type;
   String address_line1;
   String address_line2;
   String country;
@@ -41,6 +41,7 @@ class Data {
         this.name,
         this.email,
         this.mobile,
+        this.type,
         this.address_line1,
         this.address_line2,
         this.country,
@@ -55,6 +56,7 @@ class Data {
     name = json['name'];
     email = json['email'];
     mobile = json['mobile'];
+    type = json['type'];
     address_line1 = json['address_line1'];
     address_line2 = json['address_line2'];
     country = json['country'];
@@ -69,6 +71,7 @@ class Data {
     data['name'] = this.name;
     data['email'] = this.email;
     data['mobile'] = this.mobile;
+    data['type'] = this.type;
     data['address_line1'] = this.address_line1;
     data['address_line2'] = this.address_line2;
     data['country'] = this.country;
