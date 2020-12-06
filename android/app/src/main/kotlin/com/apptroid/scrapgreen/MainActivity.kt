@@ -1,4 +1,4 @@
-package com.apptroid.scrap_green
+package com.apptroid.scrapgreen
 
 
 import androidx.annotation.NonNull

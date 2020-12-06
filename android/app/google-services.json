@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:671734773807:android:ecc8c105d5f81f0a84eeda",
+        "mobilesdk_app_id": "1:671734773807:android:8db37889cd6b0f5f84eeda",
         "android_client_info": {
-          "package_name": "com.apptroid.scrap_green"
+          "package_name": "com.apptroid.scrapgreen"
         }
       },
       "oauth_client": [
