@@ -1,17 +1,18 @@
 import 'dart:async';
 
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:scrapgreen/bloc/splash_bloc.dart';
-import 'package:scrapgreen/models/response/profile_response.dart';
-import 'package:scrapgreen/utils/constants.dart' as Constants;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:location/location.dart';
+import 'package:scrapgreen/bloc/splash_bloc.dart';
+import 'package:scrapgreen/models/response/profile_response.dart';
+import 'package:scrapgreen/models/response/vendor_profile_response.dart';
+import 'package:scrapgreen/utils/constants.dart' as Constants;
+import 'package:shared_preferences/shared_preferences.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-FlutterLocalNotificationsPlugin();
+    FlutterLocalNotificationsPlugin();
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -42,10 +43,11 @@ class _SplashScreenState extends State<SplashScreen> {
           bloc: BlocProvider.of<SplashBloc>(context),
           listener: (context, state) {
             if (state is SplashLoaded) {
-              _navigate(validateData(state.response));
+              _navigate(validateData(
+                  state.profileResponse, state.vendorProfileResponse));
             }
             if (state is SplashError) {
-              _navigate(false);
+              _navigate(Constants.INVALID_USER);
             }
           },
           builder: (context, state) {
@@ -76,23 +78,31 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  bool validateData(ProfileResponse signInResponse) {
-    if (signInResponse != null &&
-        signInResponse.data.name != null &&
-        signInResponse.data.email != null &&
-        signInResponse.data.mobile != null) {
-      return true;
+  int validateData(ProfileResponse profileResponse,
+      VendorProfileResponse vendorProfileResponse) {
+    if (profileResponse != null &&
+        profileResponse.data.name != null &&
+        profileResponse.data.email != null &&
+        profileResponse.data.mobile != null) {
+      return Constants.NORMAL_USER;
+    } else if (VendorProfileResponse != null &&
+        vendorProfileResponse.data.name != null &&
+        vendorProfileResponse.data.email != null &&
+        vendorProfileResponse.data.mobile != null) {
+      return Constants.VENDOR_USER;
     } else {
-      return false;
+      return Constants.INVALID_USER;
     }
   }
 
-  void _navigate(bool isLoggedIn) {
+  void _navigate(int whichUser) {
     scaffoldKey.currentState.hideCurrentSnackBar();
     Timer(Duration(seconds: 1), () async {
-      if (isLoggedIn) {
+      if (whichUser == Constants.NORMAL_USER) {
         Navigator.pushNamedAndRemoveUntil(scaffoldKey.currentContext,
             Constants.ROUTE_HOME, (Route<dynamic> route) => false);
+      } else if (whichUser == Constants.VENDOR_USER) {
+        Navigator.pushReplacementNamed(scaffoldKey.currentContext, Constants.ROUTE_VENDOR_REQUEST);
       } else {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         var localeSaved = prefs.getInt("localeSaved");
@@ -132,5 +142,4 @@ class _SplashScreenState extends State<SplashScreen> {
 
     _locationData = await location.getLocation();
   }
-
 }

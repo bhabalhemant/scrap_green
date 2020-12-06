@@ -95,8 +95,13 @@ class Repository {
 
   Future<VendorProfileResponse> getStoredVendorData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return VendorProfileResponse.fromJson(
-        json.decode(prefs.getString(Constants.PARAM_VENDOR_DATA)));
+    var response = prefs.getString(Constants.PARAM_VENDOR_DATA);
+    if(response!=null){
+      return VendorProfileResponse.fromJson(
+          json.decode(response));
+    }else{
+      return null;
+    }
   }
 
   Future<PasswordResponse> getUserId(Map<String, String> body) async {
@@ -186,8 +191,12 @@ class Repository {
 
   Future<ProfileResponse> getStoredUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return ProfileResponse.fromJson(
-        json.decode(prefs.getString(Constants.PARAM_USER_DATA)));
+    var response = prefs.getString(Constants.PARAM_USER_DATA);
+    if(response!=null){
+      return ProfileResponse.fromJson(json.decode(response));
+    }else{
+      return null;
+    }
   }
 
   Future<PasswordResponse> getStoredUserId() async {

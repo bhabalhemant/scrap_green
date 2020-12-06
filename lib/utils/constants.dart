@@ -91,3 +91,7 @@ const PARAM_REQUEST_DETAILS = "request_details";
 const PARAM_REQUEST_DETAILS_ITEMS = "request_details_items";
 const PARAM_ITEM_ID = "item_id";
 const PARAM_RATE_ID = "rate";
+
+const INVALID_USER = 0;
+const NORMAL_USER = 1;
+const VENDOR_USER = 2;

@@ -1,28 +1,17 @@
-import 'package:scrapgreen/base_widgets/app_textstyle.dart';
-import 'package:scrapgreen/bloc/vendor_profile/vendor_profile_bloc.dart';
-import 'package:scrapgreen/bloc/vendor_profile/vendor_profile_event.dart';
-import 'package:scrapgreen/bloc/vendor_profile/vendor_profile_state.dart';
-import 'package:scrapgreen/models/response/vendor_profile_response.dart';
 import 'dart:async';
-import 'package:scrapgreen/bloc/request_details/request_details_bloc.dart';
-import 'package:scrapgreen/bloc/request_details/request_details_state.dart';
-import 'package:scrapgreen/bloc/request_details/request_details_event.dart';
 
-import 'package:scrapgreen/models/response/request_details_response.dart';
-import 'package:scrapgreen/models/response/display_items_response.dart';
-import 'package:scrapgreen/utils/constants.dart' as Constants;
-import 'package:scrapgreen/utils/email_validator.dart';
-import 'package:scrapgreen/utils/singleton.dart';
 import 'package:flutter/material.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:flutter/services.dart';
-import 'package:scrapgreen/utils/dialogBox.dart';
-import 'package:scrapgreen/models/addItem.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
-import 'package:intl/intl.dart';
-import 'package:geolocator/geolocator.dart';
-import 'dart:async';
+import 'package:scrapgreen/base_widgets/app_textstyle.dart';
+import 'package:scrapgreen/bloc/request_details/request_details_bloc.dart';
+import 'package:scrapgreen/bloc/request_details/request_details_event.dart';
+import 'package:scrapgreen/bloc/request_details/request_details_state.dart';
+import 'package:scrapgreen/models/addItem.dart';
+import 'package:scrapgreen/models/response/request_details_response.dart';
+import 'package:scrapgreen/models/response/vendor_profile_response.dart';
+import 'package:scrapgreen/utils/constants.dart' as Constants;
+import 'package:scrapgreen/utils/dialogBox.dart';
+import 'package:scrapgreen/utils/singleton.dart';
 
 class RequestDetails extends StatefulWidget {
   @override
@@ -32,6 +21,7 @@ class RequestDetails extends StatefulWidget {
 class _RequestDetailsState extends State<RequestDetails> {
   String _v_id;
   String _id;
+  String _vendorId;
   String _user_id;
   String _name;
   String _mobile;
@@ -63,12 +53,14 @@ class _RequestDetailsState extends State<RequestDetails> {
   final GlobalKey<State> _loadingKey = GlobalKey<State>();
   final List<AddItem> itemList = [];
   Timer _timer;
+
   @override
   void initState() {
     super.initState();
     BlocProvider.of<RequestDetailsBloc>(context).add(GetVendorProfile());
     BlocProvider.of<RequestDetailsBloc>(context).add(GetRequestDetailsEvent());
   }
+
   @override
   onTap() {
     Navigator.pushNamed(context, Constants.ROUTE_VENDOR_REQUEST);
@@ -100,7 +92,8 @@ class _RequestDetailsState extends State<RequestDetails> {
                       }
                       if (state is RequestDetailsUpdated) {
                         _showSuccessMessage(state.response.msg);
-                        BlocProvider.of<RequestDetailsBloc>(context).add(GetRequestDetailsEvent());
+                        BlocProvider.of<RequestDetailsBloc>(context)
+                            .add(GetRequestDetailsEvent());
                       }
                       if (state is RequestDetailsError) {
                         _showError(state.msg);
@@ -112,7 +105,8 @@ class _RequestDetailsState extends State<RequestDetails> {
                       }
                       if (state is RequestDetailsItemRemoved) {
                         _showSuccessMessage(state.response.msg);
-                        Navigator.pushNamed(context, Constants.ROUTE_REQUEST_DETAILS);
+                        Navigator.pushNamed(
+                            context, Constants.ROUTE_REQUEST_DETAILS);
 //                        _showSuccessMessage(state.response.msg);
                       }
                       if (state is VendorProfileeLoaded) {
@@ -125,7 +119,8 @@ class _RequestDetailsState extends State<RequestDetails> {
                         return buildRequestScreen();
                       } else if (state is RequestDetailsLoading) {
                         return Center(
-                          child: AppSingleton.instance.buildCenterSizedProgressBar(),
+                          child: AppSingleton.instance
+                              .buildCenterSizedProgressBar(),
                         );
                       } else if (state is RequestDetailsError) {
                         return Center(
@@ -172,14 +167,16 @@ class _RequestDetailsState extends State<RequestDetails> {
                       children: <Widget>[
                         Padding(
                           padding: EdgeInsets.fromLTRB(0, 5.0, 0, 0),
-                          child: Text('Order No.: ${_id}',
+                          child: Text(
+                            'Order No.: ${_id}',
                             textAlign: TextAlign.left,
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
                         Padding(
                           padding: EdgeInsets.fromLTRB(0, 5.0, 0, 0),
-                          child: Text('${_schedule_date_time}',
+                          child: Text(
+                            '${_schedule_date_time}',
                             textAlign: TextAlign.left,
                           ),
                         ),
@@ -190,34 +187,35 @@ class _RequestDetailsState extends State<RequestDetails> {
                       children: <Widget>[
                         Padding(
                           padding: EdgeInsets.fromLTRB(0, 5.0, 0, 0),
-                          child: Text('${_address_line1} ${_address_line2}',
+                          child: Text(
+                            '${_address_line1} ${_address_line2}',
                             textAlign: TextAlign.left,
-                            style: TextStyle(fontWeight: FontWeight.bold,
-                                color: Colors.black
-                            ),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
                           ),
                         ),
                         amount != null
                             ? Padding(
-                          padding: EdgeInsets.fromLTRB(0, 5.0, 0, 0),
-                          child: Text('Total: Rs. ${amount}',
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20.0
-                            ),
-                          ),
-                        )
-                            :Padding(
-                          padding: EdgeInsets.fromLTRB(0, 5.0, 0, 0),
-                          child: Text('Total: Rs. 0.00',
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20.0
-                            ),
-                          ),
-                        ),
+                                padding: EdgeInsets.fromLTRB(0, 5.0, 0, 0),
+                                child: Text(
+                                  'Total: Rs. ${amount}',
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20.0),
+                                ),
+                              )
+                            : Padding(
+                                padding: EdgeInsets.fromLTRB(0, 5.0, 0, 0),
+                                child: Text(
+                                  'Total: Rs. 0.00',
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20.0),
+                                ),
+                              ),
                       ],
                     ),
                     isThreeLine: true,
@@ -227,57 +225,58 @@ class _RequestDetailsState extends State<RequestDetails> {
                         InkWell(
                           onTap: () {
 //                                print('yes');
-                            showDialog(context: context, builder: (context) {
-                              return DialogBox();
-                            });
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return DialogBox(
+                                    requestDetailsId: _id,
+                                    vendorId: _vendorId,
+                                  );
+                                });
                           },
                           child: Image.asset('assets/add-button.png',
-                              width: 25, height: 25, fit: BoxFit.contain
-                          ),
+                              width: 25, height: 25, fit: BoxFit.contain),
                         ),
                         SizedBox(
                           height: AppSingleton.instance.getHeight(10),
                         ),
                         _request_status == '0'
-                        ? Container(
-                          padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
-                          height: 20.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25.0),
-                            color: Colors.blue,
-                          ),
-                          child: Text(
-                            'In Progress',
+                            ? Container(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 2, horizontal: 10.0),
+                                height: 20.0,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(25.0),
+                                  color: Colors.blue,
+                                ),
+                                child: Text(
+                                  'In Progress',
 //                                textScaleFactor: 2,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 10.0
-                            ),
-                          ),
-                        ):
-                        Container(
-                          padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
-                          height: 20.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25.0),
-                            color: Colors.green,
-                          ),
-                          child: Text(
-                            'Complete',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 10.0),
+                                ),
+                              )
+                            : Container(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 2, horizontal: 10.0),
+                                height: 20.0,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(25.0),
+                                  color: Colors.green,
+                                ),
+                                child: Text(
+                                  'Complete',
 //                                textScaleFactor: 2,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 10.0
-                            ),
-                          ),
-                        )
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 10.0),
+                                ),
+                              )
                       ],
                     ),
                   ),
                 ],
               ),
             ),
-
           ),
 //                Text('-------------------------------------------',
 //                  style: TextStyle(
@@ -286,169 +285,163 @@ class _RequestDetailsState extends State<RequestDetails> {
 //                  ),
 //                ),
           Divider(),
-          Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-            child: Text('ITEMS FOR PICKUP',
-              style: TextStyle(
-                  fontSize: 22.0,
-                  fontWeight: FontWeight.w600
-              ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+            child: Text(
+              'ITEMS FOR PICKUP',
+              style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w600),
             ),
           ),
           Divider(),
           buildItemsList(),
           _data1.length > 0
-          ? Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.0),
-            child: RaisedButton(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              // onPressed: loginCheck,
-              onPressed: (){
-                Widget cancelButton = FlatButton(
-                  child: Text("Cancel"),
-                  onPressed: () => Navigator.pop(context),
-                );
-                Widget continueButton = FlatButton(
-                  child: Text("Save"),
-                  onPressed:  () async {
-                    Map<String, String> body = {
-                      Constants.PARAM_REQUEST_ID: _id,
+              ? Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10.0),
+                  child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    // onPressed: loginCheck,
+                    onPressed: () {
+                      Widget cancelButton = FlatButton(
+                        child: Text("Cancel"),
+                        onPressed: () => Navigator.pop(context),
+                      );
+                      Widget continueButton = FlatButton(
+                        child: Text("Save"),
+                        onPressed: () async {
+                          Map<String, String> body = {
+                            Constants.PARAM_REQUEST_ID: _id,
 //                  Constants.PARAM_VENDOR_ID: _v_id,
-                      Constants.PARAM_AMOUNT: amount,
-                    };
-                    BlocProvider.of<RequestDetailsBloc>(context).add(CompleteRequestDetails(body: body));
-                  },
-                );  // set up the AlertDialog
-                AlertDialog alert = AlertDialog(
-                  content: Text("Do you want to save request?"),
-                  actions: [
-                    cancelButton,
-                    continueButton,
-                  ],
-                );  // show the dialog
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return alert;
-                  },
-                );
-
-              },
-              padding: EdgeInsets.symmetric(vertical: 10.0),
-              color: Colors.green,
-              child: Text('Complete',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold
-                ),
-              ),
-            ),
-          ):
-          Container(),
+                            Constants.PARAM_AMOUNT: amount,
+                          };
+                          BlocProvider.of<RequestDetailsBloc>(context)
+                              .add(CompleteRequestDetails(body: body));
+                        },
+                      ); // set up the AlertDialog
+                      AlertDialog alert = AlertDialog(
+                        content: Text("Do you want to save request?"),
+                        actions: [
+                          cancelButton,
+                          continueButton,
+                        ],
+                      ); // show the dialog
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return alert;
+                        },
+                      );
+                    },
+                    padding: EdgeInsets.symmetric(vertical: 10.0),
+                    color: Colors.green,
+                    child: Text(
+                      'Complete',
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                )
+              : Container(),
         ],
       ),
     );
   }
 
   Widget buildItemsList() {
-    return _data1.length > 0 ? ListView.builder(
-      physics: ClampingScrollPhysics(),
-      shrinkWrap: true,
-      itemCount: _data1.length,
-      itemBuilder: (context, index) {
-        return Padding(
-          padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-          child: Card(
-            color: Colors.blueGrey[50],
-            elevation: 2,
-            child: ListTile(
-              leading: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Image.asset('assets/recycle.png',
-                      width: 28, height: 28),
-                  SizedBox(
-                    width: AppSingleton.instance.getHeight(
-                        10.0),
+    return _data1.length > 0
+        ? ListView.builder(
+            physics: ClampingScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: _data1.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                child: Card(
+                  color: Colors.blueGrey[50],
+                  elevation: 2,
+                  child: ListTile(
+                    leading: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Image.asset('assets/recycle.png',
+                            width: 28, height: 28),
+                        SizedBox(
+                          width: AppSingleton.instance.getHeight(10.0),
+                        ),
+                        Text(
+                          _data1[index].unit_qty + _data1[index].unit,
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    title: Text(
+                      _data1[index].material_id,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 16.0),
+                    ),
+                    subtitle: Text(
+                      'Rs. ' + _data1[index].rate + '/' + _data1[index].unit,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Text(
+                          'Rs. ' + _data1[index].amount + '.00',
+                          style: TextStyle(
+                              color: Colors.blue,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14.0),
+                        ),
+                        SizedBox(
+                          width: AppSingleton.instance.getWidth(10),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            String id = _data1[index].id;
+                            showAlertDialog(id);
+                          },
+                          child: Image.asset('assets/criss-cross.png',
+                              width: 25, height: 25, fit: BoxFit.contain),
+                        ),
+                      ],
+                    ),
                   ),
-                  Text(_data1[index].unit_qty + _data1[index].unit,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              title: Text(_data1[index].material_id,
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16.0
                 ),
-              ),
-              subtitle:
-              Text('Rs. '+ _data1[index].rate +'/' +  _data1[index].unit,
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Text('Rs. ' + _data1[index].amount + '.00',
-                    style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14.0
-                    ),
-                  ),
-                  SizedBox(
-                    width: AppSingleton.instance.getWidth(10),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      String id = _data1[index].id;
-                      showAlertDialog(id);
-                    },
-                    child: Image.asset('assets/criss-cross.png',
-                        width: 25, height: 25, fit: BoxFit.contain
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    ):
-        Container(
-          child: Text(
-            'no items picked up.',
-            style: TextStyle(
-              color: Colors.red,
-              fontWeight: FontWeight.bold
-            ),
+              );
+            },
           )
-        );
+        : Container(
+            child: Text(
+            'no items picked up.',
+            style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+          ));
   }
 
-  showAlertDialog(id) {  // set up the buttons
+  showAlertDialog(id) {
+    // set up the buttons
     Widget cancelButton = FlatButton(
       child: Text("Cancel"),
       onPressed: () => Navigator.pop(context),
     );
     Widget continueButton = FlatButton(
       child: Text("Remove"),
-      onPressed:  () async {
+      onPressed: () async {
         Map<String, String> body = {
           Constants.PARAM_ITEM_ID: id,
         };
-        BlocProvider.of<RequestDetailsBloc>(context).add(RemoveItemRequestDetails(body: body));
+        BlocProvider.of<RequestDetailsBloc>(context)
+            .add(RemoveItemRequestDetails(body: body));
       },
-    );  // set up the AlertDialog
+    ); // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       content: Text("Do you want to remove item from list?"),
       actions: [
         cancelButton,
         continueButton,
       ],
-    );  // show the dialog
+    ); // show the dialog
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -460,9 +453,14 @@ class _RequestDetailsState extends State<RequestDetails> {
   successAlert() {
     // DialogBox.showLoadingDialog(context, _loadingKey);
     // return DialogBox();
-    showDialog(context: context, builder: (context) {
-      return DialogBox();
-    },
+    showDialog(
+      context: context,
+      builder: (context) {
+        return DialogBox(
+          requestDetailsId: _id,
+          vendorId: _vendorId,
+        );
+      },
     );
   }
 
@@ -496,12 +494,13 @@ class _RequestDetailsState extends State<RequestDetails> {
 
   void _setData1(VendorProfileResponse response) {
     _v_id = response.data.id;
+    _vendorId = response.data.id;
   }
 
   void _showSuccessMessage(String message) {
-      scaffoldKey.currentState.hideCurrentSnackBar();
-      scaffoldKey.currentState
-          .showSnackBar(AppSingleton.instance.getSuccessSnackBar(message));
+    scaffoldKey.currentState.hideCurrentSnackBar();
+    scaffoldKey.currentState
+        .showSnackBar(AppSingleton.instance.getSuccessSnackBar(message));
   }
 
   void _showCompleteMessage(String message) {

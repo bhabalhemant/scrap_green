@@ -132,6 +132,7 @@ class RequestDetailsBloc extends Bloc<RequestDetailsEvent, RequestDetailsState> 
       VendorProfileResponse storedVendorData = await Repository.instance.getStoredVendorData();
       print(storedVendorData.data.id);
       print(storedReqIdData.request_id);
+
       print(event.body);
 //      RequestDetailsResponse response = await Repository.instance.addRequestDetails(event.body);
 //      if (response.status) {
