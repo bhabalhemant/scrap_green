@@ -15,6 +15,8 @@ class ScheduleHistoryBloc extends Bloc<ScheduleHistoryEventBase, ScheduleHistory
   Stream<ScheduleHistoryState> mapEventToState(ScheduleHistoryEventBase event) async* {
     if (event is ScheduleHistoryEvent) {
       yield* _mapHistoryEvent(event);
+    } else if (event is ScheduleRequestIdEvent) {
+      yield* _mapStoreRequestId(event);
     }
   }
 
@@ -42,6 +44,19 @@ class ScheduleHistoryBloc extends Bloc<ScheduleHistoryEventBase, ScheduleHistory
       }
     }
   }
+
+  Stream<ScheduleHistoryState> _mapStoreRequestId(ScheduleRequestIdEvent event) async* {
+    yield ScheduleHistoryLoading();
+    try {
+      bool storedData = await Repository.instance.storeRequestId(event.body);
+    } catch (e) {
+      if (e is String) {
+        yield ScheduleHistoryError(msg: e);
+      } else {
+        yield ScheduleHistoryError(msg: '$e');
+      }
+    }
+  }
 }
 
 abstract class ScheduleHistoryEventBase extends Equatable {
@@ -55,6 +70,15 @@ class ScheduleHistoryEvent extends ScheduleHistoryEventBase {
 
   @override
   List<Object> get props => [startFrom];
+}
+
+class ScheduleRequestIdEvent extends ScheduleHistoryEventBase {
+  Map<String, dynamic> body;
+
+  ScheduleRequestIdEvent({@required this.body}) : assert(body != null);
+
+  @override
+  List<Object> get props => [body];
 }
 
 abstract class ScheduleHistoryState extends Equatable {

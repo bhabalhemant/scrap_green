@@ -24,12 +24,12 @@ import 'package:intl/intl.dart';
 import 'package:geolocator/geolocator.dart';
 import 'dart:async';
 
-class RequestDetails extends StatefulWidget {
+class HistoryDetails extends StatefulWidget {
   @override
-  _RequestDetailsState createState() => _RequestDetailsState();
+  _HistoryDetailsState createState() => _HistoryDetailsState();
 }
 
-class _RequestDetailsState extends State<RequestDetails> {
+class _HistoryDetailsState extends State<HistoryDetails> {
   String _v_id;
   String _id;
   String _user_id;
@@ -71,7 +71,7 @@ class _RequestDetailsState extends State<RequestDetails> {
   }
   @override
   onTap() {
-    Navigator.pushNamed(context, Constants.ROUTE_VENDOR_REQUEST);
+    Navigator.pushNamed(context, Constants.ROUTE_HISTORY);
   }
 
   Widget build(BuildContext context) {
@@ -81,7 +81,7 @@ class _RequestDetailsState extends State<RequestDetails> {
       },
       child: SafeArea(
         child: Scaffold(
-          appBar: AppSingleton.instance.buildAppBar(onTap, 'Request Details'),
+          appBar: AppSingleton.instance.buildAppBar(onTap, 'History Details'),
 //          body: buildRequestScreen(),
           body: Container(
             height: MediaQuery.of(context).size.height,
@@ -224,20 +224,20 @@ class _RequestDetailsState extends State<RequestDetails> {
                     trailing: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        InkWell(
-                          onTap: () {
-//                                print('yes');
-                            showDialog(context: context, builder: (context) {
-                              return DialogBox();
-                            });
-                          },
-                          child: Image.asset('assets/add-button.png',
-                              width: 25, height: 25, fit: BoxFit.contain
-                          ),
-                        ),
-                        SizedBox(
-                          height: AppSingleton.instance.getHeight(10),
-                        ),
+//                        InkWell(
+//                          onTap: () {
+////                                print('yes');
+//                            showDialog(context: context, builder: (context) {
+//                              return DialogBox();
+//                            });
+//                          },
+//                          child: Image.asset('assets/add-button.png',
+//                              width: 25, height: 25, fit: BoxFit.contain
+//                          ),
+//                        ),
+//                        SizedBox(
+//                          height: AppSingleton.instance.getHeight(10),
+//                        ),
                         _request_status == '0'
                         ? Container(
                           padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
@@ -296,56 +296,56 @@ class _RequestDetailsState extends State<RequestDetails> {
           ),
           Divider(),
           buildItemsList(),
-          _data1.length > 0
-          ? Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.0),
-            child: RaisedButton(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              // onPressed: loginCheck,
-              onPressed: (){
-                Widget cancelButton = FlatButton(
-                  child: Text("Cancel"),
-                  onPressed: () => Navigator.pop(context),
-                );
-                Widget continueButton = FlatButton(
-                  child: Text("Save"),
-                  onPressed:  () async {
-                    Map<String, String> body = {
-                      Constants.PARAM_REQUEST_ID: _id,
-//                  Constants.PARAM_VENDOR_ID: _v_id,
-                      Constants.PARAM_AMOUNT: amount,
-                    };
-                    BlocProvider.of<RequestDetailsBloc>(context).add(CompleteRequestDetails(body: body));
-                  },
-                );  // set up the AlertDialog
-                AlertDialog alert = AlertDialog(
-                  content: Text("Do you want to save request?"),
-                  actions: [
-                    cancelButton,
-                    continueButton,
-                  ],
-                );  // show the dialog
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return alert;
-                  },
-                );
-
-              },
-              padding: EdgeInsets.symmetric(vertical: 10.0),
-              color: Colors.green,
-              child: Text('Complete',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold
-                ),
-              ),
-            ),
-          ):
-          Container(),
+//          _data1.length > 0
+//          ? Padding(
+//            padding: EdgeInsets.symmetric(horizontal: 10.0),
+//            child: RaisedButton(
+//              shape: RoundedRectangleBorder(
+//                borderRadius: BorderRadius.circular(10),
+//              ),
+//              // onPressed: loginCheck,
+//              onPressed: (){
+//                Widget cancelButton = FlatButton(
+//                  child: Text("Cancel"),
+//                  onPressed: () => Navigator.pop(context),
+//                );
+//                Widget continueButton = FlatButton(
+//                  child: Text("Save"),
+//                  onPressed:  () async {
+//                    Map<String, String> body = {
+//                      Constants.PARAM_REQUEST_ID: _id,
+////                  Constants.PARAM_VENDOR_ID: _v_id,
+//                      Constants.PARAM_AMOUNT: amount,
+//                    };
+//                    BlocProvider.of<RequestDetailsBloc>(context).add(CompleteRequestDetails(body: body));
+//                  },
+//                );  // set up the AlertDialog
+//                AlertDialog alert = AlertDialog(
+//                  content: Text("Do you want to save request?"),
+//                  actions: [
+//                    cancelButton,
+//                    continueButton,
+//                  ],
+//                );  // show the dialog
+//                showDialog(
+//                  context: context,
+//                  builder: (BuildContext context) {
+//                    return alert;
+//                  },
+//                );
+//
+//              },
+//              padding: EdgeInsets.symmetric(vertical: 10.0),
+//              color: Colors.green,
+//              child: Text('Complete',
+//                style: TextStyle(
+//                  color: Colors.white,
+//                  fontWeight: FontWeight.bold
+//                ),
+//              ),
+//            ),
+//          ):
+//          Container(),
         ],
       ),
     );

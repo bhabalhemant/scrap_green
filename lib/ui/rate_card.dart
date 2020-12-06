@@ -112,9 +112,9 @@ class _RateCardState extends State<RateCard> with SingleTickerProviderStateMixin
                         );
                       }
                       if (state is RateCardLoaded) {
-                        return buildRateScreen(state.response.msg);
+                        return buildRateScreen(state.response.data);
                       }
-                      return buildRateScreen('');
+                      return buildRateScreen(state.response.data);
                     },
                   ),
                 ),
@@ -126,67 +126,54 @@ class _RateCardState extends State<RateCard> with SingleTickerProviderStateMixin
       ),
     );
   }
-
-  Widget buildRateScreen(String message) {
-    return _data.length > 0 ? GridView.count(
-      crossAxisCount: 2,
-//      crossAxisSpacing: 160,
-//      childAspectRatio: 3,
-      children: _data.map((value) {
-        return Center(
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(2, 10, 2, 2),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      children: <Widget>[
-                        Card(
-                          color: Colors.green,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 10),
-//                            child: Icon(
-//                              Icons.email,
-//                              color: Colors.white,
-//                              size: 100.0,
-//                            ),
-                  child: Image.network(
-                    Constants.BASE_URL + 'uploads/rate_cards/' + value.icon_original,
-                    width: 100.0,
-                    height: 100.0,
-                  ),
-                          ),
-                        ),
-                        Text('${value.material}-${value.rate}/KG',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold
-                          ),
-                        ),
-                      ],
+  Widget buildRateScreen(List _data) {
+    return _data.length > 0 ? ListView.builder(
+        physics: ClampingScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: _data.length,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+              child: Card(
+                color: Colors.green[200],
+//                elevation: 2,
+                child: ListTile(
+                  title: Text(_data[index].material,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16.0
                     ),
                   ),
-
-                ],
+                  trailing: Text(
+                    '-${_data[index].rate}/${_data[index].unit}',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16.0
+                    ),
+                  ),
+                ),
               ),
             );
-      }).toList(),
-    ):
-    Container(
-      child: Text('No data to display!')
+          },
+        ):
+        Container(
+        child: Text(
+        'no items picked up.',
+    style: TextStyle(
+    color: Colors.red,
+    fontWeight: FontWeight.bold
+    ),
+    )
     );
-//    return _data.length > 0 ? ListView.builder(
-//      physics: ClampingScrollPhysics(),
-//      shrinkWrap: true,
-//      itemCount: _data.length,
-//      itemBuilder: (context, index) {
-////        return Container(
-////          child: Text('${_data[index].material}'),
-////        );
-//        return GridView.count(
-//          crossAxisCount: 2,
-//          children: List.generate(_data.length, (index) {
-//            return Center(
+      }
+  }
+//  Widget buildRateScreen(String message) {
+//    return _data.length > 0 ? GridView.count(
+//      crossAxisCount: 2,
+////      crossAxisSpacing: 160,
+////      childAspectRatio: 3,
+//      children: _data.map((value) {
+//        return Center(
 //              child: Column(
 //                children: <Widget>[
 //                  Padding(
@@ -199,15 +186,19 @@ class _RateCardState extends State<RateCard> with SingleTickerProviderStateMixin
 //                          child: Padding(
 //                            padding: EdgeInsets.symmetric(
 //                                vertical: 10, horizontal: 10),
-//                            child: Icon(
-//                              Icons.email,
-//                              color: Colors.white,
-//                              size: 100.0,
+////                            child: Icon(
+////                              Icons.email,
+////                              color: Colors.white,
+////                              size: 100.0,
+////                            ),
+//                            child: Image.network(
+//                              Constants.BASE_URL + 'uploads/rate_cards/' + value.icon_original,
+//                              width: 100.0,
+//                              height: 100.0,
 //                            ),
-////                  child: Image.network(Constants.BASE_URL + _icon_original),
 //                          ),
 //                        ),
-//                        Text('${_data[index].material}-${_data[index].rate}/KG',
+//                        Text('${value.material}-${value.rate}/KG',
 //                          style: TextStyle(
 //                              fontWeight: FontWeight.bold
 //                          ),
@@ -219,11 +210,60 @@ class _RateCardState extends State<RateCard> with SingleTickerProviderStateMixin
 //                ],
 //              ),
 //            );
-//          }),
-//        );
-//      },
-
-  }
+//      }).toList(),
+//    ):
+//    Container(
+//      child: Text('No data to display!')
+//    );
+////    return _data.length > 0 ? ListView.builder(
+////      physics: ClampingScrollPhysics(),
+////      shrinkWrap: true,
+////      itemCount: _data.length,
+////      itemBuilder: (context, index) {
+//////        return Container(
+//////          child: Text('${_data[index].material}'),
+//////        );
+////        return GridView.count(
+////          crossAxisCount: 2,
+////          children: List.generate(_data.length, (index) {
+////            return Center(
+////              child: Column(
+////                children: <Widget>[
+////                  Padding(
+////                    padding: EdgeInsets.fromLTRB(2, 10, 2, 2),
+////                    child: Column(
+////                      mainAxisSize: MainAxisSize.max,
+////                      children: <Widget>[
+////                        Card(
+////                          color: Colors.green,
+////                          child: Padding(
+////                            padding: EdgeInsets.symmetric(
+////                                vertical: 10, horizontal: 10),
+////                            child: Icon(
+////                              Icons.email,
+////                              color: Colors.white,
+////                              size: 100.0,
+////                            ),
+//////                  child: Image.network(Constants.BASE_URL + _icon_original),
+////                          ),
+////                        ),
+////                        Text('${_data[index].material}-${_data[index].rate}/KG',
+////                          style: TextStyle(
+////                              fontWeight: FontWeight.bold
+////                          ),
+////                        ),
+////                      ],
+////                    ),
+////                  ),
+////
+////                ],
+////              ),
+////            );
+////          }),
+////        );
+////      },
+//
+//  }
 
   Widget test(){
         return GridView.count(
@@ -266,10 +306,8 @@ class _RateCardState extends State<RateCard> with SingleTickerProviderStateMixin
         );
   }
 
-  void _showError(String message) {
-    scaffoldKey.currentState.hideCurrentSnackBar();
-    scaffoldKey.currentState
-        .showSnackBar(AppSingleton.instance.getErrorSnackBar(message));
-  }
-
-}
+//  void _showError(String message) {
+//    scaffoldKey.currentState.hideCurrentSnackBar();
+//    scaffoldKey.currentState
+//        .showSnackBar(AppSingleton.instance.getErrorSnackBar(message));
+//  }

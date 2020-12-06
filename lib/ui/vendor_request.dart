@@ -7,6 +7,7 @@ import 'package:scrapgreen/bloc/assigned_pickup_bloc.dart';
 import 'package:scrapgreen/bloc/success_pickup_bloc.dart';
 import 'package:scrapgreen/generated/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:scrapgreen/ui/drawer_v2.dart';
 import 'package:scrapgreen/utils/constants.dart' as Constants;
 import 'package:scrapgreen/repository/repository.dart';
 import 'package:scrapgreen/utils/singleton.dart';
@@ -267,138 +268,138 @@ class _VendorRequestState extends State<VendorRequest> with SingleTickerProvider
             ],
             controller: _tabController,
           ),
-
-          drawer: Drawer(
-            // Add a ListView to the drawer. This ensures the user can scroll
-            // through the options in the drawer if there isn't enough vertical
-            // space to fit everything.
-            child: ListView(
-              // Important: Remove any padding from the ListView.
-              padding: EdgeInsets.zero,
-              children: <Widget>[
-                DrawerHeader(
-                  decoration: BoxDecoration(
-                    color: Colors.green,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        width: 50,
-                        height: 50,
-                        alignment: Alignment.center,
-                        child: Icon(
-                          Icons.account_circle,
-                          color: Colors.white,
-                          size: 75,
-                        ),
-
-//                        child: Image.network(logo_path ,fit: BoxFit.cover,),
-//                        child: CircleAvatar(
-//                          radius: 50.0,
-//                          backgroundImage:
-//                          NetworkImage('https://apptroidtechnology.in/scrap_green/uploads/images/aaab7f8d09e7350e13201682ba2e4030.jpg'),
-//                          backgroundColor: Colors.transparent,
-//                        )
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                        child: Text(
-                          'Hemant Bhabal',
-                          style: TextStyle(
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                        child: Text(
-                          '+91 7738242013',
-                          style: TextStyle(
-                              fontSize: 14.0,
-                              color: Colors.white
-//                          fontWeight: FontWeight.bold
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                        child: Text(
-                          'bhabalhemant@gmail.com',
-                          style: TextStyle(
-                              fontSize: 14.0,
-                              color: Colors.white
-//                          fontWeight: FontWeight.bold
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                ListTile(
-//              leading: Icon(Icons.lock),
-                  leading: Container(
-                    width: 30,
-                    height: 30,
-//              color: Colors.green,
-                    decoration:
-                    BoxDecoration(
-                      border: Border.all(color: Colors.green),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child:Icon(Icons.settings, color: Colors.green,),
-                  ),
-                  title: Text(
-                    'SETTINGS',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ).tr(),
-                  onTap: () async {
-                    Navigator.pushNamed(context, Constants.ROUTE_VENDOR_SETTINGS);
-                  },
-                ),
-                ListTile(
-//              leading: Icon(Icons.lock),
-                  leading: Container(
-                    width: 30,
-                    height: 30,
-//              color: Colors.green,
-                    decoration:
-                    BoxDecoration(
-                      border: Border.all(color: Colors.green),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child:Icon(Icons.lock, color: Colors.green,),
-                  ),
-                  title: Text(
-//                LocaleKeys.ask_help,
-                    'LOGOUT',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ).tr(),
-                  onTap: () async {
-                    var response = await Repository.instance.clearAllShardPrefs();
-//                    print(response);
-                    if (response) {
-                      Navigator.pushNamed(context, Constants.ROUTE_SIGN_IN_VENDOR);
-//                      Navigator.pushNamedAndRemoveUntil(scaffoldKey.currentContext,
-//                          Constants.ROUTE_SIGN_IN_VENDOR, (Route<dynamic> route) => false);
-                    } else {
-                      _showError('Failed to log out');
-                    }
-                  },
-                ),
-              ],
-            ),
-          ),
+          drawer: DrawerV2(),
+//          drawer: Drawer(
+//            // Add a ListView to the drawer. This ensures the user can scroll
+//            // through the options in the drawer if there isn't enough vertical
+//            // space to fit everything.
+//            child: ListView(
+//              // Important: Remove any padding from the ListView.
+//              padding: EdgeInsets.zero,
+//              children: <Widget>[
+//                DrawerHeader(
+//                  decoration: BoxDecoration(
+//                    color: Colors.green,
+//                  ),
+//                  child: Column(
+//                    mainAxisAlignment: MainAxisAlignment.center,
+//                    mainAxisSize: MainAxisSize.max,
+//                    crossAxisAlignment: CrossAxisAlignment.center,
+//                    children: <Widget>[
+//                      Container(
+//                        width: 50,
+//                        height: 50,
+//                        alignment: Alignment.center,
+//                        child: Icon(
+//                          Icons.account_circle,
+//                          color: Colors.white,
+//                          size: 75,
+//                        ),
+//
+////                        child: Image.network(logo_path ,fit: BoxFit.cover,),
+////                        child: CircleAvatar(
+////                          radius: 50.0,
+////                          backgroundImage:
+////                          NetworkImage('https://apptroidtechnology.in/scrap_green/uploads/images/aaab7f8d09e7350e13201682ba2e4030.jpg'),
+////                          backgroundColor: Colors.transparent,
+////                        )
+//                      ),
+//                      Padding(
+//                        padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+//                        child: Text(
+//                          'Hemant Bhabal',
+//                          style: TextStyle(
+//                              fontSize: 14.0,
+//                              fontWeight: FontWeight.bold,
+//                              color: Colors.white
+//                          ),
+//                        ),
+//                      ),
+//                      Padding(
+//                        padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+//                        child: Text(
+//                          '+91 7738242013',
+//                          style: TextStyle(
+//                              fontSize: 14.0,
+//                              color: Colors.white
+////                          fontWeight: FontWeight.bold
+//                          ),
+//                        ),
+//                      ),
+//                      Padding(
+//                        padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+//                        child: Text(
+//                          'bhabalhemant@gmail.com',
+//                          style: TextStyle(
+//                              fontSize: 14.0,
+//                              color: Colors.white
+////                          fontWeight: FontWeight.bold
+//                          ),
+//                        ),
+//                      ),
+//                    ],
+//                  ),
+//                ),
+//                ListTile(
+////              leading: Icon(Icons.lock),
+//                  leading: Container(
+//                    width: 30,
+//                    height: 30,
+////              color: Colors.green,
+//                    decoration:
+//                    BoxDecoration(
+//                      border: Border.all(color: Colors.green),
+//                      borderRadius: BorderRadius.circular(20),
+//                    ),
+//                    child:Icon(Icons.settings, color: Colors.green,),
+//                  ),
+//                  title: Text(
+//                    'SETTINGS',
+//                    style: TextStyle(
+//                      fontSize: 14,
+//                      fontWeight: FontWeight.bold,
+//                    ),
+//                  ).tr(),
+//                  onTap: () async {
+//                    Navigator.pushNamed(context, Constants.ROUTE_VENDOR_SETTINGS);
+//                  },
+//                ),
+//                ListTile(
+////              leading: Icon(Icons.lock),
+//                  leading: Container(
+//                    width: 30,
+//                    height: 30,
+////              color: Colors.green,
+//                    decoration:
+//                    BoxDecoration(
+//                      border: Border.all(color: Colors.green),
+//                      borderRadius: BorderRadius.circular(20),
+//                    ),
+//                    child:Icon(Icons.lock, color: Colors.green,),
+//                  ),
+//                  title: Text(
+////                LocaleKeys.ask_help,
+//                    'LOGOUT',
+//                    style: TextStyle(
+//                      fontSize: 14,
+//                      fontWeight: FontWeight.bold,
+//                    ),
+//                  ).tr(),
+//                  onTap: () async {
+//                    var response = await Repository.instance.clearAllShardPrefs();
+////                    print(response);
+//                    if (response) {
+//                      Navigator.pushNamed(context, Constants.ROUTE_SIGN_IN_VENDOR);
+////                      Navigator.pushNamedAndRemoveUntil(scaffoldKey.currentContext,
+////                          Constants.ROUTE_SIGN_IN_VENDOR, (Route<dynamic> route) => false);
+//                    } else {
+//                      _showError('Failed to log out');
+//                    }
+//                  },
+//                ),
+//              ],
+//            ),
+//          ),
         ),
       ),
     );

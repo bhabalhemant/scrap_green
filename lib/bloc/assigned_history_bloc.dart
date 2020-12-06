@@ -15,6 +15,8 @@ class AssignedHistoryBloc extends Bloc<AssignedHistoryEventBase, AssignedHistory
   Stream<AssignedHistoryState> mapEventToState(AssignedHistoryEventBase event) async* {
     if (event is AssignedHistoryEvent) {
       yield* _mapHistoryEvent(event);
+    } else if (event is AssignedRequestIdEvent) {
+      yield* _mapStoreRequestId(event);
     }
   }
 
@@ -42,6 +44,20 @@ class AssignedHistoryBloc extends Bloc<AssignedHistoryEventBase, AssignedHistory
       }
     }
   }
+
+  Stream<AssignedHistoryState> _mapStoreRequestId(AssignedRequestIdEvent event) async* {
+    print('yesss');
+    yield AssignedHistoryLoading();
+    try {
+      bool storedData = await Repository.instance.storeRequestId(event.body);
+    } catch (e) {
+      if (e is String) {
+        yield AssignedHistoryError(msg: e);
+      } else {
+        yield AssignedHistoryError(msg: '$e');
+      }
+    }
+  }
 }
 
 abstract class AssignedHistoryEventBase extends Equatable {
@@ -55,6 +71,15 @@ class AssignedHistoryEvent extends AssignedHistoryEventBase {
 
   @override
   List<Object> get props => [startFrom];
+}
+
+class AssignedRequestIdEvent extends AssignedHistoryEventBase {
+  Map<String, dynamic> body;
+
+  AssignedRequestIdEvent({@required this.body}) : assert(body != null);
+
+  @override
+  List<Object> get props => [body];
 }
 
 abstract class AssignedHistoryState extends Equatable {
