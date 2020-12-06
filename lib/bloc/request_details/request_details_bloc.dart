@@ -152,7 +152,7 @@ class RequestDetailsBloc extends Bloc<RequestDetailsEvent, RequestDetailsState> 
     yield RequestDetailsLoading();
     try {
       CompleteRequestDetailsResponse response = await Repository.instance.completeRequest(event.body);
-      if (response.status) {
+      if (response.status == true) {
         yield RequestDetailsComplete(response: response);
       } else {
         yield RequestDetailsError(msg: response.msg);

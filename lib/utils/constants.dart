@@ -35,6 +35,7 @@ const ROUTE_VENDOR_CHANGE_PASSWORD = "/vendor_change_password";
 const ROUTE_CONTACT_US = "/contact_us";
 const ROUTE_VENDOR_SETTINGS = "/vendor_settings";
 const ROUTE_VENDOR_EDIT_PROFILE = "/vendor_edit_profile";
+const ROUTE_HISTORY_DETAILS = "/history_details";
 
 const PARAM_NAME = "name";
 // const PARAM_MIDDLE_NAME = "middle_name";
@@ -74,9 +75,9 @@ const PARAM_PICKUP_REQUEST_SUCCESS_DATA = "pickup_request_success_data";
 const PARAM_OTP = "otp";
 const PARAM_EMAIL_KEY = "email_key";
 // staging url
-const BASE_URL = "https://apptroidtechnology.in/scrap_green/";
+// const BASE_URL = "https://apptroidtechnology.in/scrap_green/";
 // live url
-//const BASE_URL = "https://scrapgreen.com/";
+const BASE_URL = "https://www.scrapgreen.com/";
 const PARAM_FCM_ID = "fcm_id";
 const PARAM_VENDOR_ID = "vendor_id";
 const PARAM_SUBJECT = "subject";

@@ -53,6 +53,7 @@ import 'package:scrapgreen/ui/contact_us.dart';
 import 'package:scrapgreen/ui/vendor_settings.dart';
 import 'package:scrapgreen/ui/otp_screen.dart';
 import 'package:scrapgreen/ui/vendor_edit_profile.dart';
+import 'package:scrapgreen/ui/history_details.dart';
 import 'package:scrapgreen/utils/constants.dart' as Constants;
 import 'package:scrapgreen/utils/custom_route.dart';
 import 'package:scrapgreen/utils/simple_bloc_delegate.dart';
@@ -438,6 +439,11 @@ class _MyAppState extends State<MyApp> {
           case Constants.ROUTE_VENDOR_CHANGE_PASSWORD:
             return CustomRoute(
               builder: (_) => VendorChangePassword(),
+              settings: settings,
+            );
+          case Constants.ROUTE_HISTORY_DETAILS:
+            return CustomRoute(
+              builder: (_) => HistoryDetails(),
               settings: settings,
             );
           default:

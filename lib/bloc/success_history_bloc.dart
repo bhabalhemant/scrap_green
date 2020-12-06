@@ -15,6 +15,8 @@ class SuccessHistoryBloc extends Bloc<SuccessHistoryEventBase, SuccessHistorySta
   Stream<SuccessHistoryState> mapEventToState(SuccessHistoryEventBase event) async* {
     if (event is SuccessHistoryEvent) {
       yield* _mapHistoryEvent(event);
+    } else if (event is SuccessRequestIdEvent) {
+      yield* _mapStoreRequestId(event);
     }
   }
 
@@ -42,6 +44,19 @@ class SuccessHistoryBloc extends Bloc<SuccessHistoryEventBase, SuccessHistorySta
       }
     }
   }
+
+  Stream<SuccessHistoryState> _mapStoreRequestId(SuccessRequestIdEvent event) async* {
+    yield SuccessHistoryLoading();
+    try {
+      bool storedData = await Repository.instance.storeRequestId(event.body);
+    } catch (e) {
+      if (e is String) {
+        yield SuccessHistoryError(msg: e);
+      } else {
+        yield SuccessHistoryError(msg: '$e');
+      }
+    }
+  }
 }
 
 abstract class SuccessHistoryEventBase extends Equatable {
@@ -55,6 +70,15 @@ class SuccessHistoryEvent extends SuccessHistoryEventBase {
 
   @override
   List<Object> get props => [startFrom];
+}
+
+class SuccessRequestIdEvent extends SuccessHistoryEventBase {
+  Map<String, dynamic> body;
+
+  SuccessRequestIdEvent({@required this.body}) : assert(body != null);
+
+  @override
+  List<Object> get props => [body];
 }
 
 abstract class SuccessHistoryState extends Equatable {
