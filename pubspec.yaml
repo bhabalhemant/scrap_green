@@ -49,9 +49,14 @@ dependencies:
   #flutter pub run easy_localization:generate --source-dir ./assets/translations -f keys -o locale_keys.g.dart
   easy_localization: ^2.3.2
 dev_dependencies:
+  flutter_launcher_icons: "^0.8.0"
   flutter_test:
     sdk: flutter
 
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/logo.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
