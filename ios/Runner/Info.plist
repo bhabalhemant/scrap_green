@@ -31,13 +31,13 @@
 	<key>NSContactsUsageDescription</key>
 	<string>App requires contacts permission to send invitation to join app</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>This app requires current location of user</string>
+	<string>To get exact location of user to pickup or deliver goods</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>This app requires current location of user</string>
+	<string>To get exact location of user to pickup or deliver goods</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app requires current location of user</string>
+	<string>To get exact location of user to pickup or deliver goods</string>
 	<key>NSMotionUsageDescription</key>
-	<string>This app needs to be able to access your motion use</string>
+	<string>To get exact location of user to get path details to destination</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>App requires photo library permission to store payment receipt</string>
 	<key>NSPhotoLibraryUsageDescription</key>
