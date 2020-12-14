@@ -57,6 +57,7 @@ class _RequestDetailsState extends State<RequestDetails> {
   @override
   void initState() {
     super.initState();
+    amountCalculation();
     BlocProvider.of<RequestDetailsBloc>(context).add(GetVendorProfile());
     BlocProvider.of<RequestDetailsBloc>(context).add(GetRequestDetailsEvent());
   }
@@ -216,12 +217,164 @@ class _RequestDetailsState extends State<RequestDetails> {
                                       fontSize: 20.0),
                                 ),
                               ),
+                        Row(
+                          children: <Widget>[
+                            Text(
+                              'Payment : ',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.black
+                              ),
+                            ),
+                            _payment_status == 'pending'
+                            ?
+                            Container(
+                              padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
+                              height: 20.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25.0),
+                                color: Colors.red,
+                              ),
+                              child: Text(
+                                'Pending',
+//                                textScaleFactor: 2,
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 10.0),
+                              ),
+                            ):
+                            _payment_status == 'processing '
+                                ? Container(
+                              padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
+                              height: 20.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25.0),
+                                color: Colors.orange,
+                              ),
+                              child: Text(
+                                'Processing',
+//                                textScaleFactor: 2,
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 10.0),
+                              ),
+                            ):
+                            _payment_status == 'processed'
+                                ? Container(
+                              padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
+                              height: 20.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25.0),
+                                color: Colors.green,
+                              ),
+                              child: Text(
+                                'Processed',
+//                                textScaleFactor: 2,
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 10.0),
+                              ),
+                            ):
+                            _payment_status == 'cancelled'
+                                ? Container(
+                              padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
+                              height: 20.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25.0),
+                                color: Colors.red,
+                              ),
+                              child: Text(
+                                'Cancelled',
+//                                textScaleFactor: 2,
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 10.0),
+                              ),
+                            ):
+                            _payment_status == 'rejected'
+                                ? Container(
+                              padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
+                              height: 20.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25.0),
+                                color: Colors.red,
+                              ),
+                              child: Text(
+                                'Rejected',
+//                                textScaleFactor: 2,
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 10.0),
+                              ),
+                            ):
+                            _payment_status == 'processing'
+                                ? Container(
+                              padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
+                              height: 20.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25.0),
+                                color: Colors.orange,
+                              ),
+                              child: Text(
+                                'Processing',
+//                                textScaleFactor: 2,
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 10.0),
+                              ),
+                            ):
+                            _payment_status == 'processed'
+                                ? Container(
+                              padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
+                              height: 20.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25.0),
+                                color: Colors.green,
+                              ),
+                              child: Text(
+                                'Processed',
+//                                textScaleFactor: 2,
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 10.0),
+                              ),
+                            ):
+                            _payment_status == 'cancelled'
+                                ? Container(
+                              padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
+                              height: 20.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25.0),
+                                color: Colors.red,
+                              ),
+                              child: Text(
+                                'Cancelled',
+//                                textScaleFactor: 2,
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 10.0),
+                              ),
+                            ):
+                            _payment_status == 'rejected'
+                                ? Container(
+                              padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
+                              height: 20.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25.0),
+                                color: Colors.red,
+                              ),
+                              child: Text(
+                                'Rejected',
+//                                textScaleFactor: 2,
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 10.0),
+                              ),
+                            ):
+                            Container(),
+                          ],
+                        ),
+//                        Container(),
+
                       ],
                     ),
                     isThreeLine: true,
                     trailing: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
+                        _request_status == '0'
+                            ?
                         InkWell(
                           onTap: () {
 //                                print('yes');
@@ -236,41 +389,89 @@ class _RequestDetailsState extends State<RequestDetails> {
                           },
                           child: Image.asset('assets/add-button.png',
                               width: 25, height: 25, fit: BoxFit.contain),
-                        ),
+                        )
+                            : SizedBox(
+                              height: AppSingleton.instance.getHeight(10),
+                            ),
                         SizedBox(
                           height: AppSingleton.instance.getHeight(10),
                         ),
                         _request_status == '0'
+                            ?
+                         Container(
+                          padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
+                          height: 20.0,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25.0),
+                            color: Colors.blue,
+                          ),
+                          child: Text(
+                            'In Progress',
+//                                textScaleFactor: 2,
+                            style: TextStyle(
+                                color: Colors.white, fontSize: 10.0),
+                          ),
+                        ):
+                        _request_status == '1'
                             ? Container(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 2, horizontal: 10.0),
-                                height: 20.0,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(25.0),
-                                  color: Colors.blue,
-                                ),
-                                child: Text(
-                                  'In Progress',
+                          padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
+                          height: 20.0,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25.0),
+                            color: Colors.orange,
+                          ),
+                          child: Text(
+                            'Assigned',
 //                                textScaleFactor: 2,
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 10.0),
-                                ),
-                              )
-                            : Container(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 2, horizontal: 10.0),
-                                height: 20.0,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(25.0),
-                                  color: Colors.green,
-                                ),
-                                child: Text(
-                                  'Complete',
+                            style: TextStyle(
+                                color: Colors.white, fontSize: 10.0),
+                          ),
+                        ):
+                        _request_status == '2'
+                            ? Container(
+                          padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
+                          height: 20.0,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25.0),
+                            color: Colors.redAccent,
+                          ),
+                          child: Text(
+                            'User Cancelled',
 //                                textScaleFactor: 2,
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 10.0),
-                                ),
-                              )
+                            style: TextStyle(
+                                color: Colors.white, fontSize: 10.0),
+                          ),
+                        ):
+                        _request_status == '3'
+                            ? Container(
+                          padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
+                          height: 20.0,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25.0),
+                            color: Colors.red,
+                          ),
+                          child: Text(
+                            'Admin Cancelled',
+//                                textScaleFactor: 2,
+                            style: TextStyle(
+                                color: Colors.white, fontSize: 10.0),
+                          ),
+                        ):
+                        Container(
+                          padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
+                          height: 20.0,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25.0),
+                            color: Colors.green,
+                          ),
+                          child: Text(
+                            'Complete',
+//                                textScaleFactor: 2,
+                            style: TextStyle(
+                                color: Colors.white, fontSize: 10.0),
+                          ),
+                        ),
+
                       ],
                     ),
                   ),
@@ -294,6 +495,8 @@ class _RequestDetailsState extends State<RequestDetails> {
           ),
           Divider(),
           buildItemsList(),
+          _request_status == '0'
+          ?
           _data1.length > 0
               ? Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10.0),
@@ -342,10 +545,21 @@ class _RequestDetailsState extends State<RequestDetails> {
                     ),
                   ),
                 )
-              : Container(),
+              : Container()
+          : SizedBox(
+              height: AppSingleton.instance.getHeight(10),
+            ),
         ],
       ),
     );
+  }
+
+  void amountCalculation() {
+    _data1.map((item) {
+//      setState(() {
+        print(item.id);
+//      });
+    }).toList();
   }
 
   Widget buildItemsList() {
@@ -394,17 +608,19 @@ class _RequestDetailsState extends State<RequestDetails> {
                               fontWeight: FontWeight.bold,
                               fontSize: 14.0),
                         ),
-                        SizedBox(
+                         SizedBox(
                           width: AppSingleton.instance.getWidth(10),
                         ),
-                        InkWell(
+                    _request_status == '0'
+                        ? InkWell(
                           onTap: () {
                             String id = _data1[index].id;
                             showAlertDialog(id);
                           },
                           child: Image.asset('assets/criss-cross.png',
                               width: 25, height: 25, fit: BoxFit.contain),
-                        ),
+                        ):
+                        Container(),
                       ],
                     ),
                   ),

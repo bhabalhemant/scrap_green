@@ -210,6 +210,32 @@ class _SettingsState extends State<Settings> {
         Divider(),
         Container(
           child: ListTile(
+            onTap: () {
+              Navigator.pushNamed(context, Constants.ROUTE_ADD_BANK_DETAILS);
+            },
+            leading: Icon(
+              Icons.credit_card,
+              color: Colors.green,
+              size: 25,
+            ),
+            title: Text('Bank Details',
+
+              style: TextStyle(
+                fontSize: 16.0,
+//                        fontWeight: FontWeight.bold,
+                color: Colors.green,
+              ),
+            ),
+            trailing: Icon(
+              Icons.arrow_forward_ios,
+              color: Colors.grey,
+              size: 16,
+            ),
+          ),
+        ),
+        Divider(),
+        Container(
+          child: ListTile(
             onTap: (){
               Navigator.pushNamed(context, Constants.ROUTE_CHANGE_PASSWORD);
             },

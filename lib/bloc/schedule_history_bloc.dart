@@ -4,6 +4,8 @@ import 'package:scrapgreen/repository/repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:scrapgreen/utils/constants.dart' as Constants;
+
 
 class ScheduleHistoryBloc extends Bloc<ScheduleHistoryEventBase, ScheduleHistoryState> {
   ScheduleHistoryBloc();
@@ -26,12 +28,18 @@ class ScheduleHistoryBloc extends Bloc<ScheduleHistoryEventBase, ScheduleHistory
       ProfileResponse storedData =
           await Repository.instance.getStoredUserData();
       if (storedData != null && storedData.data.id != null) {
+        Map<String, String> params = {
+          Constants.PARAM_USER_ID: storedData.data.id,
+          Constants.PARAM_START_FROM: event.startFrom,
+          Constants.PARAM_REQUEST_STATUS: '0',
+          Constants.PARAM_LIMIT: '30',
+        };
         PickUpRequestScheduleResponse response =
-        await Repository.instance.getPickUpRequestScheduleData(storedData.data.id,event.startFrom);
+        await Repository.instance.getPickUpRequestScheduleData(params);
         if (response.status) {
           yield ScheduleHistoryLoaded(response: response);
         } else {
-          yield ScheduleHistoryError(msg: 'Failed to store user data!');
+          yield ScheduleHistoryError(msg: response.msg);
         }
       } else {
         yield ScheduleHistoryError(msg: 'Failed to get stored user data!');

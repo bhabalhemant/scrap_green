@@ -455,6 +455,9 @@ class _SignUpVendorState extends State<SignUpVendor> {
     } else if (_password.text != _retypePassword.text) {
       _showError('Password not matched');
       return false;
+    } else if (_logo == null || _logo.isEmpty) {
+      _showError('Please select logo.');
+      return false;
     } else {
       return true;
     }

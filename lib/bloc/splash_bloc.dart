@@ -50,15 +50,16 @@ class SplashBloc extends Bloc<SplashEventBase, SplashState> {
       } else if (vendorData != null &&
           vendorData.data != null &&
           vendorData.data.id != null) {
+        print('vendorData');
         Map<String, String> updateBody = {
-          Constants.PARAM_USER_ID: vendorData.data.id,
+          Constants.PARAM_VENDOR_ID: vendorData.data.id,
           Constants.PARAM_FCM_ID: event.fcmId
         };
         VendorProfileResponse response =
         await Repository.instance.getVendorData(vendorData.data.id);
         bool isStored =
-        await Repository.instance.storeUserData(response.toJson());
-        await Repository.instance.updateFcmId(updateBody);
+        await Repository.instance.storeVendorData(response.toJson());
+        await Repository.instance.updateVendorFcmId(updateBody);
         await Repository.instance.storeFcmId(event.fcmId);
         if (isStored) {
           yield SplashLoaded(

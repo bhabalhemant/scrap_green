@@ -62,7 +62,7 @@ class DialogBoxState extends State<DialogBox> {
     super.initState();
     _unit = TextEditingController();
     _quantity = TextEditingController();
-//    quantityCtrl.clear();
+    _data.clear();
     _total = 0;
     BlocProvider.of<RateCardBloc>(context).add(GetRateCard());
   }
@@ -132,11 +132,6 @@ class DialogBoxState extends State<DialogBox> {
                 value: _selectedMaterial,
                 isExpanded: true,
                 //decoration: InputDecoration(contentPadding: const EdgeInsets.fromLTRB(10.0, 0.5, 0.0, 0.5),(borderRadius: BorderRadius.circular(5.0),)),
-                validator: (arg) {
-                  if (arg == null) {
-                    return 'Please select Material.';
-                  }
-                },
                 hint: Text("Select Material",
                     style: TextStyle(
                         fontWeight: FontWeight.bold,

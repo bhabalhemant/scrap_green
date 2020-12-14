@@ -218,6 +218,154 @@ class _HistoryDetailsState extends State<HistoryDetails> {
                             ),
                           ),
                         ),
+                        Row(
+                          children: <Widget>[
+                            Text(
+                              'Payment : ',
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.black
+                              ),
+                            ),
+                            _payment_status == 'pending'
+                                ?
+                            Container(
+                              padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
+                              height: 20.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25.0),
+                                color: Colors.red,
+                              ),
+                              child: Text(
+                                'Pending',
+//                                textScaleFactor: 2,
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 10.0),
+                              ),
+                            ):
+                            _payment_status == 'processing '
+                                ? Container(
+                              padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
+                              height: 20.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25.0),
+                                color: Colors.orange,
+                              ),
+                              child: Text(
+                                'Processing',
+//                                textScaleFactor: 2,
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 10.0),
+                              ),
+                            ):
+                            _payment_status == 'processed'
+                                ? Container(
+                              padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
+                              height: 20.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25.0),
+                                color: Colors.green,
+                              ),
+                              child: Text(
+                                'Processed',
+//                                textScaleFactor: 2,
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 10.0),
+                              ),
+                            ):
+                            _payment_status == 'cancelled'
+                                ? Container(
+                              padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
+                              height: 20.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25.0),
+                                color: Colors.red,
+                              ),
+                              child: Text(
+                                'Cancelled',
+//                                textScaleFactor: 2,
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 10.0),
+                              ),
+                            ):
+                            _payment_status == 'rejected'
+                                ? Container(
+                              padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
+                              height: 20.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25.0),
+                                color: Colors.red,
+                              ),
+                              child: Text(
+                                'Rejected',
+//                                textScaleFactor: 2,
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 10.0),
+                              ),
+                            ):
+                            _payment_status == 'processing'
+                                ? Container(
+                              padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
+                              height: 20.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25.0),
+                                color: Colors.orange,
+                              ),
+                              child: Text(
+                                'Processing',
+//                                textScaleFactor: 2,
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 10.0),
+                              ),
+                            ):
+                            _payment_status == 'processed'
+                                ? Container(
+                              padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
+                              height: 20.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25.0),
+                                color: Colors.green,
+                              ),
+                              child: Text(
+                                'Processed',
+//                                textScaleFactor: 2,
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 10.0),
+                              ),
+                            ):
+                            _payment_status == 'cancelled'
+                                ? Container(
+                              padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
+                              height: 20.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25.0),
+                                color: Colors.red,
+                              ),
+                              child: Text(
+                                'Cancelled',
+//                                textScaleFactor: 2,
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 10.0),
+                              ),
+                            ):
+                            _payment_status == 'rejected'
+                                ? Container(
+                              padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
+                              height: 20.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25.0),
+                                color: Colors.red,
+                              ),
+                              child: Text(
+                                'Rejected',
+//                                textScaleFactor: 2,
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 10.0),
+                              ),
+                            ):
+                            Container(),
+                          ],
+                        ),
                       ],
                     ),
                     isThreeLine: true,
@@ -270,7 +418,7 @@ class _HistoryDetailsState extends State<HistoryDetails> {
                                 fontSize: 10.0
                             ),
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),

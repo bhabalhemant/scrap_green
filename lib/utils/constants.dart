@@ -36,6 +36,7 @@ const ROUTE_CONTACT_US = "/contact_us";
 const ROUTE_VENDOR_SETTINGS = "/vendor_settings";
 const ROUTE_VENDOR_EDIT_PROFILE = "/vendor_edit_profile";
 const ROUTE_HISTORY_DETAILS = "/history_details";
+const ROUTE_ADD_BANK_DETAILS = "/add_bank_details";
 
 const PARAM_NAME = "name";
 // const PARAM_MIDDLE_NAME = "middle_name";
@@ -91,7 +92,14 @@ const PARAM_REQUEST_DETAILS = "request_details";
 const PARAM_REQUEST_DETAILS_ITEMS = "request_details_items";
 const PARAM_ITEM_ID = "item_id";
 const PARAM_RATE_ID = "rate";
-
+const PARAM_START_FROM = "start_from";
+const PARAM_REQUEST_STATUS = "request_status";
+const PARAM_LIMIT = "limit";
+const PARAM_BANK_DETAILS_DATA = "bank_details";
+const PARAM_BANK = "bank";
+const PARAM_ACC_NO = "acc_no";
+const PARAM_ACC_TYPE = "acc_type";
+const PARAM_IFSC_CODE = "ifsc";
 const INVALID_USER = 0;
 const NORMAL_USER = 1;
 const VENDOR_USER = 2;

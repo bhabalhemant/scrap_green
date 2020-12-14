@@ -6,10 +6,10 @@ import 'package:scrapgreen/utils/constants.dart' as Constants;
 import '../repository/repository.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:scrapgreen/bloc/profile_page/profile_bloc.dart';
-import 'package:scrapgreen/bloc/profile_page/profile_event.dart';
-import 'package:scrapgreen/bloc/profile_page/profile_state.dart';
-import 'package:scrapgreen/models/response/profile_response.dart';
+import 'package:scrapgreen/bloc/vendor_profile/vendor_profile_bloc.dart';
+import 'package:scrapgreen/bloc/vendor_profile/vendor_profile_event.dart';
+import 'package:scrapgreen/bloc/vendor_profile/vendor_profile_state.dart';
+import 'package:scrapgreen/models/response/vendor_profile_response.dart';
 import 'package:scrapgreen/utils/singleton.dart';
 import 'package:scrapgreen/base_widgets/app_textstyle.dart';
 import 'package:scrapgreen/generated/locale_keys.g.dart';
@@ -29,7 +29,7 @@ class _DrawerV2State extends State<DrawerV2> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<ProfilePageBloc>(context).add(GetProfile());
+    BlocProvider.of<VendorProfileBloc>(context).add(GetProfile());
   }
 
   onTap() {
@@ -37,9 +37,36 @@ class _DrawerV2State extends State<DrawerV2> {
   }
 
   Widget build(BuildContext context) {
+    return BlocConsumer(
+      bloc: BlocProvider.of<VendorProfileBloc>(context),
+      listener: (context, state) {
+        if (state is VendorProfileLoaded) {
+          _setData(state.response);
+        }
+      },
+      builder: (context, state) {
+        print(state);
+        if (state is VendorProfileLoading) {
+          return AppSingleton.instance
+              .buildCenterSizedProgressBar();
+        }
+        if (state is VendorProfileError) {
+          return Center(
+            child: Text(state.msg),
+          );
+        }
+        if (state is VendorProfileLoaded) {
+          return Screen();
+        }
+        return Screen();
+      },
+    );
+  }
+
+  Widget Screen() {
     return SizedBox(
       child: Theme(
-          data: Theme.of(context).copyWith(canvasColor: Colors.white),
+        data: Theme.of(context).copyWith(canvasColor: Colors.white),
         child: Drawer(
           child: ListView(
             // Important: Remove any padding from the ListView.
@@ -66,7 +93,18 @@ class _DrawerV2State extends State<DrawerV2> {
                     ),
                     Padding(
                       padding: EdgeInsets.fromLTRB(30, 30, 0, 8),
-                      child: Text('Hemant Bhabal',
+                      child: Text(
+                        _name,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(30, 0, 0, 8),
+                      child: Text(
+                        _email,
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.white
@@ -137,11 +175,10 @@ class _DrawerV2State extends State<DrawerV2> {
           ),
         ),
       ),
-
     );
   }
 
-  void _setData(ProfileResponse response) {
+  void _setData(VendorProfileResponse response) {
     print('test ${response.data}');
     _id = response.data.id;
     _name = response.data.name;

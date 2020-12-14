@@ -269,259 +269,11 @@ class _VendorRequestState extends State<VendorRequest> with SingleTickerProvider
             controller: _tabController,
           ),
           drawer: DrawerV2(),
-//          drawer: Drawer(
-//            // Add a ListView to the drawer. This ensures the user can scroll
-//            // through the options in the drawer if there isn't enough vertical
-//            // space to fit everything.
-//            child: ListView(
-//              // Important: Remove any padding from the ListView.
-//              padding: EdgeInsets.zero,
-//              children: <Widget>[
-//                DrawerHeader(
-//                  decoration: BoxDecoration(
-//                    color: Colors.green,
-//                  ),
-//                  child: Column(
-//                    mainAxisAlignment: MainAxisAlignment.center,
-//                    mainAxisSize: MainAxisSize.max,
-//                    crossAxisAlignment: CrossAxisAlignment.center,
-//                    children: <Widget>[
-//                      Container(
-//                        width: 50,
-//                        height: 50,
-//                        alignment: Alignment.center,
-//                        child: Icon(
-//                          Icons.account_circle,
-//                          color: Colors.white,
-//                          size: 75,
-//                        ),
-//
-////                        child: Image.network(logo_path ,fit: BoxFit.cover,),
-////                        child: CircleAvatar(
-////                          radius: 50.0,
-////                          backgroundImage:
-////                          NetworkImage('https://apptroidtechnology.in/scrap_green/uploads/images/aaab7f8d09e7350e13201682ba2e4030.jpg'),
-////                          backgroundColor: Colors.transparent,
-////                        )
-//                      ),
-//                      Padding(
-//                        padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-//                        child: Text(
-//                          'Hemant Bhabal',
-//                          style: TextStyle(
-//                              fontSize: 14.0,
-//                              fontWeight: FontWeight.bold,
-//                              color: Colors.white
-//                          ),
-//                        ),
-//                      ),
-//                      Padding(
-//                        padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-//                        child: Text(
-//                          '+91 7738242013',
-//                          style: TextStyle(
-//                              fontSize: 14.0,
-//                              color: Colors.white
-////                          fontWeight: FontWeight.bold
-//                          ),
-//                        ),
-//                      ),
-//                      Padding(
-//                        padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-//                        child: Text(
-//                          'bhabalhemant@gmail.com',
-//                          style: TextStyle(
-//                              fontSize: 14.0,
-//                              color: Colors.white
-////                          fontWeight: FontWeight.bold
-//                          ),
-//                        ),
-//                      ),
-//                    ],
-//                  ),
-//                ),
-//                ListTile(
-////              leading: Icon(Icons.lock),
-//                  leading: Container(
-//                    width: 30,
-//                    height: 30,
-////              color: Colors.green,
-//                    decoration:
-//                    BoxDecoration(
-//                      border: Border.all(color: Colors.green),
-//                      borderRadius: BorderRadius.circular(20),
-//                    ),
-//                    child:Icon(Icons.settings, color: Colors.green,),
-//                  ),
-//                  title: Text(
-//                    'SETTINGS',
-//                    style: TextStyle(
-//                      fontSize: 14,
-//                      fontWeight: FontWeight.bold,
-//                    ),
-//                  ).tr(),
-//                  onTap: () async {
-//                    Navigator.pushNamed(context, Constants.ROUTE_VENDOR_SETTINGS);
-//                  },
-//                ),
-//                ListTile(
-////              leading: Icon(Icons.lock),
-//                  leading: Container(
-//                    width: 30,
-//                    height: 30,
-////              color: Colors.green,
-//                    decoration:
-//                    BoxDecoration(
-//                      border: Border.all(color: Colors.green),
-//                      borderRadius: BorderRadius.circular(20),
-//                    ),
-//                    child:Icon(Icons.lock, color: Colors.green,),
-//                  ),
-//                  title: Text(
-////                LocaleKeys.ask_help,
-//                    'LOGOUT',
-//                    style: TextStyle(
-//                      fontSize: 14,
-//                      fontWeight: FontWeight.bold,
-//                    ),
-//                  ).tr(),
-//                  onTap: () async {
-//                    var response = await Repository.instance.clearAllShardPrefs();
-////                    print(response);
-//                    if (response) {
-//                      Navigator.pushNamed(context, Constants.ROUTE_SIGN_IN_VENDOR);
-////                      Navigator.pushNamedAndRemoveUntil(scaffoldKey.currentContext,
-////                          Constants.ROUTE_SIGN_IN_VENDOR, (Route<dynamic> route) => false);
-//                    } else {
-//                      _showError('Failed to log out');
-//                    }
-//                  },
-//                ),
-//              ],
-//            ),
-//          ),
         ),
       ),
     );
   }
-//  Widget Schedule() {
-//    return Container(
-//      height: MediaQuery.of(context).size.height,
-//      width: MediaQuery.of(context).size.width,
-//      child: Column(
-//        children: <Widget>[
-//          Expanded(
-//            child: BlocConsumer(
-//              bloc: BlocProvider.of<SchedulePickupBloc>(context),
-//              listener: (context, state) {
-//                if (state is SchedulePickupLoaded) {
-//                  _isLoading = false;
-//                  if (state.response.data1.isEmpty) {
-//                    _hasMoreItems = false;
-//                  }
-//                  _data1.addAll(state.response.data1);
-//                }
-//              },
-//              builder: (context, state) {
-//                if (state is SchedulePickupLoading) {
-//                  return AppSingleton.instance
-//                      .buildCenterSizedProgressBar();
-//                }
-//                if (state is SchedulePickupError) {
-//                  return Center(
-//                    child: Text(state.msg),
-//                  );
-//                }
-//                if(state is SchedulePickupLoaded){
-//                  return buildListSchedule(state.response.msg);
-//                }
-//                return buildListSchedule('');
-//              },
-//            ),
-//          ),
-//        ],
-//      ),
-//    );
-//  }
-//  Widget Assigned() {
-//    return Container(
-//      height: MediaQuery.of(context).size.height,
-//      width: MediaQuery.of(context).size.width,
-//      child: Column(
-//        children: <Widget>[
-//          Expanded(
-//            child: BlocConsumer(
-//              bloc: BlocProvider.of<AssignedPickupBloc>(context),
-//              listener: (context, state) {
-//                print(state);
-//                if (state is AssignedPickupLoaded) {
-//                  _isLoading = false;
-//                  if (state.response.data2.isEmpty) {
-//                    _hasMoreItems = false;
-//                  }
-//                  _data2.addAll(state.response.data2);
-//                }
-//              },
-//              builder: (context, state) {
-//                if (state is AssignedPickupLoading) {
-//                  return AppSingleton.instance
-//                      .buildCenterSizedProgressBar();
-//                }
-//                if (state is AssignedPickupError) {
-//                  return Center(
-//                    child: Text(state.msg),
-//                  );
-//                }
-//                if(state is AssignedPickupLoaded){
-//                  return buildListAssigned(state.response.msg);
-//                }
-//                return buildListAssigned('');
-//              },
-//            ),
-//          ),
-//        ],
-//      ),
-//    );
-//  }
-//  Widget Success(){
-//    return Container(
-//      height: MediaQuery.of(context).size.height,
-//      width: MediaQuery.of(context).size.width,
-//      child: Column(
-//        children: <Widget>[
-//          Expanded(
-//            child: BlocConsumer(
-//              bloc: BlocProvider.of<SuccessPickupBloc>(context),
-//              listener: (context, state) {
-//                if (state is SuccessPickupLoaded) {
-//                  _isLoading = false;
-//                  if (state.response.data3.isEmpty) {
-//                    _hasMoreItems = false;
-//                  }
-//                  _data3.addAll(state.response.data3);
-//                }
-//              },
-//              builder: (context, state) {
-//                if (state is SuccessPickupLoading) {
-//                  return AppSingleton.instance
-//                      .buildCenterSizedProgressBar();
-//                }
-//                if (state is SuccessPickupError) {
-//                  return Center(
-//                    child: Text(state.msg),
-//                  );
-//                }
-//                if(state is SuccessPickupLoaded){
-//                  return buildListSucces(state.response.msg);
-//                }
-//                return buildListSucces('');
-//              },
-//            ),
-//          ),
-//        ],
-//      ),
-//    );
-//  }
+
   Widget buildListSchedule(List<Data1> _data1) {
     return ListView.builder(
       physics: ClampingScrollPhysics(),
@@ -639,6 +391,14 @@ class _VendorRequestState extends State<VendorRequest> with SingleTickerProvider
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       ListTile(
+                        onTap: (){
+                          Map<String, String> body = {
+                            Constants.PARAM_REQUEST_ID: _data2[index].id,
+                          };
+//                        String request_id = _data1[index].id;
+                          BlocProvider.of<AssignedPickupBloc>(context).add(AssignedRequestIdEvent(body: body));
+                          Navigator.pushNamed(context, Constants.ROUTE_REQUEST_DETAILS);
+                        },
                         leading: Image.asset('assets/recycle.png',
                             width: 62, height: 62, fit: BoxFit.contain),
                         title: Text(
@@ -735,6 +495,13 @@ class _VendorRequestState extends State<VendorRequest> with SingleTickerProvider
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       ListTile(
+                        onTap: (){
+                          Map<String, String> body = {
+                            Constants.PARAM_REQUEST_ID: _data3[index].id,
+                          };
+                          BlocProvider.of<SuccessPickupBloc>(context).add(SuccessRequestIdEvent(body: body));
+                          Navigator.pushNamed(context, Constants.ROUTE_REQUEST_DETAILS);
+                        },
                         leading: Image.asset('assets/recycle.png',
                             width: 62, height: 62, fit: BoxFit.contain),
                         title: Text(
@@ -806,6 +573,13 @@ class _VendorRequestState extends State<VendorRequest> with SingleTickerProvider
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       ListTile(
+                        onTap: (){
+                          Map<String, String> body = {
+                            Constants.PARAM_REQUEST_ID: _data3[index].id,
+                          };
+                          BlocProvider.of<SuccessPickupBloc>(context).add(SuccessRequestIdEvent(body: body));
+                          Navigator.pushNamed(context, Constants.ROUTE_REQUEST_DETAILS);
+                        },
                         leading: Image.asset('assets/recycle.png',
                             width: 62, height: 62, fit: BoxFit.contain),
                         title: Text(
@@ -878,6 +652,13 @@ class _VendorRequestState extends State<VendorRequest> with SingleTickerProvider
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       ListTile(
+                        onTap: (){
+                          Map<String, String> body = {
+                            Constants.PARAM_REQUEST_ID: _data3[index].id,
+                          };
+                          BlocProvider.of<SuccessPickupBloc>(context).add(SuccessRequestIdEvent(body: body));
+                          Navigator.pushNamed(context, Constants.ROUTE_REQUEST_DETAILS);
+                        },
                         leading: Image.asset('assets/recycle.png',
                             width: 62, height: 62, fit: BoxFit.contain),
                         title: Text(

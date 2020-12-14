@@ -26,6 +26,7 @@ import 'package:scrapgreen/bloc/schedule_pickup_bloc.dart';
 import 'package:scrapgreen/bloc/assigned_pickup_bloc.dart';
 import 'package:scrapgreen/bloc/success_pickup_bloc.dart';
 import 'package:scrapgreen/bloc/request_details/request_details_bloc.dart';
+import 'package:scrapgreen/bloc/bank_details/bank_bloc.dart';
 import 'package:scrapgreen/generated/codegen_loader.g.dart';
 import 'package:scrapgreen/ui/carousel_demo.dart';
 import 'package:scrapgreen/ui/forgot_password_screen.dart';
@@ -54,6 +55,7 @@ import 'package:scrapgreen/ui/vendor_settings.dart';
 import 'package:scrapgreen/ui/otp_screen.dart';
 import 'package:scrapgreen/ui/vendor_edit_profile.dart';
 import 'package:scrapgreen/ui/history_details.dart';
+import 'package:scrapgreen/ui/addBankDetails.dart';
 import 'package:scrapgreen/utils/constants.dart' as Constants;
 import 'package:scrapgreen/utils/custom_route.dart';
 import 'package:scrapgreen/utils/simple_bloc_delegate.dart';
@@ -180,6 +182,9 @@ Future<void> main() async {
           ),
           BlocProvider<RequestDetailsBloc>(
             create: (context) => RequestDetailsBloc(),
+          ),
+          BlocProvider<BankBloc>(
+            create: (context) => BankBloc(),
           ),
         ],
         child: MyApp(),
@@ -439,6 +444,11 @@ class _MyAppState extends State<MyApp> {
           case Constants.ROUTE_VENDOR_CHANGE_PASSWORD:
             return CustomRoute(
               builder: (_) => VendorChangePassword(),
+              settings: settings,
+            );
+          case Constants.ROUTE_ADD_BANK_DETAILS:
+            return CustomRoute(
+              builder: (_) => AddBankDetails(),
               settings: settings,
             );
           case Constants.ROUTE_HISTORY_DETAILS:

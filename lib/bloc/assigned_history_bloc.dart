@@ -4,6 +4,7 @@ import 'package:scrapgreen/repository/repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:scrapgreen/utils/constants.dart' as Constants;
 
 class AssignedHistoryBloc extends Bloc<AssignedHistoryEventBase, AssignedHistoryState> {
   AssignedHistoryBloc();
@@ -26,12 +27,18 @@ class AssignedHistoryBloc extends Bloc<AssignedHistoryEventBase, AssignedHistory
       ProfileResponse storedData =
           await Repository.instance.getStoredUserData();
       if (storedData != null && storedData.data.id != null) {
+        Map<String, String> params = {
+          Constants.PARAM_USER_ID: storedData.data.id,
+          Constants.PARAM_START_FROM: event.startFrom,
+          Constants.PARAM_REQUEST_STATUS: '0',
+          Constants.PARAM_LIMIT: '30',
+        };
         PickUpRequestAssignedResponse response =
-        await Repository.instance.getPickUpRequestAssignedData(storedData.data.id,event.startFrom);
+        await Repository.instance.getPickUpRequestAssignedData(params);
         if (response.status) {
           yield AssignedHistoryLoaded(response: response);
         } else {
-          yield AssignedHistoryError(msg: 'Failed to store user data!');
+          yield AssignedHistoryError(msg: response.msg);
         }
       } else {
         yield AssignedHistoryError(msg: 'Failed to get stored user data!');

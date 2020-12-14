@@ -443,8 +443,8 @@ var now = new DateTime.now();
       print(position);
       setState(() {
         _currentPosition = position;
-        _position = _currentPosition.latitude.toString() +'-'+ _currentPosition.longitude.toString();
-        print(_position);
+        _position = _currentPosition.latitude.toString() +'/'+ _currentPosition.longitude.toString();
+//        print(_position);
       });
     }).catchError((e) {
       print(e);

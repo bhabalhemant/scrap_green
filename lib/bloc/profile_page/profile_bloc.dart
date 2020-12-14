@@ -27,7 +27,7 @@ class ProfilePageBloc extends Bloc<ProfileEvent, ProfileState> {
     try {
       ProfileResponse storedData =
           await Repository.instance.getStoredUserData();
-//      print('storedData');
+
       if (storedData != null && storedData.data.id != null) {
         Map<String, String> body = {Constants.PARAM_ID: storedData.data.id};
         ProfileResponse response = await Repository.instance.getUserData(body);

@@ -19,7 +19,7 @@ class ApiProvider {
     return _dio;
   }
 
-  final String _baseUrl = Constants.BASE_URL + "api/";
+  final String _baseUrl = Constants.BASE_URL + "mobileapi/";
 
   Future<dynamic> get(String url) async {
     var responseJson;

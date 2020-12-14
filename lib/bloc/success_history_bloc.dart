@@ -4,6 +4,7 @@ import 'package:scrapgreen/repository/repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:scrapgreen/utils/constants.dart' as Constants;
 
 class SuccessHistoryBloc extends Bloc<SuccessHistoryEventBase, SuccessHistoryState> {
   SuccessHistoryBloc();
@@ -26,12 +27,18 @@ class SuccessHistoryBloc extends Bloc<SuccessHistoryEventBase, SuccessHistorySta
       ProfileResponse storedData =
           await Repository.instance.getStoredUserData();
       if (storedData != null && storedData.data.id != null) {
+        Map<String, String> params = {
+          Constants.PARAM_USER_ID: storedData.data.id,
+          Constants.PARAM_START_FROM: event.startFrom,
+          Constants.PARAM_REQUEST_STATUS: '0',
+          Constants.PARAM_LIMIT: '30',
+        };
         PickUpRequestSuccessResponse response =
-        await Repository.instance.getPickUpRequestSuccessData(storedData.data.id,event.startFrom);
+        await Repository.instance.getPickUpRequestSuccessData(params);
         if (response.status) {
           yield SuccessHistoryLoaded(response: response);
         } else {
-          yield SuccessHistoryError(msg: 'Failed to store user data!');
+          yield SuccessHistoryError(msg: response.msg);
         }
       } else {
         yield SuccessHistoryError(msg: 'Failed to get stored user data!');

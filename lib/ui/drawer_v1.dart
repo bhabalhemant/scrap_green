@@ -37,14 +37,17 @@ class _DrawerV1State extends State<DrawerV1> {
   }
 
   Widget build(BuildContext context) {
-    BlocConsumer(
+    return BlocConsumer(
       bloc: BlocProvider.of<ProfilePageBloc>(context),
       listener: (context, state) {
+
         if (state is ProfileLoaded) {
           _setData(state.response);
+          print('yes2');
         }
       },
       builder: (context, state) {
+//        print(state);
         if (state is ProfileLoading) {
           return AppSingleton.instance
               .buildCenterSizedProgressBar();
@@ -55,13 +58,17 @@ class _DrawerV1State extends State<DrawerV1> {
           );
         }
         if (state is ProfileLoaded) {
+//          return text();
           return Screen();
         }
+//        return text();
         return Screen();
       },
     );
   }
-
+  Widget text() {
+    return Text('qwert');
+  }
   Widget Screen() {
     return SizedBox(
       child: Theme(
@@ -92,7 +99,9 @@ class _DrawerV1State extends State<DrawerV1> {
                     ),
                     Padding(
                       padding: EdgeInsets.fromLTRB(30, 30, 0, 8),
-                      child: Text(_name,
+                      child: Text(
+                        _name,
+//                        'ABC',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.white
@@ -100,23 +109,17 @@ class _DrawerV1State extends State<DrawerV1> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.fromLTRB(30, 30, 0, 8),
-                      child: Text(_email,
+                      padding: EdgeInsets.fromLTRB(30, 0, 0, 8),
+                      child: Text(
+                        _email,
+//                        'ABC',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.white
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(30, 30, 0, 8),
-                      child: Text(_mobile,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white
-                        ),
-                      ),
-                    ),
+
                   ],
                 ),
               ),

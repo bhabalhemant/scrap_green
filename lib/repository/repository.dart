@@ -25,6 +25,7 @@ import 'package:scrapgreen/models/response/complete_request_details_response.dar
 import 'package:scrapgreen/network/api_provider.dart';
 import 'package:scrapgreen/utils/constants.dart' as Constants;
 import 'package:scrapgreen/models/response/sign_in_vendor_response.dart';
+import 'package:scrapgreen/models/response/bank_details_response.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -130,6 +131,11 @@ class Repository {
     return PickUpRequestResponse.fromJson(response);
   }
 
+  Future<BankDetailsResponse> getBankDetailsData(String userId) async {
+    final response = await ApiProvider.instance.get("get_bank_details/$userId");
+    return BankDetailsResponse.fromJson(response);
+  }
+
 //  Future<DisplayItemsResponse> getRequestDetailsItems(String request_id) async {
 //        final response = await ApiProvider.instance.get("get_pickup_request_item_details/1");
 //    return DisplayItemsResponse.fromJson(response);
@@ -141,21 +147,20 @@ class Repository {
     return RequestDetailsResponse.fromJson(response);
   }
 
-  Future<PickUpRequestScheduleResponse> getPickUpRequestScheduleData(String userId,String startFrom) async {
-    final response = await ApiProvider.instance.get("get_scheduled_pickup_request?user_id=$userId&request_status=0&limit=30&start_from=$startFrom");
+  Future<PickUpRequestScheduleResponse> getPickUpRequestScheduleData(Map<String, String> body) async {
+    final response = await ApiProvider.instance.post("get_scheduled_pickup_request", body);
 
     return PickUpRequestScheduleResponse.fromJson(response);
   }
 
-  Future<PickUpRequestAssignedResponse> getPickUpRequestAssignedData(String userId,String startFrom) async {
-//    print('assign');
-    final response = await ApiProvider.instance.get("get_assigned_pickup_request?user_id=$userId&request_status=0&limit=30&start_from=$startFrom");
+  Future<PickUpRequestAssignedResponse> getPickUpRequestAssignedData(Map<String, String> body) async {
+    final response = await ApiProvider.instance.post("get_assigned_pickup_request", body);
     return PickUpRequestAssignedResponse.fromJson(response);
   }
 
-  Future<PickUpRequestSuccessResponse> getPickUpRequestSuccessData(String userId,String startFrom) async {
+  Future<PickUpRequestSuccessResponse> getPickUpRequestSuccessData(Map<String, String> body) async {
 //    print('success');
-    final response = await ApiProvider.instance.get("get_other_pickup_request?user_id=$userId&request_status=0&limit=30&start_from=$startFrom");
+    final response = await ApiProvider.instance.post("get_other_pickup_request", body);
     return PickUpRequestSuccessResponse.fromJson(response);
   }
 
@@ -252,6 +257,12 @@ class Repository {
         Constants.PARAM_USER_DATA, json.encode(response));
   }
 
+  Future<bool> storeBankDetailsData(Map<String, dynamic> response) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return await prefs.setString(
+        Constants.PARAM_BANK_DETAILS_DATA, json.encode(response));
+  }
+
   Future<bool> storeVendorData(Map<String, dynamic> response) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return await prefs.setString(
@@ -282,6 +293,11 @@ class Repository {
 
   Future<UpdateFcmResponse> updateFcmId(Map<String, String> body) async {
     final response = await ApiProvider.instance.post("update_fcm_id", body);
+    return UpdateFcmResponse.fromJson(response);
+  }
+
+  Future<UpdateFcmResponse> updateVendorFcmId(Map<String, String> body) async {
+    final response = await ApiProvider.instance.post("update_vendor_fcm_id", body);
     return UpdateFcmResponse.fromJson(response);
   }
 

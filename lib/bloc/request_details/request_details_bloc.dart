@@ -128,18 +128,12 @@ class RequestDetailsBloc extends Bloc<RequestDetailsEvent, RequestDetailsState> 
   Stream<RequestDetailsState> _mapUpdateRequestDetailsToState(UpdateRequestDetails event) async* {
     yield RequestDetailsLoading();
     try {
-      RequestIdResponse storedReqIdData = await Repository.instance.getStoredRequestId();
-      VendorProfileResponse storedVendorData = await Repository.instance.getStoredVendorData();
-      print(storedVendorData.data.id);
-      print(storedReqIdData.request_id);
-
-      print(event.body);
-//      RequestDetailsResponse response = await Repository.instance.addRequestDetails(event.body);
-//      if (response.status) {
-//        yield RequestDetailsUpdated(response: response);
-//      } else {
-//        yield RequestDetailsError(msg: response.msg);
-//      }
+      RequestDetailsResponse response = await Repository.instance.addRequestDetails(event.body);
+      if (response.status) {
+        yield RequestDetailsUpdated(response: response);
+      } else {
+        yield RequestDetailsError(msg: response.msg);
+      }
     } catch (e) {
       if (e is String) {
         yield RequestDetailsError(msg: e);

@@ -374,7 +374,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   //         print(position);
       // setState(() {
             _currentPosition = position;
-            String _position = _currentPosition.latitude.toString() +'-'+ _currentPosition.longitude.toString();
+            String _position = _currentPosition.latitude.toString() +'/'+ _currentPosition.longitude.toString();
             print(_position);
           // });
         
