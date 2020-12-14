@@ -163,9 +163,7 @@ class _HomeState extends State<Home> {
                   borderRadius: BorderRadius.circular(24),
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, Constants.ROUTE_ADD_BANK_DETAILS, arguments: AddBankDetails(
-                    userId: _id,
-                  ));
+                  Navigator.pushNamed(context, Constants.ROUTE_ADD_BANK_DETAILS, arguments: {"userId":_id});
 //                  return AddBankDetails(
 //
 //                  );

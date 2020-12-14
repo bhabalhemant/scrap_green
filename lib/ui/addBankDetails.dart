@@ -1,3 +1,4 @@
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:scrapgreen/base_widgets/app_textstyle.dart';
 import 'package:scrapgreen/bloc/bank_details/bank_bloc.dart';
 import 'package:scrapgreen/bloc/bank_details/bank_event.dart';
@@ -18,9 +19,6 @@ import 'dart:async';
 
 
 class AddBankDetails extends StatefulWidget {
-  final String userId;
-  const AddBankDetails({Key key, this.userId}) : super(key: key);
-
   @override
   _AddBankDetailsState createState() => _AddBankDetailsState();
 }
@@ -66,13 +64,15 @@ class _AddBankDetailsState extends State<AddBankDetails> {
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, Object> passedData = ModalRoute.of(context).settings.arguments;
+    _id = passedData['userId'];
     return WillPopScope(
       onWillPop: () {
         return AppSingleton.instance.goBack(context);
       },
       child: SafeArea(
         child: Scaffold(
-          appBar: AppSingleton.instance.buildAppBar(onTap, 'e${widget.userId}'),
+          appBar: AppSingleton.instance.buildAppBar(onTap, '$_id'),
           key: scaffoldKey,
           body: Container(
             height: MediaQuery.of(context).size.height,
@@ -313,7 +313,7 @@ class _AddBankDetailsState extends State<AddBankDetails> {
 //          if (validate()) {
             scaffoldKey.currentState.hideCurrentSnackBar();
             Map<String, String> body = {
-              Constants.PARAM_USER_ID: widget.userId,
+              Constants.PARAM_USER_ID: _id,
               Constants.PARAM_BANK: _bank_name.text,
               Constants.PARAM_ACC_NO: _ac_no.text,
               Constants.PARAM_IFSC_CODE: _ifsc_code.text,
@@ -350,7 +350,7 @@ class _AddBankDetailsState extends State<AddBankDetails> {
 //          if (validate()) {
           scaffoldKey.currentState.hideCurrentSnackBar();
           Map<String, String> body = {
-            Constants.PARAM_USER_ID: widget.userId,
+            Constants.PARAM_USER_ID: _id,
             Constants.PARAM_BANK: _bank_name.text,
             Constants.PARAM_ACC_NO: _ac_no.text,
             Constants.PARAM_IFSC_CODE: _ifsc_code.text,

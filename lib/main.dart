@@ -1,74 +1,74 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:scrapgreen/ui/otp_vendor_screen.dart';
-import 'package:scrapgreen/ui/sign_in_vendor_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:location/location.dart';
+import 'package:scrapgreen/bloc/assigned_history_bloc.dart';
+import 'package:scrapgreen/bloc/assigned_pickup_bloc.dart';
+import 'package:scrapgreen/bloc/bank_details/bank_bloc.dart';
+import 'package:scrapgreen/bloc/change_password/cp_bloc.dart';
+import 'package:scrapgreen/bloc/contact_us_bloc.dart';
 import 'package:scrapgreen/bloc/forgot_password_bloc.dart';
 import 'package:scrapgreen/bloc/otp/otp_bloc.dart';
-import 'package:scrapgreen/bloc/vendor_otp/otp_vendor_bloc.dart';
+import 'package:scrapgreen/bloc/profile_page/profile_bloc.dart';
+import 'package:scrapgreen/bloc/rate_card/rate_card_bloc.dart';
+import 'package:scrapgreen/bloc/request_details/request_details_bloc.dart';
+import 'package:scrapgreen/bloc/schedule_history_bloc.dart';
+import 'package:scrapgreen/bloc/schedule_pickup_bloc.dart';
+import 'package:scrapgreen/bloc/settings/profile_bloc.dart';
 import 'package:scrapgreen/bloc/sign_in_bloc.dart';
 import 'package:scrapgreen/bloc/sign_in_vendor_bloc.dart';
 import 'package:scrapgreen/bloc/sign_up_bloc.dart';
 import 'package:scrapgreen/bloc/sign_up_vendor_bloc.dart';
 import 'package:scrapgreen/bloc/splash_bloc.dart';
-import 'package:scrapgreen/bloc/profile_page/profile_bloc.dart';
-import 'package:scrapgreen/bloc/settings/profile_bloc.dart';
-import 'package:scrapgreen/bloc/change_password/cp_bloc.dart';
-import 'package:scrapgreen/bloc/contact_us_bloc.dart';
-import 'package:scrapgreen/bloc/rate_card/rate_card_bloc.dart';
-import 'package:scrapgreen/bloc/vendor_profile/vendor_profile_bloc.dart';
-import 'package:scrapgreen/bloc/schedule_history_bloc.dart';
-import 'package:scrapgreen/bloc/assigned_history_bloc.dart';
 import 'package:scrapgreen/bloc/success_history_bloc.dart';
-import 'package:scrapgreen/bloc/schedule_pickup_bloc.dart';
-import 'package:scrapgreen/bloc/assigned_pickup_bloc.dart';
 import 'package:scrapgreen/bloc/success_pickup_bloc.dart';
-import 'package:scrapgreen/bloc/request_details/request_details_bloc.dart';
-import 'package:scrapgreen/bloc/bank_details/bank_bloc.dart';
+import 'package:scrapgreen/bloc/vendor_otp/otp_vendor_bloc.dart';
+import 'package:scrapgreen/bloc/vendor_profile/vendor_profile_bloc.dart';
 import 'package:scrapgreen/generated/codegen_loader.g.dart';
+import 'package:scrapgreen/ui/addBankDetails.dart';
 import 'package:scrapgreen/ui/carousel_demo.dart';
+import 'package:scrapgreen/ui/change_password.dart';
+import 'package:scrapgreen/ui/contact_us.dart';
+import 'package:scrapgreen/ui/edit_profile.dart';
 import 'package:scrapgreen/ui/forgot_password_screen.dart';
 import 'package:scrapgreen/ui/history.dart';
+import 'package:scrapgreen/ui/history_details.dart';
 import 'package:scrapgreen/ui/home.dart';
 import 'package:scrapgreen/ui/lang_view.dart';
 import 'package:scrapgreen/ui/mycontribution.dart';
 import 'package:scrapgreen/ui/otp_screen.dart';
+import 'package:scrapgreen/ui/otp_vendor_screen.dart';
 import 'package:scrapgreen/ui/pick_up_request.dart';
+import 'package:scrapgreen/ui/profile_1.dart';
 import 'package:scrapgreen/ui/profile_screen.dart';
 import 'package:scrapgreen/ui/rate_card.dart';
 import 'package:scrapgreen/ui/request_details.dart';
 import 'package:scrapgreen/ui/select_type_screen.dart';
+import 'package:scrapgreen/ui/settings.dart';
 import 'package:scrapgreen/ui/sign_in_screen.dart';
+import 'package:scrapgreen/ui/sign_in_vendor_screen.dart';
 import 'package:scrapgreen/ui/sign_up_screen.dart';
 import 'package:scrapgreen/ui/sign_up_vendor.dart';
 import 'package:scrapgreen/ui/splash_screen.dart';
 import 'package:scrapgreen/ui/vendor_change_password.dart';
-import 'package:scrapgreen/ui/vendor_request.dart';
-import 'package:scrapgreen/ui/settings.dart';
-import 'package:scrapgreen/ui/profile_1.dart';
-import 'package:scrapgreen/ui/edit_profile.dart';
-import 'package:scrapgreen/ui/change_password.dart';
-import 'package:scrapgreen/ui/contact_us.dart';
-import 'package:scrapgreen/ui/vendor_settings.dart';
-import 'package:scrapgreen/ui/otp_screen.dart';
 import 'package:scrapgreen/ui/vendor_edit_profile.dart';
-import 'package:scrapgreen/ui/history_details.dart';
-import 'package:scrapgreen/ui/addBankDetails.dart';
+import 'package:scrapgreen/ui/vendor_request.dart';
+import 'package:scrapgreen/ui/vendor_settings.dart';
 import 'package:scrapgreen/utils/constants.dart' as Constants;
 import 'package:scrapgreen/utils/custom_route.dart';
 import 'package:scrapgreen/utils/simple_bloc_delegate.dart';
 import 'package:scrapgreen/utils/singleton.dart';
+
 import 'bloc/history_bloc.dart';
 import 'bloc/profile/profile_bloc.dart';
 import 'models/local_notification.dart';
-import 'package:location/location.dart';
 
 final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-FlutterLocalNotificationsPlugin();
+    FlutterLocalNotificationsPlugin();
 
 NotificationAppLaunchDetails notificationAppLaunchDetails;
 
@@ -76,10 +76,9 @@ Future<void> main() async {
   // needed if you intend to initialize in the `main` function
   WidgetsFlutterBinding.ensureInitialized();
   notificationAppLaunchDetails =
-  await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+      await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
 
-  var initializationSettingsAndroid =
-  AndroidInitializationSettings('logo');
+  var initializationSettingsAndroid = AndroidInitializationSettings('logo');
   // Note: permissions aren't requested here just to demonstrate that can be done later using the `requestPermissions()` method
   // of the `IOSFlutterLocalNotificationsPlugin` class
   var initializationSettingsIOS = IOSInitializationSettings(
@@ -96,10 +95,10 @@ Future<void> main() async {
 
   await flutterLocalNotificationsPlugin.initialize(initializationSettings,
       onSelectNotification: (String payload) async {
-        if (payload != null) {
-          debugPrint('notification payload: ' + payload);
-        }
-      });
+    if (payload != null) {
+      debugPrint('notification payload: ' + payload);
+    }
+  });
 
   BlocSupervisor.delegate = SimpleBlocDelegate();
 
@@ -218,7 +217,6 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-
   @override
   void initState() {
     super.initState();
@@ -236,8 +234,11 @@ class _MyAppState extends State<MyApp> {
         var iOSPlatformChannelSpecifics = IOSNotificationDetails();
         var platformChannelSpecifics = NotificationDetails(
             androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-        await flutterLocalNotificationsPlugin.show(DateTime.now().millisecond,
-            localNotification.title, localNotification.body, platformChannelSpecifics,
+        await flutterLocalNotificationsPlugin.show(
+            DateTime.now().millisecond,
+            localNotification.title,
+            localNotification.body,
+            platformChannelSpecifics,
             payload: localNotification.title);
       },
       onLaunch: (Map<String, dynamic> message) async {
