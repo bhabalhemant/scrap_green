@@ -88,35 +88,39 @@ class _RateCardState extends State<RateCard> with SingleTickerProviderStateMixin
 //            child: Flex(
 //              direction: Axis.vertical,
 //              children: <Widget>[
-                child: Expanded(
+                child: Column(
+                  children: [
+                    Expanded(
 //                  flex: 1,
-                  child: BlocConsumer(
-                    bloc: BlocProvider.of<RateCardBloc>(context),
-                    listener: (context, state) {
-                      if (state is RateCardLoaded) {
-                        _isLoading = false;
-                        if (state.response.data.isEmpty) {
-                          _hasMoreItems = false;
-                        }
-                        _data.addAll(state.response.data);
-                      }
-                    },
-                    builder: (context, state) {
-                      if (state is RateCardLoading) {
-                        return AppSingleton.instance
-                            .buildCenterSizedProgressBar();
-                      }
-                      if (state is RateCardError) {
-                        return Center(
-                          child: Text(state.msg),
-                        );
-                      }
-                      if (state is RateCardLoaded) {
-                        return buildRateScreen(state.response.data);
-                      }
-                      return buildRateScreen(state.response.data);
-                    },
-                  ),
+                      child: BlocConsumer(
+                        bloc: BlocProvider.of<RateCardBloc>(context),
+                        listener: (context, state) {
+                          if (state is RateCardLoaded) {
+                            _isLoading = false;
+                            if (state.response.data.isEmpty) {
+                              _hasMoreItems = false;
+                            }
+                            _data.addAll(state.response.data);
+                          }
+                        },
+                        builder: (context, state) {
+                          if (state is RateCardLoading) {
+                            return AppSingleton.instance
+                                .buildCenterSizedProgressBar();
+                          }
+                          if (state is RateCardError) {
+                            return Center(
+                              child: Text(state.msg),
+                            );
+                          }
+                          if (state is RateCardLoaded) {
+                            return buildRateScreen(state.response.data);
+                          }
+                          return buildRateScreen(state.response.data);
+                        },
+                      ),
+                    ),
+                  ],
                 ),
                 //                profileScreen(),
 //              ],
