@@ -8,6 +8,10 @@ import 'package:scrapgreen/bloc/profile_page/profile_bloc.dart';
 import 'package:scrapgreen/bloc/profile_page/profile_event.dart';
 import 'package:scrapgreen/bloc/profile_page/profile_state.dart';
 import 'package:scrapgreen/models/response/profile_response.dart';
+import 'package:scrapgreen/bloc/bank_details/bank_bloc.dart';
+import 'package:scrapgreen/bloc/bank_details/bank_event.dart';
+import 'package:scrapgreen/bloc/bank_details/bank_state.dart';
+import 'package:scrapgreen/models/response/bank_details_response.dart';
 import '../repository/repository.dart';
 import 'package:scrapgreen/generated/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -28,6 +32,7 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     BlocProvider.of<ProfilePageBloc>(context).add(GetProfile());
+    BlocProvider.of<BankBloc>(context).add(GetBank());
   }
 
   @override
@@ -154,44 +159,64 @@ class _HomeState extends State<Home> {
             ),
           ),
 
-          Container(
-            width: MediaQuery.of(context).size.width,
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 10.0),
-              child: RaisedButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(24),
-                ),
-                onPressed: () {
-                  Navigator.pushNamed(context, Constants.ROUTE_ADD_BANK_DETAILS, arguments: {"userId":_id});
-//                  return AddBankDetails(
+//          Container(
+//            width: MediaQuery.of(context).size.width,
+//            child: Padding(
+//              padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 10.0),
+//              child: RaisedButton(
+//                shape: RoundedRectangleBorder(
+//                  borderRadius: BorderRadius.circular(24),
+//                ),
+//                onPressed: () {
+//                  Navigator.pushNamed(context, Constants.ROUTE_ADD_BANK_DETAILS, arguments: {"userId":_id});
+//                },
+//                color: Colors.orange,
+//                child: Row(
+//                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                  children: <Widget>[
+//                    Text(
+//                      // 'Check our latest rate card here',
+//                      'Please add your payment method, ',
+////                        LocaleKeys.check_rate_card,
+//                      style: TextStyle(color: Colors.white, fontSize: 11.5),
+//                      textAlign: TextAlign.left,
+//                    ),
+//                    Text(
+//                      // 'Rate Card',
+//                      'Click Here',
+////                        LocaleKeys.rate_card,
+//                      style: TextStyle(color: Colors.yellow, fontSize: 11),
+//                      textAlign: TextAlign.right,
+//                    ),
+//                  ],
+//                ),
+//              ),
+//            ),
+//          ),
 //
-//                  );
-                },
-                color: Colors.orange,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Text(
-                      // 'Check our latest rate card here',
-                      'Please add your payment method, ',
-//                        LocaleKeys.check_rate_card,
-                      style: TextStyle(color: Colors.white, fontSize: 11.5),
-                      textAlign: TextAlign.left,
-                    ),
-                    Text(
-                      // 'Rate Card',
-                      'Click Here',
-//                        LocaleKeys.rate_card,
-                      style: TextStyle(color: Colors.yellow, fontSize: 11),
-                      textAlign: TextAlign.right,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-
+//          Container(
+//            width: MediaQuery.of(context).size.width,
+//            child: Padding(
+//              padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 10.0),
+//              child: RaisedButton(
+//                shape: RoundedRectangleBorder(
+//                  borderRadius: BorderRadius.circular(24),
+//                ),
+//                onPressed: () {
+//                  Navigator.pushNamed(context, Constants.ROUTE_ADD_BANK_DETAILS, arguments: {"userId":_id});
+//                },
+//                color: Colors.orange,
+//                child: Text(
+//                      // 'Check our latest rate card here',
+//                      'Your payment account is pending for approval',
+////                        LocaleKeys.check_rate_card,
+//                      style: TextStyle(color: Colors.white, fontSize: 11),
+//                      textAlign: TextAlign.left,
+//                    ),
+//              ),
+//            ),
+//          ),
+          BankDetailsError(),
           Container(
             width: MediaQuery.of(context).size.width,
             child: Column(
@@ -355,6 +380,107 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+
+  Widget BankDetailsError() {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 10.0),
+        child: RaisedButton(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24),
+          ),
+          onPressed: () {
+            Navigator.pushNamed(context, Constants.ROUTE_ADD_BANK_DETAILS, arguments: {"userId":_id});
+          },
+          color: Colors.orange,
+          child: Text(
+            // 'Check our latest rate card here',
+            'Your payment account is pending for approval',
+//                        LocaleKeys.check_rate_card,
+            style: TextStyle(color: Colors.white, fontSize: 11),
+            textAlign: TextAlign.left,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget BankDetailsLoaded(response) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 10.0),
+          child: Column(
+            children: <Widget>[
+              response == '0'
+              ? RaisedButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                onPressed: () {
+                  Navigator.pushNamed(context, Constants.ROUTE_ADD_BANK_DETAILS, arguments: {"userId":_id});
+                },
+                color: Colors.orange,
+                child: Text(
+                  // 'Check our latest rate card here',
+                  'Your payment account is pending for approval',
+//                        LocaleKeys.check_rate_card,
+                  style: TextStyle(color: Colors.white, fontSize: 11),
+                  textAlign: TextAlign.left,
+                ),
+              ):
+                  Container(),
+            ],
+          ),
+      ),
+    );
+  }
+
+  Widget CheckBankDetails() {
+      return Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        child: Flex(
+          direction: Axis.vertical,
+          children: <Widget>[
+            Flexible(
+              flex: 1,
+              child: BlocConsumer(
+                bloc: BlocProvider.of<BankBloc>(context),
+                listener: (context, state) {
+
+                },
+                builder: (context, state) {
+                  print(state);
+                  if (state is BankLoaded) {
+                    return BankDetailsLoaded(state.response.data.status);
+                  } else if (state is BankLoading) {
+                    return Center(
+                      child: AppSingleton.instance.buildCenterSizedProgressBar(),
+                    );
+                  } else if (state is BankError) {
+                    return BankDetailsError();
+                  } else if (state is BankUploading) {
+                    return AppSingleton.instance.buildCenterSizedProgressBar();
+                  } else if (state is BankEmpty) {
+                    return Center(
+                      child: Text(
+                        'Failed to get user data bank empty',
+                        style: AppTextStyle.bold(Colors.red, 30.0),
+                      ),
+                    );
+                  } else {
+                    return Container();
+                  }
+                },
+              ),
+            ),
+          ],
+        ),
+      );
+  }
+
   void _showError(String message) {
     scaffoldKey.currentState.hideCurrentSnackBar();
     scaffoldKey.currentState
@@ -362,7 +488,8 @@ class _HomeState extends State<Home> {
   }
 
   void _setData(ProfileResponse response) {
-    print('test ${response.data}');
     _id = response.data.id;
   }
+
+
 }

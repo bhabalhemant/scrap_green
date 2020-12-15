@@ -211,7 +211,7 @@ class _SettingsState extends State<Settings> {
         Container(
           child: ListTile(
             onTap: () {
-              Navigator.pushNamed(context, Constants.ROUTE_ADD_BANK_DETAILS);
+              Navigator.pushNamed(context, Constants.ROUTE_ADD_BANK_DETAILS, arguments: {"userId":_id});
             },
             leading: Icon(
               Icons.credit_card,

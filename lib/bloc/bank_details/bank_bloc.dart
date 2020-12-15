@@ -19,6 +19,8 @@ class BankBloc extends Bloc<BankEvent, BankState> {
       yield* _mapGetBank(event);
     } else if (event is UpdateBank) {
       yield* _mapUpdateBank(event);
+    } else if (event is AddBank) {
+      yield* _mapAddBank(event);
     }
   }
 
@@ -57,14 +59,30 @@ class BankBloc extends Bloc<BankEvent, BankState> {
   Stream<BankState> _mapUpdateBank(UpdateBank event) async* {
     yield BankLoading();
     try {
-      print(event.body);
-//      ProfileUpdateResponse response =
-//          await Repository.instance.updateUserProfile(event.body);
-//      if (response.status) {
-//        yield BankUpdated(response: response);
-//      } else {
-//        yield BankError(msg: response.msg);
-//      }
+      ProfileUpdateResponse response = await Repository.instance.updateBankDetails(event.body);
+      if (response.status) {
+        yield BankUpdated(response: response);
+      } else {
+        yield BankError(msg: response.msg);
+      }
+    } catch (e) {
+      if (e is String) {
+        yield BankError(msg: e);
+      } else {
+        yield BankError(msg: '$e');
+      }
+    }
+  }
+
+  Stream<BankState> _mapAddBank(AddBank event) async* {
+    yield BankLoading();
+    try {
+      ProfileUpdateResponse response = await Repository.instance.addBankDetails(event.body);
+      if (response.status) {
+        yield BankUpdated(response: response);
+      } else {
+        yield BankError(msg: response.msg);
+      }
     } catch (e) {
       if (e is String) {
         yield BankError(msg: e);

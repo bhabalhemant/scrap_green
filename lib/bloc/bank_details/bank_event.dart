@@ -20,3 +20,12 @@ class UpdateBank extends BankEvent {
   @override
   List<Object> get props => [body];
 }
+
+class AddBank extends BankEvent {
+  Map<String, dynamic> body;
+
+  AddBank({@required this.body}) : assert(body != null);
+
+  @override
+  List<Object> get props => [body];
+}

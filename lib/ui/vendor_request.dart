@@ -325,6 +325,12 @@ class _VendorRequestState extends State<VendorRequest> with SingleTickerProvider
                               style: TextStyle(
                                   fontSize: 11.0, fontWeight: FontWeight.bold),
                             ),
+                            Text(
+                              '${_data1[index].city}, ${_data1[index].pin_code}',
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  fontSize: 11.0, fontWeight: FontWeight.bold),
+                            ),
                           ],
                         ),
                         isThreeLine: true,
@@ -419,6 +425,12 @@ class _VendorRequestState extends State<VendorRequest> with SingleTickerProvider
                             ),
                             Text(
                               '${_data2[index].address_line1}, ${_data2[index].address_line2}',
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  fontSize: 11.0, fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              '${_data2[index].city}, ${_data2[index].pin_code}',
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                   fontSize: 11.0, fontWeight: FontWeight.bold),
@@ -526,6 +538,12 @@ class _VendorRequestState extends State<VendorRequest> with SingleTickerProvider
                               style: TextStyle(
                                   fontSize: 11.0, fontWeight: FontWeight.bold),
                             ),
+                            Text(
+                              '${_data3[index].city}, ${_data3[index].pin_code}',
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  fontSize: 11.0, fontWeight: FontWeight.bold),
+                            ),
                           ],
                         ),
                         isThreeLine: true,
@@ -600,6 +618,12 @@ class _VendorRequestState extends State<VendorRequest> with SingleTickerProvider
                             ),
                             Text(
                               '${_data3[index].address_line1}, ${_data3[index].address_line2}',
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  fontSize: 11.0, fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              '${_data3[index].city}, ${_data3[index].pin_code}',
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                   fontSize: 11.0, fontWeight: FontWeight.bold),
@@ -679,6 +703,12 @@ class _VendorRequestState extends State<VendorRequest> with SingleTickerProvider
                             ),
                             Text(
                               '${_data3[index].address_line1}, ${_data3[index].address_line2}',
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  fontSize: 11.0, fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              '${_data3[index].city}, ${_data3[index].pin_code}',
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                   fontSize: 11.0, fontWeight: FontWeight.bold),

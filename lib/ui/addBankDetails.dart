@@ -3,9 +3,6 @@ import 'package:scrapgreen/base_widgets/app_textstyle.dart';
 import 'package:scrapgreen/bloc/bank_details/bank_bloc.dart';
 import 'package:scrapgreen/bloc/bank_details/bank_event.dart';
 import 'package:scrapgreen/bloc/bank_details/bank_state.dart';
-import 'package:scrapgreen/bloc/profile_page/profile_bloc.dart';
-import 'package:scrapgreen/bloc/profile_page/profile_event.dart';
-import 'package:scrapgreen/bloc/profile_page/profile_state.dart';
 import 'package:scrapgreen/models/response/bank_details_response.dart';
 import 'package:scrapgreen/models/response/profile_response.dart';
 import 'package:scrapgreen/utils/constants.dart' as Constants;
@@ -72,7 +69,7 @@ class _AddBankDetailsState extends State<AddBankDetails> {
       },
       child: SafeArea(
         child: Scaffold(
-          appBar: AppSingleton.instance.buildAppBar(onTap, '$_id'),
+          appBar: AppSingleton.instance.buildAppBar(onTap, 'Add Bank details'),
           key: scaffoldKey,
           body: Container(
             height: MediaQuery.of(context).size.height,
@@ -90,8 +87,9 @@ class _AddBankDetailsState extends State<AddBankDetails> {
                         _setData(state.response);
                       }
                       if (state is BankUpdated) {
-                        _showSuccessMessage(state.response.msg);
-                        BlocProvider.of<BankBloc>(context).add(GetBank());
+//                        _showSuccessMessage(state.response.msg);
+//                        BlocProvider.of<BankBloc>(context).add(GetBank());
+                        _showUpdatedMessage(state.response.msg);
                       }
                       if (state is BankError) {
                         _showError(state.msg);
@@ -100,16 +98,14 @@ class _AddBankDetailsState extends State<AddBankDetails> {
                     builder: (context, state) {
                       print(state);
                       if (state is BankLoaded) {
-                        return buildBankDetailsScreen();
+                        return buildBankDetailsUpdateScreen();
                       } else if (state is BankLoading) {
                         return Center(
                           child: AppSingleton.instance.buildCenterSizedProgressBar(),
                         );
                       } else if (state is BankError) {
-                          return buildBankDetailsScreen();
-                      } else if (state is BankUploading) {
-                          return AppSingleton.instance.buildCenterSizedProgressBar();
-                      } else if (state is BankEmpty) {
+                          return buildBankDetailsAddScreen();
+                      }  else if (state is BankEmpty) {
                         return Center(
                           child: Text(
                             'Failed to get user data profile empty',
@@ -172,7 +168,7 @@ class _AddBankDetailsState extends State<AddBankDetails> {
     );
   }
 
-  Widget buildBankDetailsScreen() {
+  Widget buildBankDetailsAddScreen() {
     return ListView(
       physics: ClampingScrollPhysics(),
       shrinkWrap: true,
@@ -257,38 +253,100 @@ class _AddBankDetailsState extends State<AddBankDetails> {
                 type: TextInputType.text,
               ),
               AppSingleton.instance.getSpacer(),
-              _bank_name == null && _ac_no == null && _acc_type == null && _ifsc_code == null
-              ? buildAddButton():
+              buildAddButton(),
+            ],
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget buildBankDetailsUpdateScreen() {
+    return ListView(
+      physics: ClampingScrollPhysics(),
+      shrinkWrap: true,
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              AppSingleton.instance.getSpacer(),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
+                  child: Text(
+                    'Bank Name',
+                    style: TextStyle(
+                        fontSize: 15.0,
+                        color: Colors.grey[600]
+                    ),
+                  ),
+                ),
+              ),
+
+              getFormField(
+                ctr: _bank_name,
+                hint: 'Bank Name',
+                type: TextInputType.text,
+              ),
+              AppSingleton.instance.getSpacer(),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
+                  child: Text(
+                    'Account Number',
+                    style: TextStyle(
+                        fontSize: 15.0,
+                        color: Colors.grey[600]
+                    ),
+                  ),
+                ),
+              ),
+              getFormField(
+                ctr: _ac_no,
+                hint: 'Account Number',
+                type: TextInputType.number,
+              ),
+              AppSingleton.instance.getSpacer(),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
+                  child: Text(
+                    'IFSC Code',
+                    style: TextStyle(
+                        fontSize: 15.0,
+                        color: Colors.grey[600]
+                    ),
+                  ),
+                ),
+              ),
+              getFormField(
+                ctr: _ifsc_code,
+                hint: 'IFSC Code',
+                type: TextInputType.text,
+              ),
+              AppSingleton.instance.getSpacer(),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
+                  child: Text(
+                    'Account Type',
+                    style: TextStyle(
+                        fontSize: 15.0,
+                        color: Colors.grey[600]
+                    ),
+                  ),
+                ),
+              ),
+              getFormField(
+                ctr: _acc_type,
+                hint: 'Account Type',
+                type: TextInputType.text,
+              ),
+              AppSingleton.instance.getSpacer(),
               buildUpdateButton(),
-//              AppSingleton.instance.getSizedSpacer(30),
-//              SizedBox(
-//                width: double.infinity,
-//                height: AppSingleton.instance.getHeight(45),
-//                child: BlocConsumer(
-//                  bloc: BlocProvider.of<ProfilePageBloc>(context),
-//                  listener: (context, state) {
-//                    if (state is ProfileError) {
-//                      _showError(state.msg);
-//                    }
-//                    if (state is ProfileLoaded) {
-//                      _showSuccessMessage(state.response.msg);
-//                    }
-//                  },
-//                  builder: (context, state) {
-////                    print('stste $state');
-//                    if (state is ProfileLoading) {
-//                      return AppSingleton.instance
-//                          .buildCenterSizedProgressBar();
-//                    }
-//                    if (state is ProfileLoaded) {
-////                      return AppSingleton.instance
-////                          .buildCenterSizedProgressBar();
-//                      return buildUpdateButton();
-//                    }
-//                    return buildUpdateButton();
-//                  },
-//                ),
-//              ),
             ],
           ),
         )
@@ -310,7 +368,7 @@ class _AddBankDetailsState extends State<AddBankDetails> {
           ),
         ),
         onPressed: () {
-//          if (validate()) {
+          if (validate()) {
             scaffoldKey.currentState.hideCurrentSnackBar();
             Map<String, String> body = {
               Constants.PARAM_USER_ID: _id,
@@ -319,10 +377,9 @@ class _AddBankDetailsState extends State<AddBankDetails> {
               Constants.PARAM_IFSC_CODE: _ifsc_code.text,
               Constants.PARAM_ACC_TYPE: _acc_type.text,
             };
-            print(body);
-//            BlocProvider.of<BankBloc>(context)
-//                .add(UpdateBank(body: body));
-//          }
+            BlocProvider.of<BankBloc>(context)
+                .add(AddBank(body: body));
+          }
         },
         // color: AppSingleton.instance.getPrimaryColor(),
         color: Colors.green,
@@ -347,7 +404,7 @@ class _AddBankDetailsState extends State<AddBankDetails> {
           ),
         ),
         onPressed: () {
-//          if (validate()) {
+          if (validate()) {
           scaffoldKey.currentState.hideCurrentSnackBar();
           Map<String, String> body = {
             Constants.PARAM_USER_ID: _id,
@@ -356,10 +413,10 @@ class _AddBankDetailsState extends State<AddBankDetails> {
             Constants.PARAM_IFSC_CODE: _ifsc_code.text,
             Constants.PARAM_ACC_TYPE: _acc_type.text,
           };
-          print(body);
-//            BlocProvider.of<BankBloc>(context)
-//                .add(UpdateBank(body: body));
-//          }
+//          print(body);
+            BlocProvider.of<BankBloc>(context)
+                .add(UpdateBank(body: body));
+          }
         },
         // color: AppSingleton.instance.getPrimaryColor(),
         color: Colors.green,
@@ -403,6 +460,16 @@ class _AddBankDetailsState extends State<AddBankDetails> {
         .showSnackBar(AppSingleton.instance.getSuccessSnackBar(message));
     _timer = new Timer(const Duration(milliseconds: 1000), () {
       Navigator.pushNamed(context, Constants.ROUTE_PROFILE_PAGE);
+    });
+
+  }
+
+  void _showUpdatedMessage(String message) {
+    scaffoldKey.currentState.hideCurrentSnackBar();
+    scaffoldKey.currentState
+        .showSnackBar(AppSingleton.instance.getSuccessSnackBar(message));
+    _timer = new Timer(const Duration(milliseconds: 1000), () {
+      Navigator.pushNamed(context, Constants.ROUTE_SETTING);
     });
 
   }

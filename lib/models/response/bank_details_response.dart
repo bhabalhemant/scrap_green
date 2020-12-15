@@ -27,13 +27,15 @@ class Data {
   String acc_no;
   String ifsc;
   String acc_type;
+  String status;
 
   Data(
       {
         this.bank,
         this.acc_no,
         this.ifsc,
-        this.acc_type
+        this.acc_type,
+        this.status,
       }
     );
 
@@ -42,6 +44,7 @@ class Data {
     acc_no = json['acc_no'];
     ifsc = json['ifsc'];
     acc_type = json['acc_type'];
+    status = json['status'];
   }
 
   Map<String, dynamic> toJson() {
@@ -50,6 +53,7 @@ class Data {
     data['acc_no'] = this.acc_no;
     data['ifsc'] = this.ifsc;
     data['bank'] = this.bank;
+    data['status'] = this.status;
     return data;
   }
 }

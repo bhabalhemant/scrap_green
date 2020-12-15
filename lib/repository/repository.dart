@@ -179,6 +179,16 @@ class Repository {
     return ProfileUpdateResponse.fromJson(response);
   }
 
+  Future<ProfileUpdateResponse> updateBankDetails(Map<String, String> body) async {
+    final response = await ApiProvider.instance.post("update_bank_details", body);
+    return ProfileUpdateResponse.fromJson(response);
+  }
+
+  Future<ProfileUpdateResponse> addBankDetails(Map<String, String> body) async {
+    final response = await ApiProvider.instance.post("add_bank_details", body);
+    return ProfileUpdateResponse.fromJson(response);
+  }
+
   Future<ProfileUpdateResponse> updateVendorProfile(Map<String, String> body) async {
     final response = await ApiProvider.instance.post("update_vendor_profile", body);
     return ProfileUpdateResponse.fromJson(response);

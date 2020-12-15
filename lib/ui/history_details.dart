@@ -197,6 +197,16 @@ class _HistoryDetailsState extends State<HistoryDetails> {
                             ),
                           ),
                         ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(0, 5.0, 0, 0),
+                          child: Text(
+                            '${_city} ${_pin_code}',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                          ),
+                        ),
                         amount != null
                             ? Padding(
                           padding: EdgeInsets.fromLTRB(0, 5.0, 0, 0),
