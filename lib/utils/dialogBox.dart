@@ -35,7 +35,8 @@ class DialogBox extends StatefulWidget {
   final String requestDetailsId;
   final String vendorId;
 
-  const DialogBox({Key key, this.requestDetailsId,this.vendorId}) : super(key: key);
+  const DialogBox({Key key, this.requestDetailsId, this.vendorId})
+      : super(key: key);
 
   @override
   DialogBoxState createState() => DialogBoxState();
@@ -70,35 +71,41 @@ class DialogBoxState extends State<DialogBox> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
-      child: Expanded(
-        child: BlocConsumer(
-          bloc: BlocProvider.of<RateCardBloc>(context),
-          listener: (context, state) {
-            if (state is RateCardLoaded) {
-              _isLoading = false;
-              if (state.response.data.isEmpty) {
-                _hasMoreItems = false;
-              }
-              _data.addAll(state.response.data);
-            }
-          },
-          builder: (context, state) {
-            if (state is RateCardLoading) {
-              return AppSingleton.instance.buildCenterSizedProgressBar();
-            }
-            if (state is RateCardError) {
-              return Center(
-                child: Text(state.msg),
-              );
-            }
-            if (state is RateCardLoaded) {
-              return dialogScreen();
-            }
-            return dialogScreen();
-          },
+    return Scaffold(
+      key: scaffoldKey,
+      backgroundColor: Colors.transparent,
+      body: Container(
+        child: Column(
+          children: [
+            Expanded(
+              child: BlocConsumer(
+                bloc: BlocProvider.of<RateCardBloc>(context),
+                listener: (context, state) {
+                  if (state is RateCardLoaded) {
+                    _isLoading = false;
+                    if (state.response.data.isEmpty) {
+                      _hasMoreItems = false;
+                    }
+                    _data.addAll(state.response.data);
+                  }
+                },
+                builder: (context, state) {
+                  if (state is RateCardLoading) {
+                    return AppSingleton.instance.buildCenterSizedProgressBar();
+                  }
+                  if (state is RateCardError) {
+                    return Center(
+                      child: Text(state.msg),
+                    );
+                  }
+                  if (state is RateCardLoaded) {
+                    return dialogScreen();
+                  }
+                  return dialogScreen();
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -235,23 +242,25 @@ class DialogBoxState extends State<DialogBox> {
                     borderRadius: BorderRadius.circular(10),
                   ),
 //                  onPressed: itemCheck,
-                          onPressed: (){
-                            if (validate()) {
-                              Map<String, String> body = {
-                                Constants.PARAM_VENDOR_ID: widget.vendorId,
-                                Constants.PARAM_MATERIAL: _selectedMaterial,
-                                Constants.PARAM_UNIT: _unit.text,
-                                Constants.PARAM_QUANTITY: _quantity.text,
-                                Constants.PARAM_REQUEST_ID: widget.requestDetailsId,
-                                Constants.PARAM_RATE_ID: _item_id,
-                                Constants.PARAM_AMOUNT: _amount,
-                              };
-                              BlocProvider.of<RequestDetailsBloc>(context)
-                                  .add(UpdateRequestDetails(body: body));
-                            }
-                            Navigator.pop(context);
-                            Navigator.pushNamed(context, Constants.ROUTE_REQUEST_DETAILS);
-                          },
+                  onPressed: () {
+                    if (validate()) {
+                      Map<String, String> body = {
+                        Constants.PARAM_VENDOR_ID: widget.vendorId,
+                        Constants.PARAM_MATERIAL: _selectedMaterial,
+                        Constants.PARAM_UNIT: _unit.text,
+                        Constants.PARAM_QUANTITY: _quantity.text,
+                        Constants.PARAM_REQUEST_ID: widget.requestDetailsId,
+                        Constants.PARAM_RATE_ID: _item_id,
+                        Constants.PARAM_AMOUNT: _amount,
+                      };
+                      BlocProvider.of<RequestDetailsBloc>(context)
+                          .add(UpdateRequestDetails(body: body));
+                    }
+
+                    Navigator.pop(context);
+                    Navigator.pushNamed(
+                        context, Constants.ROUTE_REQUEST_DETAILS);
+                  },
                   padding: EdgeInsets.symmetric(vertical: 10.0),
                   color: Colors.blue[300],
                   child: Text(
@@ -341,5 +350,11 @@ class DialogBoxState extends State<DialogBox> {
     scaffoldKey.currentState.hideCurrentSnackBar();
     scaffoldKey.currentState
         .showSnackBar(AppSingleton.instance.getErrorSnackBar(message));
+  }
+
+  void _showSuccessMessage(String message) {
+    scaffoldKey.currentState.hideCurrentSnackBar();
+    scaffoldKey.currentState
+        .showSnackBar(AppSingleton.instance.getSuccessSnackBar(message));
   }
 }

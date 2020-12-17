@@ -74,6 +74,7 @@ class _RequestDetailsState extends State<RequestDetails> {
       },
       child: SafeArea(
         child: Scaffold(
+          key: scaffoldKey,
           appBar: AppSingleton.instance.buildAppBar(onTap, 'Request Details'),
 //          body: buildRequestScreen(),
           body: Container(
