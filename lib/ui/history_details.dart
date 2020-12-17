@@ -556,18 +556,18 @@ class _HistoryDetailsState extends State<HistoryDetails> {
                         fontSize: 14.0
                     ),
                   ),
-                  SizedBox(
-                    width: AppSingleton.instance.getWidth(10),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      String id = _data1[index].id;
-                      showAlertDialog(id);
-                    },
-                    child: Image.asset('assets/criss-cross.png',
-                        width: 25, height: 25, fit: BoxFit.contain
-                    ),
-                  ),
+//                  SizedBox(
+//                    width: AppSingleton.instance.getWidth(10),
+//                  ),
+//                  InkWell(
+//                    onTap: () {
+//                      String id = _data1[index].id;
+//                      showAlertDialog(id);
+//                    },
+//                    child: Image.asset('assets/criss-cross.png',
+//                        width: 25, height: 25, fit: BoxFit.contain
+//                    ),
+//                  ),
                 ],
               ),
             ),

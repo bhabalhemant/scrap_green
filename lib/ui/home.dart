@@ -454,7 +454,7 @@ class _HomeState extends State<Home> {
                 builder: (context, state) {
                   print(state);
                   if (state is BankLoaded) {
-                    return BankDetailsLoaded(state.response.data.status);
+                    return BankDetailsLoaded(state.response);
                   } else if (state is BankLoading) {
                     return Center(
                       child: AppSingleton.instance.buildCenterSizedProgressBar(),

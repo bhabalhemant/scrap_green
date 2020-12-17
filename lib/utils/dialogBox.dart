@@ -62,6 +62,7 @@ class DialogBoxState extends State<DialogBox> {
     super.initState();
     _unit = TextEditingController();
     _quantity = TextEditingController();
+    _quantity.clear();
     _data.clear();
     _total = 0;
     BlocProvider.of<RateCardBloc>(context).add(GetRateCard());
@@ -233,8 +234,24 @@ class DialogBoxState extends State<DialogBox> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  onPressed: itemCheck,
-//                          onPressed: (){},
+//                  onPressed: itemCheck,
+                          onPressed: (){
+                            if (validate()) {
+                              Map<String, String> body = {
+                                Constants.PARAM_VENDOR_ID: widget.vendorId,
+                                Constants.PARAM_MATERIAL: _selectedMaterial,
+                                Constants.PARAM_UNIT: _unit.text,
+                                Constants.PARAM_QUANTITY: _quantity.text,
+                                Constants.PARAM_REQUEST_ID: widget.requestDetailsId,
+                                Constants.PARAM_RATE_ID: _item_id,
+                                Constants.PARAM_AMOUNT: _amount,
+                              };
+                              BlocProvider.of<RequestDetailsBloc>(context)
+                                  .add(UpdateRequestDetails(body: body));
+                            }
+                            Navigator.pop(context);
+                            Navigator.pushNamed(context, Constants.ROUTE_REQUEST_DETAILS);
+                          },
                   padding: EdgeInsets.symmetric(vertical: 10.0),
                   color: Colors.blue[300],
                   child: Text(
@@ -273,7 +290,7 @@ class DialogBoxState extends State<DialogBox> {
       if (_item_id == item.id) {
         var n = int.parse(_quantity.text);
         var r = int.parse(item.rate);
-//        print(_quantity.text);
+        print(_quantity.text);
         setState(() {
           _unit.text = item.unit;
           _total = n * r;
@@ -314,6 +331,7 @@ class DialogBoxState extends State<DialogBox> {
         Constants.PARAM_AMOUNT: _amount,
       };
 //        print(body);
+//      Navigator.pop(context)
       BlocProvider.of<RequestDetailsBloc>(context)
           .add(UpdateRequestDetails(body: body));
     }

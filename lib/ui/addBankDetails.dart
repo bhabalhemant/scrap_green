@@ -22,29 +22,53 @@ class AddBankDetails extends StatefulWidget {
 
 class _AddBankDetailsState extends State<AddBankDetails> {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-  String _id;
+  String _id,
+      _status,
+      _acc_type,
+      _bank_name;
   TextEditingController
-      _bank_name,
       _ac_no,
-      _ifsc_code,
-      _acc_type;
+      _ifsc_code;
   Timer _timer;
+  final List<String> _acc_type_list = [
+    "saving",
+    "current",
+  ];
+
+  final List<String> _bank_name_list = [
+    "Andhra Bank",
+    "Allahabad Bank",
+    "Axis Bank Ltd",
+    "Bank of Baroda",
+    "Bank of India",
+    "Bank of Maharashtra",
+    "Canara Bank",
+    "Central Bank of India",
+    "Corporation Bank",
+    "Dena Bank",
+    "HDFC Bank Ltd",
+    "ICICI Bank Ltd",
+    "Indian Bank",
+    "Indian Overseas Bank",
+    "IndusInd Bank Ltd",
+    "Kotak Mahindra Bank Ltd",
+    "Oriental Bank of Commerce"
+    "Punjab National Bank",
+    "State Bank of India",
+    "Yes Bank Ltd",
+  ];
 
   void dispose() {
-    _bank_name.dispose();
     _ac_no.dispose();
     _ifsc_code.dispose();
-    _acc_type.dispose();
     super.dispose();
   }
 
   @override
   void initState() {
     super.initState();
-    _bank_name = TextEditingController();
     _ac_no = TextEditingController();
     _ifsc_code = TextEditingController();
-    _acc_type = TextEditingController();
     BlocProvider.of<BankBloc>(context).add(GetBank());
   }
 
@@ -192,12 +216,51 @@ class _AddBankDetailsState extends State<AddBankDetails> {
                   ),
                 ),
               ),
-
-              getFormField(
-                ctr: _bank_name,
-                hint: 'Bank Name',
-                type: TextInputType.text,
+              Padding(
+                padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
+                  height: 50.0,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25.0),
+                    color: Colors.grey[200],
+                  ),
+                  child: DropdownButtonFormField(
+                    value: _bank_name,
+                    isExpanded: true,
+                    //decoration: InputDecoration(contentPadding: const EdgeInsets.fromLTRB(10.0, 0.5, 0.0, 0.5),(borderRadius: BorderRadius.circular(5.0),)),
+                    hint: Text("Select Bank Name",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            color: Colors.black),
+                        maxLines: 1),
+                    items: _bank_name_list.map((item) {
+                      return DropdownMenuItem(
+                        value: item,
+                        child: new Text(
+                          item,
+                          textAlign: TextAlign.left,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          softWrap: true,
+                        ),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+//                  print(value.unit);
+                      setState(() {
+                        _bank_name = value;
+                      });
+                    },
+                  ),
+                ),
               ),
+//              getFormField(
+//                ctr: _bank_name,
+//                hint: 'Bank Name',
+//                type: TextInputType.text,
+//              ),
               AppSingleton.instance.getSpacer(),
               Align(
                 alignment: Alignment.centerLeft,
@@ -235,23 +298,62 @@ class _AddBankDetailsState extends State<AddBankDetails> {
                 type: TextInputType.text,
               ),
               AppSingleton.instance.getSpacer(),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
-                  child: Text(
-                    'Account Type',
-                    style: TextStyle(
-                        fontSize: 15.0,
-                        color: Colors.grey[600]
-                    ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
+                  height: 50.0,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25.0),
+                    color: Colors.grey[200],
+                  ),
+                  child: DropdownButtonFormField(
+                    value: _acc_type,
+                    isExpanded: true,
+                    //decoration: InputDecoration(contentPadding: const EdgeInsets.fromLTRB(10.0, 0.5, 0.0, 0.5),(borderRadius: BorderRadius.circular(5.0),)),
+                    hint: Text("Select Account type",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            color: Colors.black),
+                        maxLines: 1),
+                    items: _acc_type_list.map((item) {
+                      return DropdownMenuItem(
+                        value: item,
+                        child: new Text(
+                          item,
+                          textAlign: TextAlign.left,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          softWrap: true,
+                        ),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        _acc_type = value;
+                      });
+                    },
                   ),
                 ),
               ),
-              getFormField(
-                ctr: _acc_type,
-                hint: 'Account Type',
-                type: TextInputType.text,
-              ),
+//              Align(
+//                alignment: Alignment.centerLeft,
+//                child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
+//                  child: Text(
+//                    'Account Type',
+//                    style: TextStyle(
+//                        fontSize: 15.0,
+//                        color: Colors.grey[600]
+//                    ),
+//                  ),
+//                ),
+//              ),
+//              getFormField(
+//                ctr: _acc_type,
+//                hint: 'Account Type',
+//                type: TextInputType.text,
+//              ),
               AppSingleton.instance.getSpacer(),
               buildAddButton(),
             ],
@@ -285,12 +387,51 @@ class _AddBankDetailsState extends State<AddBankDetails> {
                   ),
                 ),
               ),
-
-              getFormField(
-                ctr: _bank_name,
-                hint: 'Bank Name',
-                type: TextInputType.text,
+              Padding(
+                padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
+                  height: 50.0,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25.0),
+                    color: Colors.grey[200],
+                  ),
+                  child: DropdownButtonFormField(
+                    value: _bank_name,
+                    isExpanded: true,
+                    //decoration: InputDecoration(contentPadding: const EdgeInsets.fromLTRB(10.0, 0.5, 0.0, 0.5),(borderRadius: BorderRadius.circular(5.0),)),
+                    hint: Text("Select Bank Name",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            color: Colors.black),
+                        maxLines: 1),
+                    items: _bank_name_list.map((item) {
+                      return DropdownMenuItem(
+                        value: item,
+                        child: new Text(
+                          item,
+                          textAlign: TextAlign.left,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          softWrap: true,
+                        ),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+//                  print(value.unit);
+                      setState(() {
+                        _bank_name = value;
+                      });
+                    },
+                  ),
+                ),
               ),
+//              getFormField(
+//                ctr: _bank_name,
+//                hint: 'Bank Name',
+//                type: TextInputType.text,
+//              ),
               AppSingleton.instance.getSpacer(),
               Align(
                 alignment: Alignment.centerLeft,
@@ -340,13 +481,54 @@ class _AddBankDetailsState extends State<AddBankDetails> {
                   ),
                 ),
               ),
-              getFormField(
-                ctr: _acc_type,
-                hint: 'Account Type',
-                type: TextInputType.text,
+//              getFormField(
+//                ctr: _acc_type,
+//                hint: 'Account Type',
+//                type: TextInputType.text,
+//              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
+                  height: 50.0,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25.0),
+                    color: Colors.grey[200],
+                  ),
+                  child: DropdownButtonFormField(
+                    value: _acc_type,
+                    isExpanded: true,
+                    //decoration: InputDecoration(contentPadding: const EdgeInsets.fromLTRB(10.0, 0.5, 0.0, 0.5),(borderRadius: BorderRadius.circular(5.0),)),
+                    hint: Text("Select Account type",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            color: Colors.black),
+                        maxLines: 1),
+                    items: _acc_type_list.map((item) {
+                      return DropdownMenuItem(
+                        value: item,
+                        child: new Text(
+                          item,
+                          textAlign: TextAlign.left,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          softWrap: true,
+                        ),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        _acc_type = value;
+                      });
+                    },
+                  ),
+                ),
               ),
               AppSingleton.instance.getSpacer(),
-              buildUpdateButton(),
+              _status == '1'
+              ? AppSingleton.instance.getSpacer()
+                  : buildUpdateButton(),
             ],
           ),
         )
@@ -372,10 +554,10 @@ class _AddBankDetailsState extends State<AddBankDetails> {
             scaffoldKey.currentState.hideCurrentSnackBar();
             Map<String, String> body = {
               Constants.PARAM_USER_ID: _id,
-              Constants.PARAM_BANK: _bank_name.text,
+              Constants.PARAM_BANK: _bank_name,
               Constants.PARAM_ACC_NO: _ac_no.text,
               Constants.PARAM_IFSC_CODE: _ifsc_code.text,
-              Constants.PARAM_ACC_TYPE: _acc_type.text,
+              Constants.PARAM_ACC_TYPE: _acc_type,
             };
             BlocProvider.of<BankBloc>(context)
                 .add(AddBank(body: body));
@@ -408,10 +590,10 @@ class _AddBankDetailsState extends State<AddBankDetails> {
           scaffoldKey.currentState.hideCurrentSnackBar();
           Map<String, String> body = {
             Constants.PARAM_USER_ID: _id,
-            Constants.PARAM_BANK: _bank_name.text,
+            Constants.PARAM_BANK: _bank_name,
             Constants.PARAM_ACC_NO: _ac_no.text,
             Constants.PARAM_IFSC_CODE: _ifsc_code.text,
-            Constants.PARAM_ACC_TYPE: _acc_type.text,
+            Constants.PARAM_ACC_TYPE: _acc_type,
           };
 //          print(body);
             BlocProvider.of<BankBloc>(context)
@@ -430,7 +612,7 @@ class _AddBankDetailsState extends State<AddBankDetails> {
   }
 
   bool validate() {
-    if (_bank_name.text.isEmpty) {
+    if (_bank_name.isEmpty) {
       _showError('Please enter your Bank Name');
       return false;
     } else if (_ac_no.text.isEmpty) {
@@ -439,7 +621,7 @@ class _AddBankDetailsState extends State<AddBankDetails> {
     } else if (_ifsc_code.text.isEmpty) {
       _showError('Please enter Bank IFSC Code');
       return false;
-    } else if (_acc_type.text.isEmpty) {
+    } else if (_acc_type.isEmpty) {
       _showError('Please enter your Account type');
       return false;
     } else {
@@ -448,10 +630,11 @@ class _AddBankDetailsState extends State<AddBankDetails> {
   }
 
   void _setData(BankDetailsResponse response) {
-    _bank_name.text = response.data.bank;
-    _ac_no.text = response.data.acc_no;
-    _ifsc_code.text = response.data.ifsc;
-    _acc_type.text = response.data.acc_type;
+    _bank_name = response.data1.bank;
+    _ac_no.text = response.data1.acc_no;
+    _ifsc_code.text = response.data1.ifsc;
+    _acc_type = response.data1.acc_type;
+    _status = response.data1.status;
   }
 
   void _showSuccessMessage(String message) {

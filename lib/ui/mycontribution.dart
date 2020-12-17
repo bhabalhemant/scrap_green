@@ -40,288 +40,298 @@ class _MyContributionState extends State<MyContribution> {
             child: Flex(
               direction: Axis.vertical,
               children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                  child:Card(
-                    child: ListTile(
-                      // leading: Icon(Icons.album),
-                      title: Text('Congrats! You helped in saving our Environment',
+//                Padding(
+//                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+//                  child:Card(
+//                    child: ListTile(
+//                      // leading: Icon(Icons.album),
+//                      title: Text('Congrats! You helped in saving our Environment',
+//                      style: TextStyle(
+//                        fontSize: 14.0,
+//                        color: Colors.grey,
+//                        fontStyle: FontStyle.italic,
+//                        fontWeight: FontWeight.bold
+//                      ),
+//                      ),
+//
+//                    ),
+//                  ),
+//                ),
+//                Padding(
+//                  padding: EdgeInsets.symmetric(horizontal: 5),
+//                  child:Card(
+//                    child: Padding(padding: EdgeInsets.symmetric(vertical: 5.0),
+//                      child: ListTile(
+//                        // leading: Icon(Icons.album),
+//                        leading: Image.asset('assets/pick.png',
+//                            width: 62, height: 62, fit: BoxFit.contain),
+//                        title: Text('Congrats!',
+//                          style: TextStyle(
+//                            fontSize: 18.0,
+//                            color: Colors.grey,
+//                            // fontStyle: FontStyle.italic,
+//                            fontWeight: FontWeight.bold
+//                          ),
+//                        ),
+//                        trailing: Text('00',
+//                          style: TextStyle(
+//                            fontSize: 18.0,
+//                            color: Colors.green,
+//                            // fontStyle: FontStyle.italic,
+//                            fontWeight: FontWeight.bold
+//                          ),
+//                        ),
+//                      ),
+//                    ),
+//                  ),
+//                ),
+//                Padding(
+//                  padding: EdgeInsets.symmetric(horizontal: 5),
+//                  child:Card(
+//                    child: Padding(padding: EdgeInsets.symmetric(vertical: 5.0),
+//                      child: ListTile(
+//                        // leading: Icon(Icons.album),
+//                        leading: Image.asset('assets/pick.png',
+//                            width: 62, height: 62, fit: BoxFit.contain),
+//                        title: Text('Congrats!',
+//                          style: TextStyle(
+//                              fontSize: 18.0,
+//                              color: Colors.grey,
+//                              // fontStyle: FontStyle.italic,
+//                              fontWeight: FontWeight.bold
+//                          ),
+//                        ),
+//                        trailing: Text('00',
+//                          style: TextStyle(
+//                              fontSize: 18.0,
+//                              color: Colors.green,
+//                              // fontStyle: FontStyle.italic,
+//                              fontWeight: FontWeight.bold
+//                          ),
+//                        ),
+//                      ),
+//                    ),
+//                  ),
+//                ),
+//                Padding(
+//                  padding: EdgeInsets.symmetric(horizontal: 5),
+//                  child:Card(
+//                    child: Padding(padding: EdgeInsets.symmetric(vertical: 5.0),
+//                      child: ListTile(
+//                        // leading: Icon(Icons.album),
+//                        leading: Image.asset('assets/pick.png',
+//                            width: 62, height: 62, fit: BoxFit.contain),
+//                        title: Text('Congrats!',
+//                          style: TextStyle(
+//                              fontSize: 18.0,
+//                              color: Colors.grey,
+//                              // fontStyle: FontStyle.italic,
+//                              fontWeight: FontWeight.bold
+//                          ),
+//                        ),
+//                        trailing: Text('00',
+//                          style: TextStyle(
+//                              fontSize: 18.0,
+//                              color: Colors.green,
+//                              // fontStyle: FontStyle.italic,
+//                              fontWeight: FontWeight.bold
+//                          ),
+//                        ),
+//                      ),
+//                    ),
+//                  ),
+//                ),
+//                Padding(
+//                  padding: EdgeInsets.symmetric(horizontal: 5),
+//                  child:Card(
+//                    child: Padding(padding: EdgeInsets.symmetric(vertical: 5.0),
+//                      child: ListTile(
+//                        // leading: Icon(Icons.album),
+//                        leading: Image.asset('assets/pick.png',
+//                            width: 62, height: 62, fit: BoxFit.contain),
+//                        title: Text('Congrats!',
+//                          style: TextStyle(
+//                              fontSize: 18.0,
+//                              color: Colors.grey,
+//                              // fontStyle: FontStyle.italic,
+//                              fontWeight: FontWeight.bold
+//                          ),
+//                        ),
+//                        trailing: Text('00',
+//                          style: TextStyle(
+//                              fontSize: 18.0,
+//                              color: Colors.green,
+//                              // fontStyle: FontStyle.italic,
+//                              fontWeight: FontWeight.bold
+//                          ),
+//                        ),
+//                      ),
+//                    ),
+//                  ),
+//                ),
+//                Padding(
+//                  padding: EdgeInsets.symmetric(horizontal: 5),
+//                  child:Card(
+//                    child: Padding(padding: EdgeInsets.symmetric(vertical: 5.0),
+//                      child: ListTile(
+//                        // leading: Icon(Icons.album),
+//                        leading: Image.asset('assets/pick.png',
+//                            width: 62, height: 62, fit: BoxFit.contain),
+//                        title: Text('Congrats!',
+//                          style: TextStyle(
+//                              fontSize: 18.0,
+//                              color: Colors.grey,
+//                              // fontStyle: FontStyle.italic,
+//                              fontWeight: FontWeight.bold
+//                          ),
+//                        ),
+//                        trailing: Text('00',
+//                          style: TextStyle(
+//                              fontSize: 18.0,
+//                              color: Colors.green,
+//                              // fontStyle: FontStyle.italic,
+//                              fontWeight: FontWeight.bold
+//                          ),
+//                        ),
+//                      ),
+//                    ),
+//                  ),
+//                ),
+//                Padding(
+//                  padding: EdgeInsets.symmetric(horizontal: 5),
+//                  child:Card(
+//                    child: Padding(padding: EdgeInsets.symmetric(vertical: 5.0),
+//                      child: ListTile(
+//                        // leading: Icon(Icons.album),
+//                        leading: Image.asset('assets/pick.png',
+//                            width: 62, height: 62, fit: BoxFit.contain),
+//                        title: Text('Congrats!',
+//                          style: TextStyle(
+//                              fontSize: 18.0,
+//                              color: Colors.grey,
+//                              // fontStyle: FontStyle.italic,
+//                              fontWeight: FontWeight.bold
+//                          ),
+//                        ),
+//                        trailing: Text('00',
+//                          style: TextStyle(
+//                              fontSize: 18.0,
+//                              color: Colors.green,
+//                              // fontStyle: FontStyle.italic,
+//                              fontWeight: FontWeight.bold
+//                          ),
+//                        ),
+//                      ),
+//                    ),
+//                  ),
+//                ),
+//                Padding(
+//                  padding: EdgeInsets.symmetric(horizontal: 5),
+//                  child:Card(
+//                    child: Padding(padding: EdgeInsets.symmetric(vertical: 5.0),
+//                      child: ListTile(
+//                        // leading: Icon(Icons.album),
+//                        leading: Image.asset('assets/pick.png',
+//                            width: 62, height: 62, fit: BoxFit.contain),
+//                        title: Text('Congrats!',
+//                          style: TextStyle(
+//                              fontSize: 18.0,
+//                              color: Colors.grey,
+//                              // fontStyle: FontStyle.italic,
+//                              fontWeight: FontWeight.bold
+//                          ),
+//                        ),
+//                        trailing: Text('00',
+//                          style: TextStyle(
+//                              fontSize: 18.0,
+//                              color: Colors.green,
+//                              // fontStyle: FontStyle.italic,
+//                              fontWeight: FontWeight.bold
+//                          ),
+//                        ),
+//                      ),
+//                    ),
+//                  ),
+//                ),
+//                Padding(
+//                  padding: EdgeInsets.symmetric(horizontal: 5),
+//                  child:Card(
+//                    child: Padding(padding: EdgeInsets.symmetric(vertical: 5.0),
+//                      child: ListTile(
+//                        // leading: Icon(Icons.album),
+//                        leading: Image.asset('assets/pick.png',
+//                            width: 62, height: 62, fit: BoxFit.contain),
+//                        title: Text('Congrats!',
+//                          style: TextStyle(
+//                              fontSize: 18.0,
+//                              color: Colors.grey,
+//                              // fontStyle: FontStyle.italic,
+//                              fontWeight: FontWeight.bold
+//                          ),
+//                        ),
+//                        trailing: Text('00',
+//                          style: TextStyle(
+//                              fontSize: 18.0,
+//                              color: Colors.green,
+//                              // fontStyle: FontStyle.italic,
+//                              fontWeight: FontWeight.bold
+//                          ),
+//                        ),
+//                      ),
+//                    ),
+//                  ),
+//                ),
+//                Padding(
+//                  padding: EdgeInsets.symmetric(horizontal: 5),
+//                  child:Card(
+//                    child: Padding(padding: EdgeInsets.symmetric(vertical: 5.0),
+//                      child: ListTile(
+//                        // leading: Icon(Icons.album),
+//                        leading: Image.asset('assets/pick.png',
+//                            width: 62, height: 62, fit: BoxFit.contain),
+//                        title: Text('Congrats!',
+//                          style: TextStyle(
+//                              fontSize: 18.0,
+//                              color: Colors.grey,
+//                              // fontStyle: FontStyle.italic,
+//                              fontWeight: FontWeight.bold
+//                          ),
+//                        ),
+//                        trailing: Text('00',
+//                          style: TextStyle(
+//                              fontSize: 18.0,
+//                              color: Colors.green,
+//                              // fontStyle: FontStyle.italic,
+//                              fontWeight: FontWeight.bold
+//                          ),
+//                        ),
+//                      ),
+//                    ),
+//                  ),
+//                ),
+//                Padding(
+//                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 0),
+//                  child:Card(
+//                    child: ListTile(
+//                      // leading: Icon(Icons.album),
+//                      title: Text('Thanks! for supporting.. Go Green',
+//                        textAlign: TextAlign.center,
+//                        style: TextStyle(
+//                          fontSize: 14.0,
+//                          color: Colors.grey,
+//                          fontStyle: FontStyle.italic,
+//                          fontWeight: FontWeight.bold
+//                        ),
+//                      ),
+//                    ),
+//                  ),
+//                ),
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 130),
+                    child: Text('Coming Soon.',
                       style: TextStyle(
-                        fontSize: 14.0,
-                        color: Colors.grey,
-                        fontStyle: FontStyle.italic,
-                        fontWeight: FontWeight.bold
-                      ),
-                      ),
-                      
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5),
-                  child:Card(
-                    child: Padding(padding: EdgeInsets.symmetric(vertical: 5.0),
-                      child: ListTile(
-                        // leading: Icon(Icons.album),
-                        leading: Image.asset('assets/pick.png',
-                            width: 62, height: 62, fit: BoxFit.contain),
-                        title: Text('Congrats!',
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            color: Colors.grey,
-                            // fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.bold
-                          ),
-                        ),
-                        trailing: Text('00',
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            color: Colors.green,
-                            // fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.bold
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5),
-                  child:Card(
-                    child: Padding(padding: EdgeInsets.symmetric(vertical: 5.0),
-                      child: ListTile(
-                        // leading: Icon(Icons.album),
-                        leading: Image.asset('assets/pick.png',
-                            width: 62, height: 62, fit: BoxFit.contain),
-                        title: Text('Congrats!',
-                          style: TextStyle(
-                              fontSize: 18.0,
-                              color: Colors.grey,
-                              // fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.bold
-                          ),
-                        ),
-                        trailing: Text('00',
-                          style: TextStyle(
-                              fontSize: 18.0,
-                              color: Colors.green,
-                              // fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.bold
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5),
-                  child:Card(
-                    child: Padding(padding: EdgeInsets.symmetric(vertical: 5.0),
-                      child: ListTile(
-                        // leading: Icon(Icons.album),
-                        leading: Image.asset('assets/pick.png',
-                            width: 62, height: 62, fit: BoxFit.contain),
-                        title: Text('Congrats!',
-                          style: TextStyle(
-                              fontSize: 18.0,
-                              color: Colors.grey,
-                              // fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.bold
-                          ),
-                        ),
-                        trailing: Text('00',
-                          style: TextStyle(
-                              fontSize: 18.0,
-                              color: Colors.green,
-                              // fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.bold
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5),
-                  child:Card(
-                    child: Padding(padding: EdgeInsets.symmetric(vertical: 5.0),
-                      child: ListTile(
-                        // leading: Icon(Icons.album),
-                        leading: Image.asset('assets/pick.png',
-                            width: 62, height: 62, fit: BoxFit.contain),
-                        title: Text('Congrats!',
-                          style: TextStyle(
-                              fontSize: 18.0,
-                              color: Colors.grey,
-                              // fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.bold
-                          ),
-                        ),
-                        trailing: Text('00',
-                          style: TextStyle(
-                              fontSize: 18.0,
-                              color: Colors.green,
-                              // fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.bold
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5),
-                  child:Card(
-                    child: Padding(padding: EdgeInsets.symmetric(vertical: 5.0),
-                      child: ListTile(
-                        // leading: Icon(Icons.album),
-                        leading: Image.asset('assets/pick.png',
-                            width: 62, height: 62, fit: BoxFit.contain),
-                        title: Text('Congrats!',
-                          style: TextStyle(
-                              fontSize: 18.0,
-                              color: Colors.grey,
-                              // fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.bold
-                          ),
-                        ),
-                        trailing: Text('00',
-                          style: TextStyle(
-                              fontSize: 18.0,
-                              color: Colors.green,
-                              // fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.bold
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5),
-                  child:Card(
-                    child: Padding(padding: EdgeInsets.symmetric(vertical: 5.0),
-                      child: ListTile(
-                        // leading: Icon(Icons.album),
-                        leading: Image.asset('assets/pick.png',
-                            width: 62, height: 62, fit: BoxFit.contain),
-                        title: Text('Congrats!',
-                          style: TextStyle(
-                              fontSize: 18.0,
-                              color: Colors.grey,
-                              // fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.bold
-                          ),
-                        ),
-                        trailing: Text('00',
-                          style: TextStyle(
-                              fontSize: 18.0,
-                              color: Colors.green,
-                              // fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.bold
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5),
-                  child:Card(
-                    child: Padding(padding: EdgeInsets.symmetric(vertical: 5.0),
-                      child: ListTile(
-                        // leading: Icon(Icons.album),
-                        leading: Image.asset('assets/pick.png',
-                            width: 62, height: 62, fit: BoxFit.contain),
-                        title: Text('Congrats!',
-                          style: TextStyle(
-                              fontSize: 18.0,
-                              color: Colors.grey,
-                              // fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.bold
-                          ),
-                        ),
-                        trailing: Text('00',
-                          style: TextStyle(
-                              fontSize: 18.0,
-                              color: Colors.green,
-                              // fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.bold
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5),
-                  child:Card(
-                    child: Padding(padding: EdgeInsets.symmetric(vertical: 5.0),
-                      child: ListTile(
-                        // leading: Icon(Icons.album),
-                        leading: Image.asset('assets/pick.png',
-                            width: 62, height: 62, fit: BoxFit.contain),
-                        title: Text('Congrats!',
-                          style: TextStyle(
-                              fontSize: 18.0,
-                              color: Colors.grey,
-                              // fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.bold
-                          ),
-                        ),
-                        trailing: Text('00',
-                          style: TextStyle(
-                              fontSize: 18.0,
-                              color: Colors.green,
-                              // fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.bold
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5),
-                  child:Card(
-                    child: Padding(padding: EdgeInsets.symmetric(vertical: 5.0),
-                      child: ListTile(
-                        // leading: Icon(Icons.album),
-                        leading: Image.asset('assets/pick.png',
-                            width: 62, height: 62, fit: BoxFit.contain),
-                        title: Text('Congrats!',
-                          style: TextStyle(
-                              fontSize: 18.0,
-                              color: Colors.grey,
-                              // fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.bold
-                          ),
-                        ),
-                        trailing: Text('00',
-                          style: TextStyle(
-                              fontSize: 18.0,
-                              color: Colors.green,
-                              // fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.bold
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 0),
-                  child:Card(
-                    child: ListTile(
-                      // leading: Icon(Icons.album),
-                      title: Text('Thanks! for supporting.. Go Green',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          color: Colors.grey,
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.bold
-                        ),
+                        fontSize: 24,
                       ),
                     ),
                   ),

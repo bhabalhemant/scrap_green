@@ -33,9 +33,7 @@ class BankBloc extends Bloc<BankEvent, BankState> {
       if (storedData != null && storedData.data.id != null) {
 //        Map<String, String> body = {Constants.PARAM_ID: storedData.data.id};
         BankDetailsResponse response = await Repository.instance.getBankDetailsData(storedData.data.id);
-        print(response);
         bool isStored = await Repository.instance.storeBankDetailsData(response.toJson());
-//        print('test ${isStored}');
         if (response.status) {
           print('yes');
           yield BankLoaded(response: response);

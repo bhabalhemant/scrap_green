@@ -92,7 +92,7 @@ var now = new DateTime.now();
       },
       child: SafeArea(
         child: Scaffold(
-          appBar: AppSingleton.instance.buildAppBar(onTap, 'Pick up'),
+          appBar: AppSingleton.instance.buildAppBar(onTap, 'Schedule Pickup'),
           key: scaffoldKey,
           body: Container(
             height: MediaQuery.of(context).size.height,
@@ -204,6 +204,18 @@ var now = new DateTime.now();
           child: Column(
             children: <Widget>[
               AppSingleton.instance.getSpacer(),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
+                  child: Text(
+                    'Name',
+                    style: TextStyle(
+                        fontSize: 15.0,
+                        color: Colors.grey[600]
+                    ),
+                  ),
+                ),
+              ),
                 getFormField(
                     ctr: _name,
                     hint: 'Name',
@@ -216,43 +228,127 @@ var now = new DateTime.now();
                 //     type: TextInputType.emailAddress,
                 //     textCap: TextCapitalization.none),
                 // AppSingleton.instance.getSpacer(),
-                getFormField(
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
+                  child: Text(
+                    'Mobile No.',
+                    style: TextStyle(
+                        fontSize: 15.0,
+                        color: Colors.grey[600]
+                    ),
+                  ),
+                ),
+              ),
+              getFormField(
                   ctr: _mobile,
                   hint: 'Mobile Number',
                   type: TextInputType.number,
                   maxLength: 10,
                 ),
                 AppSingleton.instance.getSpacer(),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
+                  child: Text(
+                    'Room No./Street',
+                    style: TextStyle(
+                        fontSize: 15.0,
+                        color: Colors.grey[600]
+                    ),
+                  ),
+                ),
+              ),
                 getFormField(
                     ctr: _address_line1,
                     hint: 'Room No./Street',
                     type: TextInputType.text,
                     ),
                 AppSingleton.instance.getSpacer(),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
+                  child: Text(
+                    'Area',
+                    style: TextStyle(
+                        fontSize: 15.0,
+                        color: Colors.grey[600]
+                    ),
+                  ),
+                ),
+              ),
                 getFormField(
                     ctr: _address_line2,
                     hint: 'Area',
                     type: TextInputType.text,
                     ),
                 AppSingleton.instance.getSpacer(),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
+                  child: Text(
+                    'Country',
+                    style: TextStyle(
+                        fontSize: 15.0,
+                        color: Colors.grey[600]
+                    ),
+                  ),
+                ),
+              ),
                 getFormField(
                     ctr: _country,
                     hint: 'Country',
                     type: TextInputType.text,
                     ),
                 AppSingleton.instance.getSpacer(),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
+                  child: Text(
+                    'State',
+                    style: TextStyle(
+                        fontSize: 15.0,
+                        color: Colors.grey[600]
+                    ),
+                  ),
+                ),
+              ),
                 getFormField(
                     ctr: _state,
                     hint: 'State',
                     type: TextInputType.text,
                     ),
                 AppSingleton.instance.getSpacer(),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
+                  child: Text(
+                    'City',
+                    style: TextStyle(
+                        fontSize: 15.0,
+                        color: Colors.grey[600]
+                    ),
+                  ),
+                ),
+              ),
                 getFormField(
                     ctr: _city,
                     hint: 'City',
                     type: TextInputType.text,
                     ),
                 AppSingleton.instance.getSpacer(),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
+                  child: Text(
+                    'Pincode',
+                    style: TextStyle(
+                        fontSize: 15.0,
+                        color: Colors.grey[600]
+                    ),
+                  ),
+                ),
+              ),
                 getFormField(
                   ctr: _pin_code,
                   hint: 'Pin Code',
@@ -290,6 +386,18 @@ var now = new DateTime.now();
               //     ),
               //   ),
               // ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
+                  child: Text(
+                    'Schedule Date',
+                    style: TextStyle(
+                        fontSize: 15.0,
+                        color: Colors.grey[600]
+                    ),
+                  ),
+                ),
+              ),
               Card(
                 color: Colors.grey[200],
                 shape: RoundedRectangleBorder(

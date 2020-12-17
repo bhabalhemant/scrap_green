@@ -62,14 +62,14 @@ class _VendorRequestState extends State<VendorRequest> with SingleTickerProvider
   void initState() {
     super.initState();
     _controller.addListener(_scrollListener);
-    _tabController = new TabController(vsync: this, length: 3);
+    _tabController = new TabController(vsync: this, length: 2);
     _data1.clear();
     _data2.clear();
     _data3.clear();
 //    BlocProvider.of<HistoryBloc>(context)
 //        .add(HistoryEvent(startFrom: startFrom.toString()));
-    BlocProvider.of<SchedulePickupBloc>(context)
-        .add(SchedulePickupEvent(startFrom: startFrom.toString()));
+//    BlocProvider.of<SchedulePickupBloc>(context)
+//        .add(SchedulePickupEvent(startFrom: startFrom.toString()));
     BlocProvider.of<AssignedPickupBloc>(context)
         .add(AssignedPickupEvent(startFrom: startFrom.toString()));
     BlocProvider.of<SuccessPickupBloc>(context)
@@ -84,8 +84,8 @@ class _VendorRequestState extends State<VendorRequest> with SingleTickerProvider
         _isLoading = true;
 //        BlocProvider.of<HistoryBloc>(context)
 //            .add(HistoryEvent(startFrom: startFrom.toString()));
-        BlocProvider.of<SchedulePickupBloc>(context)
-            .add(SchedulePickupEvent(startFrom: startFrom.toString()));
+//        BlocProvider.of<SchedulePickupBloc>(context)
+//            .add(SchedulePickupEvent(startFrom: startFrom.toString()));
         BlocProvider.of<AssignedPickupBloc>(context)
             .add(AssignedPickupEvent(startFrom: startFrom.toString()));
         BlocProvider.of<SuccessPickupBloc>(context)
@@ -132,16 +132,16 @@ class _VendorRequestState extends State<VendorRequest> with SingleTickerProvider
               unselectedLabelColor: Colors.lightGreen,
               indicatorColor: Colors.green,
               tabs: <Tab>[
-                new Tab(
-                  text: "SCHEDULE",
-//                  icon: new Icon(Icons.history),
-                ),
+//                new Tab(
+//                  text: "SCHEDULE",
+////                  icon: new Icon(Icons.history),
+//                ),
                 new Tab(
                   text: "ASSIGNED",
 //                  icon: new Icon(Icons.history),
                 ),
                 new Tab(
-                  text: "SUCCESS",
+                  text: "HISTORY",
 //                  icon: new Icon(Icons.history),
                 ),
               ],
@@ -151,43 +151,43 @@ class _VendorRequestState extends State<VendorRequest> with SingleTickerProvider
           body: new TabBarView(
             children: <Widget>[
 //              Schedule(),
-              Container(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  children: <Widget>[
-                    Expanded(
-                      child: BlocConsumer(
-                        bloc: BlocProvider.of<SchedulePickupBloc>(context),
-                        listener: (context, state) {
-                          if (state is SchedulePickupLoaded) {
-                            _isLoading = false;
-                            if (state.response.data1.isEmpty) {
-                              _hasMoreItems = false;
-                            }
-                            _data1.addAll(state.response.data1);
-                          }
-                        },
-                        builder: (context, state) {
-                          if (state is SchedulePickupLoading) {
-                            return AppSingleton.instance
-                                .buildCenterSizedProgressBar();
-                          }
-                          if (state is SchedulePickupError) {
-                            return Center(
-                              child: Text(state.msg),
-                            );
-                          }
-                          if(state is SchedulePickupLoaded){
-                            return buildListSchedule(state.response.data1);
-                          }
-                          return buildListSchedule(state.response.data1);
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+//              Container(
+//                height: MediaQuery.of(context).size.height,
+//                width: MediaQuery.of(context).size.width,
+//                child: Column(
+//                  children: <Widget>[
+//                    Expanded(
+//                      child: BlocConsumer(
+//                        bloc: BlocProvider.of<SchedulePickupBloc>(context),
+//                        listener: (context, state) {
+//                          if (state is SchedulePickupLoaded) {
+//                            _isLoading = false;
+//                            if (state.response.data1.isEmpty) {
+//                              _hasMoreItems = false;
+//                            }
+//                            _data1.addAll(state.response.data1);
+//                          }
+//                        },
+//                        builder: (context, state) {
+//                          if (state is SchedulePickupLoading) {
+//                            return AppSingleton.instance
+//                                .buildCenterSizedProgressBar();
+//                          }
+//                          if (state is SchedulePickupError) {
+//                            return Center(
+//                              child: Text(state.msg),
+//                            );
+//                          }
+//                          if(state is SchedulePickupLoaded){
+//                            return buildListSchedule(state.response.data1);
+//                          }
+//                          return buildListSchedule(state.response.data1);
+//                        },
+//                      ),
+//                    ),
+//                  ],
+//                ),
+//              ),
 //              Assigned(),
               Container(
                 height: MediaQuery.of(context).size.height,

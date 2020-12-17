@@ -15,7 +15,7 @@
 
     <application
         android:name="com.apptroid.scrapgreen.Application"
-        android:icon="@mipmap/launcher_icon"
+        android:icon="@mipmap/ic_launcher"
         tools:replace="android:icon"
         android:label="Scrap Green">
         <activity

@@ -106,8 +106,8 @@ class _RequestDetailsState extends State<RequestDetails> {
                       }
                       if (state is RequestDetailsItemRemoved) {
                         _showSuccessMessage(state.response.msg);
-                        Navigator.pushNamed(
-                            context, Constants.ROUTE_REQUEST_DETAILS);
+//                        Navigator.pushNamed(
+//                            context, Constants.ROUTE_REQUEST_DETAILS);
 //                        _showSuccessMessage(state.response.msg);
                       }
                       if (state is VendorProfileeLoaded) {
@@ -383,13 +383,16 @@ class _RequestDetailsState extends State<RequestDetails> {
                     trailing: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        _request_status == '0'
+                        _request_status == '4'
                             ?
-                        InkWell(
+                        SizedBox(
+                          height: AppSingleton.instance.getHeight(10),
+                        )
+                            : InkWell(
                           onTap: () {
-//                                print('yes');
                             showDialog(
                                 context: context,
+                                barrierDismissible: true,
                                 builder: (context) {
                                   return DialogBox(
                                     requestDetailsId: _id,
@@ -399,10 +402,7 @@ class _RequestDetailsState extends State<RequestDetails> {
                           },
                           child: Image.asset('assets/add-button.png',
                               width: 25, height: 25, fit: BoxFit.contain),
-                        )
-                            : SizedBox(
-                              height: AppSingleton.instance.getHeight(10),
-                            ),
+                        ),
                         SizedBox(
                           height: AppSingleton.instance.getHeight(10),
                         ),
@@ -530,6 +530,7 @@ class _RequestDetailsState extends State<RequestDetails> {
                           };
                           BlocProvider.of<RequestDetailsBloc>(context)
                               .add(CompleteRequestDetails(body: body));
+                          Navigator.pop(context);
                         },
                       ); // set up the AlertDialog
                       AlertDialog alert = AlertDialog(
@@ -565,11 +566,12 @@ class _RequestDetailsState extends State<RequestDetails> {
   }
 
   void amountCalculation() {
-    _data1.map((item) {
-//      setState(() {
-        print(item.id);
-//      });
-    }).toList();
+//    _data1.map((item) {
+////      setState(() {
+//    print('qwertyuizbzxcv');
+//        print(item.amount);
+////      });
+//    }).toList();
   }
 
   Widget buildItemsList() {
@@ -621,16 +623,16 @@ class _RequestDetailsState extends State<RequestDetails> {
                          SizedBox(
                           width: AppSingleton.instance.getWidth(10),
                         ),
-                    _request_status == '0'
-                        ? InkWell(
+                    _request_status == '4'
+                        ? Container() :
+                        InkWell(
                           onTap: () {
                             String id = _data1[index].id;
                             showAlertDialog(id);
                           },
                           child: Image.asset('assets/criss-cross.png',
                               width: 25, height: 25, fit: BoxFit.contain),
-                        ):
-                        Container(),
+                        ),
                       ],
                     ),
                   ),
@@ -659,6 +661,7 @@ class _RequestDetailsState extends State<RequestDetails> {
         };
         BlocProvider.of<RequestDetailsBloc>(context)
             .add(RemoveItemRequestDetails(body: body));
+        Navigator.pop(context);
       },
     ); // set up the AlertDialog
     AlertDialog alert = AlertDialog(
@@ -724,9 +727,13 @@ class _RequestDetailsState extends State<RequestDetails> {
   }
 
   void _showSuccessMessage(String message) {
+//    print(message);
     scaffoldKey.currentState.hideCurrentSnackBar();
     scaffoldKey.currentState
         .showSnackBar(AppSingleton.instance.getSuccessSnackBar(message));
+    _timer = new Timer(const Duration(milliseconds: 1000), () {
+      Navigator.pushNamed(context, Constants.ROUTE_REQUEST_DETAILS);
+    });
   }
 
   void _showCompleteMessage(String message) {
