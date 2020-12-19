@@ -26,8 +26,9 @@ final List<MaterialItem> materialList = [
 final List<String> _unit = ["KG"];
 
 final List<AddItem> itemList = [];
-int _total;
+double _total;
 String quantity;
+String rate;
 //  TextEditingController quantityCtrl = TextEditingController();
 //  TextEditingController unitCtrl = TextEditingController();
 
@@ -65,7 +66,7 @@ class DialogBoxState extends State<DialogBox> {
     _quantity = TextEditingController();
     _quantity.clear();
     _data.clear();
-    _total = 0;
+    _total = 0.00;
     BlocProvider.of<RateCardBloc>(context).add(GetRateCard());
   }
 
@@ -159,9 +160,8 @@ class DialogBoxState extends State<DialogBox> {
                   );
                 }).toList(),
                 onChanged: (value) {
-//                  print(value.unit);
                   _item_id = value;
-                  itemUnit(value);
+                  itemUnit(_item_id);
                   setState(() {
                     _selectedMaterial = value;
                   });
@@ -212,7 +212,7 @@ class DialogBoxState extends State<DialogBox> {
                 },
               ),
             ),
-            _total == null
+            _amount == null
                 ? Container()
                 : Container(
                     child: Padding(
@@ -226,7 +226,7 @@ class DialogBoxState extends State<DialogBox> {
                             ),
                           ),
                           Text(
-                            'Rs. ${_total}',
+                            'Rs. ${_amount}',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 24.0),
                           ),
@@ -250,13 +250,13 @@ class DialogBoxState extends State<DialogBox> {
                         Constants.PARAM_UNIT: _unit.text,
                         Constants.PARAM_QUANTITY: _quantity.text,
                         Constants.PARAM_REQUEST_ID: widget.requestDetailsId,
-                        Constants.PARAM_RATE_ID: _item_id,
+                        Constants.PARAM_RATE_ID: rate,
                         Constants.PARAM_AMOUNT: _amount,
                       };
+//                      print(body);
                       BlocProvider.of<RequestDetailsBloc>(context)
                           .add(UpdateRequestDetails(body: body));
                     }
-
                     Navigator.pop(context);
                     Navigator.pushNamed(
                         context, Constants.ROUTE_REQUEST_DETAILS);
@@ -283,9 +283,10 @@ class DialogBoxState extends State<DialogBox> {
   // }
 
   itemUnit(value) {
+
     _data.map((item) {
+//      print(value +'='+ item.id);
       if (value == item.id) {
-//        print(_quantity.text);
         setState(() {
           _unit.text = item.unit;
         });
@@ -294,13 +295,16 @@ class DialogBoxState extends State<DialogBox> {
   }
 
   updateButtonState() {
-//    print(_item_id);
+
     _data.map((item) {
+//      print(item.rate);
       if (_item_id == item.id) {
         var n = int.parse(_quantity.text);
-        var r = int.parse(item.rate);
-        print(_quantity.text);
+        assert(n is int);
+        var r = double.parse(item.rate);
+        assert(r is double);
         setState(() {
+          rate = item.rate.toString();
           _unit.text = item.unit;
           _total = n * r;
           _amount = _total.toString();
@@ -336,7 +340,7 @@ class DialogBoxState extends State<DialogBox> {
         Constants.PARAM_UNIT: _unit.text,
         Constants.PARAM_QUANTITY: _quantity.text,
         Constants.PARAM_REQUEST_ID: widget.requestDetailsId,
-        Constants.PARAM_RATE_ID: _item_id,
+        Constants.PARAM_RATE_ID: rate,
         Constants.PARAM_AMOUNT: _amount,
       };
 //        print(body);

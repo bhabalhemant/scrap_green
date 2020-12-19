@@ -31,8 +31,8 @@ class _AddBankDetailsState extends State<AddBankDetails> {
       _ifsc_code;
   Timer _timer;
   final List<String> _acc_type_list = [
-    "saving",
-    "current",
+    "Bank Account - Savings",
+    "Bank Account - Current",
   ];
 
   final List<String> _bank_name_list = [
@@ -228,7 +228,8 @@ class _AddBankDetailsState extends State<AddBankDetails> {
                   child: DropdownButtonFormField(
                     value: _bank_name,
                     isExpanded: true,
-                    //decoration: InputDecoration(contentPadding: const EdgeInsets.fromLTRB(10.0, 0.5, 0.0, 0.5),(borderRadius: BorderRadius.circular(5.0),)),
+                    decoration: InputDecoration(enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey[200]))),
                     hint: Text("Select Bank Name",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
@@ -310,7 +311,8 @@ class _AddBankDetailsState extends State<AddBankDetails> {
                   child: DropdownButtonFormField(
                     value: _acc_type,
                     isExpanded: true,
-                    //decoration: InputDecoration(contentPadding: const EdgeInsets.fromLTRB(10.0, 0.5, 0.0, 0.5),(borderRadius: BorderRadius.circular(5.0),)),
+                    decoration: InputDecoration(enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey[200]))),
                     hint: Text("Select Account type",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
@@ -399,7 +401,8 @@ class _AddBankDetailsState extends State<AddBankDetails> {
                   child: DropdownButtonFormField(
                     value: _bank_name,
                     isExpanded: true,
-                    //decoration: InputDecoration(contentPadding: const EdgeInsets.fromLTRB(10.0, 0.5, 0.0, 0.5),(borderRadius: BorderRadius.circular(5.0),)),
+                    decoration: InputDecoration(enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey[200]))),
                     hint: Text("Select Bank Name",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
@@ -498,7 +501,8 @@ class _AddBankDetailsState extends State<AddBankDetails> {
                   child: DropdownButtonFormField(
                     value: _acc_type,
                     isExpanded: true,
-                    //decoration: InputDecoration(contentPadding: const EdgeInsets.fromLTRB(10.0, 0.5, 0.0, 0.5),(borderRadius: BorderRadius.circular(5.0),)),
+                    decoration: InputDecoration(enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey[200]))),
                     hint: Text("Select Account type",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
@@ -620,6 +624,9 @@ class _AddBankDetailsState extends State<AddBankDetails> {
       return false;
     } else if (_ifsc_code.text.isEmpty) {
       _showError('Please enter Bank IFSC Code');
+      return false;
+    } else if (_ifsc_code.text.length != 11) {
+      _showError('Bank IFSC Code is incomplete');
       return false;
     } else if (_acc_type.isEmpty) {
       _showError('Please enter your Account type');

@@ -58,6 +58,7 @@ class _RequestDetailsState extends State<RequestDetails> {
   void initState() {
     super.initState();
     amountCalculation();
+    _data1.clear();
     BlocProvider.of<RequestDetailsBloc>(context).add(GetVendorProfile());
     BlocProvider.of<RequestDetailsBloc>(context).add(GetRequestDetailsEvent());
   }
@@ -603,7 +604,7 @@ class _RequestDetailsState extends State<RequestDetails> {
                       ],
                     ),
                     title: Text(
-                      _data1[index].material_id,
+                      _data1[index].material_name,
                       style: TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 16.0),
                     ),
@@ -615,7 +616,7 @@ class _RequestDetailsState extends State<RequestDetails> {
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         Text(
-                          'Rs. ' + _data1[index].amount + '.00',
+                          'Rs. ' + _data1[index].amount,
                           style: TextStyle(
                               color: Colors.blue,
                               fontWeight: FontWeight.bold,

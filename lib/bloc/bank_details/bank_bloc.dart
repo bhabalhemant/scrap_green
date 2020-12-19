@@ -35,14 +35,11 @@ class BankBloc extends Bloc<BankEvent, BankState> {
         BankDetailsResponse response = await Repository.instance.getBankDetailsData(storedData.data.id);
         bool isStored = await Repository.instance.storeBankDetailsData(response.toJson());
         if (response.status) {
-          print('yes');
           yield BankLoaded(response: response);
         } else {
-          print('no');
           yield BankError(msg: response.msg);
         }
       } else {
-        print('no2');
         yield BankError(msg: 'Failed to get stored user data!');
       }
     } catch (e) {

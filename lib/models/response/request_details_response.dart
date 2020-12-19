@@ -157,6 +157,7 @@ class Data1 {
   String id;
   String request_id;
   String material_id;
+  String material_name;
   String unit;
   String unit_qty;
   String rate;
@@ -170,6 +171,7 @@ class Data1 {
     this.id,
     this.request_id,
     this.material_id,
+    this.material_name,
     this.unit,
     this.unit_qty,
     this.rate,
@@ -184,6 +186,7 @@ class Data1 {
     id = json['id'];
     request_id = json['request_id'];
     material_id = json['material_id'];
+    material_name = json['material_name'];
     unit = json['unit'];
     unit_qty = json['unit_qty'];
     rate = json['rate'];
@@ -199,6 +202,7 @@ class Data1 {
     data1['id'] = this.id;
     data1['request_id'] = this.request_id;
     data1['material_id'] = this.material_id;
+    data1['material_name'] = this.material_name;
     data1['unit'] = this.unit;
     data1['unit_qty'] = this.unit_qty;
     data1['rate'] = this.rate;

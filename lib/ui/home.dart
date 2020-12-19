@@ -26,7 +26,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   BorderRadiusGeometry _borderRadius = BorderRadius.circular(20);
-  String _id;
+  String _id, _b_status;
 
   @override
   void initState() {
@@ -61,15 +61,13 @@ class _HomeState extends State<Home> {
         ],
         backgroundColor: Colors.white,
       ),
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
+      body: SingleChildScrollView(
+//        height: MediaQuery.of(context).size.height,
+//        width: MediaQuery.of(context).size.width,
         child: Flex(
           direction: Axis.vertical,
           children: <Widget>[
-            Flexible(
-              flex: 1,
-              child: BlocConsumer(
+            BlocConsumer(
                 bloc: BlocProvider.of<ProfilePageBloc>(context),
                 listener: (context, state) {
 //                      print(state);
@@ -81,9 +79,10 @@ class _HomeState extends State<Home> {
                   }
                 },
                 builder: (context, state) {
-                  if (state is ProfileLoaded) {
-                    return buildHomeScreen();
-                  } else if (state is ProfileLoading) {
+//                  if (state is ProfileLoaded) {
+//                    return buildHomeScreen();
+//                  } else
+                    if (state is ProfileLoading) {
                     return Center(
                       child: AppSingleton.instance.buildCenterSizedProgressBar(),
                     );
@@ -108,7 +107,35 @@ class _HomeState extends State<Home> {
                   }
                 },
               ),
-            ),
+            BlocConsumer(
+                bloc: BlocProvider.of<BankBloc>(context),
+                listener: (context, state) {
+                  if (state is BankLoaded) {
+                    _setBankData(state.response);
+                  }
+                },
+                builder: (context, state) {
+                  print(state);
+                  if(state is BankLoaded) {
+                    return buildHomeScreen();
+                  }
+                  if(state is BankError) {
+                    return buildHomeScreen2();
+                  }
+                  if (state is BankUploading) {
+                    return AppSingleton.instance.buildCenterSizedProgressBar();
+                  } else if (state is BankEmpty) {
+                    return Center(
+                      child: Text(
+                        'Failed to get user data bank empty',
+                        style: AppTextStyle.bold(Colors.red, 30.0),
+                      ),
+                    );
+                  } else {
+                    return Container();
+                  }
+                },
+              ),
 //                profileScreen(),
           ],
         ),
@@ -194,29 +221,32 @@ class _HomeState extends State<Home> {
 //            ),
 //          ),
 //
-//          Container(
-//            width: MediaQuery.of(context).size.width,
-//            child: Padding(
-//              padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 10.0),
-//              child: RaisedButton(
-//                shape: RoundedRectangleBorder(
-//                  borderRadius: BorderRadius.circular(24),
-//                ),
-//                onPressed: () {
-//                  Navigator.pushNamed(context, Constants.ROUTE_ADD_BANK_DETAILS, arguments: {"userId":_id});
-//                },
-//                color: Colors.orange,
-//                child: Text(
-//                      // 'Check our latest rate card here',
-//                      'Your payment account is pending for approval',
-////                        LocaleKeys.check_rate_card,
-//                      style: TextStyle(color: Colors.white, fontSize: 11),
-//                      textAlign: TextAlign.left,
-//                    ),
-//              ),
-//            ),
-//          ),
-          BankDetailsError(),
+//        Text("$_b_status"),
+        _b_status == '1'
+          ? Container()
+        : Container(
+            width: MediaQuery.of(context).size.width,
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 10.0),
+              child: RaisedButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                onPressed: () {
+                  Navigator.pushNamed(context, Constants.ROUTE_ADD_BANK_DETAILS, arguments: {"userId":_id});
+                },
+                color: Colors.orange,
+                child: Text(
+                      // 'Check our latest rate card here',
+                      'Your payment account is pending for approval',
+//                        LocaleKeys.check_rate_card,
+                      style: TextStyle(color: Colors.white, fontSize: 11),
+                      textAlign: TextAlign.left,
+                    ),
+              ),
+            ),
+          ),
+
           Container(
             width: MediaQuery.of(context).size.width,
             child: Column(
@@ -381,40 +411,52 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget BankDetailsError() {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 10.0),
-        child: RaisedButton(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24),
+  Widget buildHomeScreen2() {
+    return SingleChildScrollView(
+//        height: MediaQuery.of(context).size.height,
+//        width: MediaQuery.of(context).size.width,
+      child: Column(
+//          crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            width: MediaQuery.of(context).size.width,
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 5.0),
+              child: RaisedButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                onPressed: () {
+                  Navigator.pushNamed(context, Constants.ROUTE_RATE_CARD);
+                },
+                color: Colors.green,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Text(
+                      // 'Check our latest rate card here',
+                      LocaleKeys.check_rate_card,
+                      style: TextStyle(color: Colors.white, fontSize: 12),
+                      textAlign: TextAlign.left,
+                    ).tr(),
+                    Text(
+                      // 'Rate Card',
+                      LocaleKeys.rate_card,
+                      style: TextStyle(color: Colors.yellow, fontSize: 12 ),
+                      textAlign: TextAlign.right,
+                    ).tr(),
+                  ],
+                ),
+              ),
+            ),
           ),
-          onPressed: () {
-            Navigator.pushNamed(context, Constants.ROUTE_ADD_BANK_DETAILS, arguments: {"userId":_id});
-          },
-          color: Colors.orange,
-          child: Text(
-            // 'Check our latest rate card here',
-            'Your payment account is pending for approval',
-//                        LocaleKeys.check_rate_card,
-            style: TextStyle(color: Colors.white, fontSize: 11),
-            textAlign: TextAlign.left,
-          ),
-        ),
-      ),
-    );
-  }
 
-  Widget BankDetailsLoaded(response) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 10.0),
-          child: Column(
-            children: <Widget>[
-              response == '0'
-              ? RaisedButton(
+          Container(
+            width: MediaQuery.of(context).size.width,
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 10.0),
+              child: RaisedButton(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(24),
                 ),
@@ -424,62 +466,278 @@ class _HomeState extends State<Home> {
                 color: Colors.orange,
                 child: Text(
                   // 'Check our latest rate card here',
-                  'Your payment account is pending for approval',
+                  'Please add your payment method, Click Here',
 //                        LocaleKeys.check_rate_card,
                   style: TextStyle(color: Colors.white, fontSize: 11),
                   textAlign: TextAlign.left,
                 ),
-              ):
-                  Container(),
-            ],
+              ),
+            ),
           ),
+
+          Container(
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 0),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, Constants.ROUTE_PROFILE);
+                            },
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(color: Colors.white70, width: 1),
+                                borderRadius: BorderRadius.circular(50.0),
+                              ),
+                              child: Image.asset('assets/pick.png',
+                                  width: 82, height: 82, fit: BoxFit.contain),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(0, 10, 0, 50),
+                          child: Text(
+                            // "SCHEDULE PICKUP",
+                            LocaleKeys.schedule_pick_up,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ).tr(),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 0),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, Constants.ROUTE_HISTORY);
+                            },
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(color: Colors.white70, width: 1),
+                                borderRadius: BorderRadius.circular(50.0),
+                              ),
+                              child: Image.asset('assets/history.png',
+                                  width: 82, height: 82, fit: BoxFit.contain),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(0, 10, 0, 50),
+                          child: Text(
+                            // "SCHEDULE PICKUP",
+                            LocaleKeys.check_history,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ).tr(),
+                        ),
+                      ],
+                    ),
+
+
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 0),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, Constants.ROUTE_MY_CONTRIBUTION);
+                            },
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(color: Colors.white70, width: 1),
+                                borderRadius: BorderRadius.circular(50.0),
+                              ),
+                              child: Image.asset('assets/contribution.png',
+                                  width: 82, height: 82, fit: BoxFit.contain),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(0, 10, 0, 50),
+                          child: Text(
+                            // "SCHEDULE PICKUP",
+                            LocaleKeys.my_contribution,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ).tr(),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 0),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, Constants.ROUTE_CONTACT_US);
+                            },
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(color: Colors.white70, width: 1),
+                                borderRadius: BorderRadius.circular(50.0),
+                              ),
+                              child: Image.asset('assets/help.png',
+                                  width: 82, height: 82, fit: BoxFit.contain),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(0, 10, 0, 50),
+                          child: Text(
+                            // "SCHEDULE PICKUP",
+                            LocaleKeys.ask_help,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ).tr(),
+                        ),
+                      ],
+                    ),
+
+
+                  ],
+                ),
+
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget CheckBankDetails() {
-      return Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: Flex(
-          direction: Axis.vertical,
-          children: <Widget>[
-            Flexible(
-              flex: 1,
-              child: BlocConsumer(
-                bloc: BlocProvider.of<BankBloc>(context),
-                listener: (context, state) {
+//  Widget BankDetailsError() {
+//    return Container(
+//      width: MediaQuery.of(context).size.width,
+//      child: Padding(
+//        padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 10.0),
+//        child: RaisedButton(
+//          shape: RoundedRectangleBorder(
+//            borderRadius: BorderRadius.circular(24),
+//          ),
+//          onPressed: () {
+//            Navigator.pushNamed(context, Constants.ROUTE_ADD_BANK_DETAILS, arguments: {"userId":_id});
+//          },
+//          color: Colors.orange,
+//          child: Text(
+//            // 'Check our latest rate card here',
+//            'Your payment account is pending for approval',
+////                        LocaleKeys.check_rate_card,
+//            style: TextStyle(color: Colors.white, fontSize: 11),
+//            textAlign: TextAlign.left,
+//          ),
+//        ),
+//      ),
+//    );
+//  }
 
-                },
-                builder: (context, state) {
-                  print(state);
-                  if (state is BankLoaded) {
-                    return BankDetailsLoaded(state.response);
-                  } else if (state is BankLoading) {
-                    return Center(
-                      child: AppSingleton.instance.buildCenterSizedProgressBar(),
-                    );
-                  } else if (state is BankError) {
-                    return BankDetailsError();
-                  } else if (state is BankUploading) {
-                    return AppSingleton.instance.buildCenterSizedProgressBar();
-                  } else if (state is BankEmpty) {
-                    return Center(
-                      child: Text(
-                        'Failed to get user data bank empty',
-                        style: AppTextStyle.bold(Colors.red, 30.0),
-                      ),
-                    );
-                  } else {
-                    return Container();
-                  }
-                },
-              ),
-            ),
-          ],
-        ),
-      );
-  }
+//  Widget BankDetailsLoaded(response) {
+//    return Container(
+//      width: MediaQuery.of(context).size.width,
+//      child: Padding(
+//        padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 10.0),
+//          child: Column(
+//            children: <Widget>[
+//              RaisedButton(
+//                shape: RoundedRectangleBorder(
+//                  borderRadius: BorderRadius.circular(24),
+//                ),
+//                onPressed: () {
+//                  Navigator.pushNamed(context, Constants.ROUTE_ADD_BANK_DETAILS, arguments: {"userId":_id});
+//                },
+//                color: Colors.orange,
+//                child: Text(
+//                  // 'Check our latest rate card here',
+//                  'Your payment account is pending for $response.',
+////                        LocaleKeys.check_rate_card,
+//                  style: TextStyle(color: Colors.white, fontSize: 11),
+//                  textAlign: TextAlign.left,
+//                ),
+//              ),
+//            ],
+//          ),
+//      ),
+//    );
+//  }
+
+//  Widget CheckBankDetails() {
+//      return Container(
+//        height: MediaQuery.of(context).size.height,
+//        width: MediaQuery.of(context).size.width,
+//        child: Flex(
+//          direction: Axis.vertical,
+//          children: <Widget>[
+//            Flexible(
+//              flex: 1,
+//              child: BlocConsumer(
+//                bloc: BlocProvider.of<BankBloc>(context),
+//                listener: (context, state) {
+//                  if (state is BankLoaded) {
+//                    _setBankData(state.response);
+//                  }
+//                },
+//                builder: (context, state) {
+//                  print(state);
+//                  if (state is BankLoaded) {
+//                    return BankDetailsLoaded(state.response);
+//                  } else if (state is BankLoading) {
+//                    return Center(
+//                      child: AppSingleton.instance.buildCenterSizedProgressBar(),
+//                    );
+//                  } else if (state is BankError) {
+//                    return BankDetailsError();
+//                  } else if (state is BankUploading) {
+//                    return AppSingleton.instance.buildCenterSizedProgressBar();
+//                  } else if (state is BankEmpty) {
+//                    return Center(
+//                      child: Text(
+//                        'Failed to get user data bank empty',
+//                        style: AppTextStyle.bold(Colors.red, 30.0),
+//                      ),
+//                    );
+//                  } else {
+//                    return Container();
+//                  }
+//                },
+//              ),
+//            ),
+//          ],
+//        ),
+//      );
+//  }
 
   void _showError(String message) {
     scaffoldKey.currentState.hideCurrentSnackBar();
@@ -489,6 +747,12 @@ class _HomeState extends State<Home> {
 
   void _setData(ProfileResponse response) {
     _id = response.data.id;
+//    print('_b_status1');
+  }
+
+  void _setBankData(BankDetailsResponse response) {
+    _b_status = response.data1.status;
+    print('_b_status $_b_status');
   }
 
 
