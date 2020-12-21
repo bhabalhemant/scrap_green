@@ -128,7 +128,7 @@ class _DrawerV2State extends State<DrawerV2> {
                   child:Icon(Icons.settings, color: Colors.green,),
                 ),
                 title: Text(
-                  'SETTINGS',
+                  LocaleKeys.settings,
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
@@ -153,7 +153,7 @@ class _DrawerV2State extends State<DrawerV2> {
                 ),
                 title: Text(
 //                LocaleKeys.ask_help,
-                  'LOGOUT',
+                  LocaleKeys.logout,
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,

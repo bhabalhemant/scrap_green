@@ -11,6 +11,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'dart:async';
+import 'package:scrapgreen/generated/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class VendorEditProfile extends StatefulWidget {
   @override
@@ -195,12 +197,12 @@ class _VendorEditProfileState extends State<VendorEditProfile> {
                 alignment: Alignment.centerLeft,
                 child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
                   child: Text(
-                    'Name',
+                    LocaleKeys.name,
                     style: TextStyle(
                         fontSize: 15.0,
                         color: Colors.grey[600]
                     ),
-                  ),
+                  ).tr(),
                 ),
               ),
 
@@ -214,30 +216,31 @@ class _VendorEditProfileState extends State<VendorEditProfile> {
                 alignment: Alignment.centerLeft,
                 child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
                   child: Text(
-                    'Email',
+                    LocaleKeys.email,
                     style: TextStyle(
                         fontSize: 15.0,
                         color: Colors.grey[600]
                     ),
-                  ),
+                  ).tr(),
                 ),
               ),
+
               getFormField(
                 ctr: _email,
                 hint: 'Email',
-                type: TextInputType.text,
+                type: TextInputType.emailAddress,
               ),
               AppSingleton.instance.getSpacer(),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
                   child: Text(
-                    'Room No./Street',
+                    LocaleKeys.address_1,
                     style: TextStyle(
                         fontSize: 15.0,
                         color: Colors.grey[600]
                     ),
-                  ),
+                  ).tr(),
                 ),
               ),
               getFormField(
@@ -250,12 +253,12 @@ class _VendorEditProfileState extends State<VendorEditProfile> {
                 alignment: Alignment.centerLeft,
                 child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
                   child: Text(
-                    'Area',
+                    LocaleKeys.address_2,
                     style: TextStyle(
                         fontSize: 15.0,
                         color: Colors.grey[600]
                     ),
-                  ),
+                  ).tr(),
                 ),
               ),
               getFormField(
@@ -268,12 +271,12 @@ class _VendorEditProfileState extends State<VendorEditProfile> {
                 alignment: Alignment.centerLeft,
                 child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
                   child: Text(
-                    'Country',
+                    LocaleKeys.country,
                     style: TextStyle(
                         fontSize: 15.0,
                         color: Colors.grey[600]
                     ),
-                  ),
+                  ).tr(),
                 ),
               ),
               getFormField(
@@ -286,12 +289,12 @@ class _VendorEditProfileState extends State<VendorEditProfile> {
                 alignment: Alignment.centerLeft,
                 child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
                   child: Text(
-                    'State',
+                    LocaleKeys.state,
                     style: TextStyle(
                         fontSize: 15.0,
                         color: Colors.grey[600]
                     ),
-                  ),
+                  ).tr(),
                 ),
               ),
               getFormField(
@@ -304,12 +307,12 @@ class _VendorEditProfileState extends State<VendorEditProfile> {
                 alignment: Alignment.centerLeft,
                 child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
                   child: Text(
-                    'City',
+                    LocaleKeys.city,
                     style: TextStyle(
                         fontSize: 15.0,
                         color: Colors.grey[600]
                     ),
-                  ),
+                  ).tr(),
                 ),
               ),
               getFormField(
@@ -322,12 +325,12 @@ class _VendorEditProfileState extends State<VendorEditProfile> {
                 alignment: Alignment.centerLeft,
                 child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
                   child: Text(
-                    'Pin Code',
+                    LocaleKeys.pin_code,
                     style: TextStyle(
                         fontSize: 15.0,
                         color: Colors.grey[600]
                     ),
-                  ),
+                  ).tr(),
                 ),
               ),
               getFormField(
@@ -406,7 +409,7 @@ class _VendorEditProfileState extends State<VendorEditProfile> {
         color: Colors.green,
         textColor: Colors.white,
         child: Text(
-          "Update Profile",
+          LocaleKeys.update_bank,
           style: AppTextStyle.regular(Colors.white, 14.0),
         ),
       ),

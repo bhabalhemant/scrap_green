@@ -13,6 +13,8 @@ import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:intl/intl.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:scrapgreen/generated/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -208,12 +210,12 @@ var now = new DateTime.now();
                 alignment: Alignment.centerLeft,
                 child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
                   child: Text(
-                    'Name',
+                      LocaleKeys.name,
                     style: TextStyle(
                         fontSize: 15.0,
                         color: Colors.grey[600]
                     ),
-                  ),
+                  ).tr(),
                 ),
               ),
                 getFormField(
@@ -232,12 +234,12 @@ var now = new DateTime.now();
                 alignment: Alignment.centerLeft,
                 child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
                   child: Text(
-                    'Mobile No.',
+                    LocaleKeys.mobile_no,
                     style: TextStyle(
                         fontSize: 15.0,
                         color: Colors.grey[600]
                     ),
-                  ),
+                  ).tr(),
                 ),
               ),
               getFormField(
@@ -251,12 +253,12 @@ var now = new DateTime.now();
                 alignment: Alignment.centerLeft,
                 child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
                   child: Text(
-                    'Room No./Street',
+                    LocaleKeys.address_1,
                     style: TextStyle(
                         fontSize: 15.0,
                         color: Colors.grey[600]
                     ),
-                  ),
+                  ).tr(),
                 ),
               ),
                 getFormField(
@@ -269,12 +271,12 @@ var now = new DateTime.now();
                 alignment: Alignment.centerLeft,
                 child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
                   child: Text(
-                    'Area',
+                    LocaleKeys.address_2,
                     style: TextStyle(
                         fontSize: 15.0,
                         color: Colors.grey[600]
                     ),
-                  ),
+                  ).tr(),
                 ),
               ),
                 getFormField(
@@ -287,12 +289,12 @@ var now = new DateTime.now();
                 alignment: Alignment.centerLeft,
                 child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
                   child: Text(
-                    'Country',
+                    LocaleKeys.country,
                     style: TextStyle(
                         fontSize: 15.0,
                         color: Colors.grey[600]
                     ),
-                  ),
+                  ).tr(),
                 ),
               ),
                 getFormField(
@@ -305,12 +307,12 @@ var now = new DateTime.now();
                 alignment: Alignment.centerLeft,
                 child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
                   child: Text(
-                    'State',
+                    LocaleKeys.state,
                     style: TextStyle(
                         fontSize: 15.0,
                         color: Colors.grey[600]
                     ),
-                  ),
+                  ).tr(),
                 ),
               ),
                 getFormField(
@@ -323,12 +325,12 @@ var now = new DateTime.now();
                 alignment: Alignment.centerLeft,
                 child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
                   child: Text(
-                    'City',
+                    LocaleKeys.city,
                     style: TextStyle(
                         fontSize: 15.0,
                         color: Colors.grey[600]
                     ),
-                  ),
+                  ).tr(),
                 ),
               ),
                 getFormField(
@@ -341,12 +343,12 @@ var now = new DateTime.now();
                 alignment: Alignment.centerLeft,
                 child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
                   child: Text(
-                    'Pincode',
+                    LocaleKeys.pin_code,
                     style: TextStyle(
                         fontSize: 15.0,
                         color: Colors.grey[600]
                     ),
-                  ),
+                  ).tr(),
                 ),
               ),
                 getFormField(
@@ -390,12 +392,12 @@ var now = new DateTime.now();
                 alignment: Alignment.centerLeft,
                 child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
                   child: Text(
-                    'Schedule Date',
+                    LocaleKeys.schedule_date,
                     style: TextStyle(
                         fontSize: 15.0,
                         color: Colors.grey[600]
                     ),
-                  ),
+                  ).tr(),
                 ),
               ),
               Card(
@@ -407,13 +409,13 @@ var now = new DateTime.now();
                 child: ListTile(
                   title: Text(
                     formattedDate == null
-                    ? "Schedule Date"
+                    ? LocaleKeys.schedule_date
                     : "${formattedDate}",
                     style: TextStyle(
                       fontSize: 14.0,
                       color: Colors.black,
                     ),
-                  ),
+                  ).tr(),
                   trailing: Icon(Icons.access_time,
                     color: Colors.black,
                   ),
@@ -496,9 +498,9 @@ var now = new DateTime.now();
         color: Colors.green,
         textColor: Colors.white,
         child: Text(
-          "Schedule Pick up",
+          LocaleKeys.schedule_pick_up,
           style: AppTextStyle.regular(Colors.white, 14.0),
-        ),
+        ).tr(),
       ),
     );
   }

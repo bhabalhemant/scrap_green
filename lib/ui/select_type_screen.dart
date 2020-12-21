@@ -72,51 +72,53 @@ class _State extends State<SelectTypeScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-              Padding(
-                padding: EdgeInsets.fromLTRB(10, 30, 10, 30),
-                child: Center(
-                  child: SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.15,
-                    width: MediaQuery.of(context).size.width * 0.15,
-                    child: Image.asset(
-                      which != 'INS'
-                          ? 'assets/individual_white.png'
-                          : 'assets/building_white.png',
-                      scale: 2.5,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-              ),
+//              Padding(
+//                padding: EdgeInsets.fromLTRB(10, 30, 10, 30),
+//                child: Center(
+//                  child: SizedBox(
+//                    height: MediaQuery.of(context).size.height * 0.15,
+//                    width: MediaQuery.of(context).size.width * 0.15,
+//                    child: Image.asset(
+//                      which != 'INS'
+//                          ? 'assets/individual_white.png'
+//                          : 'assets/building_white.png',
+//                      scale: 2,
+//                      fit: BoxFit.cover,
+//                    ),
+//                  ),
+//                ),
+//              ),
               LimitedBox(
                 maxHeight: MediaQuery.of(context).size.height * 0.15,
-                maxWidth: MediaQuery.of(context).size.width * 0.85,
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      which != 'INS'
-                          ? LocaleKeys.sign_up_user
-                          : LocaleKeys.sign_up_vendor,
-                      textAlign: TextAlign.start,
-                      maxLines: 3,
-                      softWrap: false,
-                      overflow: TextOverflow.fade,
-                      style: AppTextStyle.bold(Colors.white, 18.0),
-                    ).tr(),
-                    // Text(
-                    //   which == 'INS'
-                    //       ? 'For making donations'
-                    //       : 'For receiving donations',
-                    //   textAlign: TextAlign.start,
-                    //   maxLines: 3,
-                    //   softWrap: false,
-                    //   overflow: TextOverflow.fade,
-                    //   style: AppTextStyle.light(Colors.white, 14.0),
-                    // ),
-                  ],
+                maxWidth: MediaQuery.of(context).size.width * 0.80,
+                child: Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        which != 'INS'
+                            ? LocaleKeys.sign_up_user
+                            : LocaleKeys.sign_up_vendor,
+                        textAlign: TextAlign.start,
+                        maxLines: 3,
+                        softWrap: true,
+                        overflow: TextOverflow.fade,
+                        style: AppTextStyle.bold(Colors.white, 16.0),
+                      ).tr(),
+                      // Text(
+                      //   which == 'INS'
+                      //       ? 'For making donations'
+                      //       : 'For receiving donations',
+                      //   textAlign: TextAlign.start,
+                      //   maxLines: 3,
+                      //   softWrap: false,
+                      //   overflow: TextOverflow.fade,
+                      //   style: AppTextStyle.light(Colors.white, 14.0),
+                      // ),
+                    ],
+                  ),
                 ),
               )
             ],

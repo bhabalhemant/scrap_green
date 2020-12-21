@@ -19,11 +19,11 @@ class _CarouselDemoState extends State<CarouselDemo> {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   final List<SliderItem> imgList = [
     SliderItem('pad.png', LocaleKeys.sign_up.tr(), LocaleKeys.sign_up_desc.tr(),
-        '${LocaleKeys.stay_home.tr()} 1'),
-    SliderItem('pad.png', LocaleKeys.sign_in.tr(), LocaleKeys.sign_up_desc.tr(),
-        '${LocaleKeys.stay_home.tr()} 2'),
-    SliderItem('pad.png', LocaleKeys.sign_in.tr(), LocaleKeys.sign_up_desc.tr(),
-        '${LocaleKeys.stay_home.tr()} 3'),
+        '${LocaleKeys.stay_home.tr()} '),
+    SliderItem('pad.png', LocaleKeys.recycle_your_waste.tr(), LocaleKeys.recycle_waste_desc.tr(),
+        '${LocaleKeys.recycle_home_tag.tr()} '),
+    SliderItem('pad.png', LocaleKeys.save_green.tr(), LocaleKeys.save_green_desc.tr(),
+        '${LocaleKeys.save_green_tag.tr()} '),
   ];
 
   final CarouselController _controller = CarouselController();
@@ -52,12 +52,12 @@ class _CarouselDemoState extends State<CarouselDemo> {
                       width: 120, height: 120),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 20.0),
+                  padding: EdgeInsets.symmetric(vertical: 5.0),
                   child: Text(
                     item.title,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontSize: 24.0,
+                        fontSize: 20.0,
                         color: Colors.white,
                         fontWeight: FontWeight.bold
                     ),
@@ -65,19 +65,19 @@ class _CarouselDemoState extends State<CarouselDemo> {
                 ),
                 Padding(
                   padding:
-                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 18.0),
+                      EdgeInsets.symmetric(vertical: 5.0, horizontal: 20.0),
                   child: Text(
                     item.description,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 16.0,
+                      fontSize: 15.0,
                       color: Colors.white,
                       // fontWeight: FontWeight.bold
                     ),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 20.0),
+                  padding: EdgeInsets.symmetric(vertical: 10.0),
                   child: Text(
                     item.subtitle,
                     style: TextStyle(

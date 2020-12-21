@@ -12,6 +12,8 @@ import 'package:scrapgreen/bloc/profile_page/profile_state.dart';
 import 'package:scrapgreen/models/response/profile_response.dart';
 import 'package:scrapgreen/utils/singleton.dart';
 import 'package:scrapgreen/base_widgets/app_textstyle.dart';
+import 'package:scrapgreen/generated/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -192,14 +194,13 @@ class _SettingsState extends State<Settings> {
               color: Colors.green,
               size: 25,
             ),
-            title: Text('Edit Profile',
-
+            title: Text(LocaleKeys.edit_profile,
               style: TextStyle(
                 fontSize: 16.0,
 //                        fontWeight: FontWeight.bold,
                 color: Colors.green,
               ),
-            ),
+            ).tr(),
             trailing: Icon(
               Icons.arrow_forward_ios,
               color: Colors.grey,
@@ -218,14 +219,13 @@ class _SettingsState extends State<Settings> {
               color: Colors.green,
               size: 25,
             ),
-            title: Text('Bank Details',
-
+            title: Text(LocaleKeys.bank_details,
               style: TextStyle(
                 fontSize: 16.0,
 //                        fontWeight: FontWeight.bold,
                 color: Colors.green,
               ),
-            ),
+            ).tr(),
             trailing: Icon(
               Icons.arrow_forward_ios,
               color: Colors.grey,
@@ -244,13 +244,13 @@ class _SettingsState extends State<Settings> {
               color: Colors.green,
               size: 25,
             ),
-            title: Text('Change Password',
+            title: Text(LocaleKeys.change_password,
               style: TextStyle(
                 fontSize: 16.0,
 //                        fontWeight: FontWeight.bold,
                 color: Colors.green,
               ),
-            ),
+            ).tr(),
             trailing: Icon(
               Icons.arrow_forward_ios,
               color: Colors.grey,
@@ -269,14 +269,14 @@ class _SettingsState extends State<Settings> {
               color: Colors.green,
               size: 25,
             ),
-            title: Text('Contact Us',
+            title: Text(LocaleKeys.contact_us,
 
               style: TextStyle(
                 fontSize: 16.0,
 //                        fontWeight: FontWeight.bold,
                 color: Colors.green,
               ),
-            ),
+            ).tr(),
             trailing: Icon(
               Icons.arrow_forward_ios,
               color: Colors.grey,
@@ -292,14 +292,13 @@ class _SettingsState extends State<Settings> {
               color: Colors.green,
               size: 25,
             ),
-            title: Text('Logout',
-
+            title: Text(LocaleKeys.logout,
               style: TextStyle(
                 fontSize: 16.0,
 //                        fontWeight: FontWeight.bold,
                 color: Colors.green,
               ),
-            ),
+            ).tr(),
             trailing: Icon(
               Icons.arrow_forward_ios,
               color: Colors.grey,
@@ -322,7 +321,6 @@ class _SettingsState extends State<Settings> {
     );
   }
   void _setData(ProfileResponse response) {
-    print('test ${response.data}');
     _id = response.data.id;
     _name = response.data.name;
     _email = response.data.email;

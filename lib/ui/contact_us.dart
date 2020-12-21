@@ -7,7 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scrapgreen/utils/constants.dart' as Constants;
 import 'dart:async';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-
+import 'package:scrapgreen/generated/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 class ContactUs extends StatefulWidget {
   @override
   _ContactUsState createState() => _ContactUsState();
@@ -277,13 +278,13 @@ class _ContactUsState extends State<ContactUs> {
             alignment: Alignment.center,
             child: Padding(padding: EdgeInsets.fromLTRB(10.0, 0, 0, 5.0),
               child: Text(
-                'GET IN TOUCH WITH US!',
+                LocaleKeys.get_intouch_withus,
                 style: TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.bold,
                     color: Colors.black
                 ),
-              ),
+              ).tr(),
             ),
           ),
         AnimatedContainer(
@@ -307,7 +308,7 @@ class _ContactUsState extends State<ContactUs> {
                     Icon(Icons.location_on),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Text('Mulund, India'),
+                      child: Text(LocaleKeys.address).tr(),
                     ),
                   ],
                 ),
@@ -377,9 +378,9 @@ class _ContactUsState extends State<ContactUs> {
         color: Colors.green,
         textColor: Colors.white,
         child: Text(
-          "Send",
+          LocaleKeys.send,
           style: AppTextStyle.regular(Colors.white, 14.0),
-        ),
+        ).tr(),
       ),
     );
   }
