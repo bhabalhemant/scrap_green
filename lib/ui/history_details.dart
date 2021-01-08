@@ -413,6 +413,57 @@ class _HistoryDetailsState extends State<HistoryDetails> {
                             ),
                           ),
                         ):
+                        _request_status == '1'
+                        ? Container(
+                          padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
+                          height: 20.0,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25.0),
+                            color: Colors.orange,
+                          ),
+                          child: Text(
+                            'Assigned',
+//                                textScaleFactor: 2,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 10.0
+                            ),
+                          ),
+                        ):
+                        _request_status == '2'
+                        ? Container(
+                          padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
+                          height: 20.0,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25.0),
+                            color: Colors.redAccent,
+                          ),
+                          child: Text(
+                            'User Cancelled',
+//                                textScaleFactor: 2,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 10.0
+                            ),
+                          ),
+                        ):
+                        _request_status == '3'
+                        ? Container(
+                          padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
+                          height: 20.0,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25.0),
+                            color: Colors.red,
+                          ),
+                          child: Text(
+                            'Admin Cancelled',
+//                                textScaleFactor: 2,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 10.0
+                            ),
+                          ),
+                        ):
                         Container(
                           padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10.0),
                           height: 20.0,
@@ -536,7 +587,7 @@ class _HistoryDetailsState extends State<HistoryDetails> {
                   ),
                 ],
               ),
-              title: Text(_data1[index].material_id,
+              title: Text(_data1[index].material_name,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16.0
@@ -549,7 +600,7 @@ class _HistoryDetailsState extends State<HistoryDetails> {
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  Text('Rs. ' + _data1[index].amount + '.00',
+                  Text('Rs. ' + _data1[index].amount,
                     style: TextStyle(
                         color: Colors.blue,
                         fontWeight: FontWeight.bold,

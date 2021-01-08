@@ -91,6 +91,7 @@ class _RequestDetailsState extends State<RequestDetails> {
                     listener: (context, state) {
                       if (state is RequestDetailsLoaded) {
                         _setData(state.response);
+                        _data1.clear();
                         _data1.addAll(state.response.data1);
                       }
                       if (state is RequestDetailsUpdated) {
@@ -507,7 +508,7 @@ class _RequestDetailsState extends State<RequestDetails> {
           ),
           Divider(),
           buildItemsList(),
-          _request_status == '0'
+          _request_status == '1'
           ?
           _data1.length > 0
               ? Padding(
@@ -740,12 +741,12 @@ class _RequestDetailsState extends State<RequestDetails> {
 
   void _showCompleteMessage(String message) {
     print(message);
-//    scaffoldKey.currentState.hideCurrentSnackBar();
-//    scaffoldKey.currentState
-//        .showSnackBar(AppSingleton.instance.getSuccessSnackBar(message));
-//    _timer = new Timer(const Duration(milliseconds: 1000), () {
-//      Navigator.pushNamed(context, Constants.ROUTE_VENDOR_REQUEST);
-//    });
+    scaffoldKey.currentState.hideCurrentSnackBar();
+        scaffoldKey.currentState
+            .showSnackBar(AppSingleton.instance.getSuccessSnackBar(message));
+        _timer = new Timer(const Duration(milliseconds: 1000), () {
+          Navigator.pushNamed(context, Constants.ROUTE_REQUEST_DETAILS);
+        });
   }
 
   void _showError(String message) {

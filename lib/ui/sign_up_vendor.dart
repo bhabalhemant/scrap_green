@@ -21,6 +21,7 @@ class SignUpVendor extends StatefulWidget {
 
 class _SignUpVendorState extends State<SignUpVendor> {
   Position _currentPosition;
+  String _position;
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   TextEditingController 
       _name,
@@ -50,7 +51,7 @@ class _SignUpVendorState extends State<SignUpVendor> {
     _pinCode = TextEditingController();
     _password = TextEditingController();
     _retypePassword = TextEditingController();
-    // _getCurrentLocation();
+    _getCurrentLocation();
   }
 
   @override
@@ -338,22 +339,24 @@ class _SignUpVendorState extends State<SignUpVendor> {
     );
   }
 
-  // _getCurrentLocation() {
-  //   final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
-
-  //   geolocator
-  //       .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-  //       .then((Position position) {
-  // //         print(position);
-  //     // setState(() {
-  //       _currentPosition = position;
-  //       String _position = _currentPosition.latitude.toString() +'-'+ _currentPosition.longitude.toString();
-  //       print(_position);
-  //     // });
-  //   }).catchError((e) {
-  //     print(e);
-  //   });
-  // }
+  _getCurrentLocation() {
+    final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+    geolocator
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+        .then((Position position) {
+  //         print(position);
+      // setState(() {
+        _currentPosition = position;
+        setState(() {
+          _position = _currentPosition.latitude.toString() +'/'+ _currentPosition.longitude.toString();  
+        });
+        
+        // print(_position);
+      // });
+    }).catchError((e) {
+      print(e);
+    });
+  }
   Widget buildSignUpButton() {
     return RaisedButton(
       shape: RoundedRectangleBorder(
@@ -363,6 +366,7 @@ class _SignUpVendorState extends State<SignUpVendor> {
         ),
       ),
       onPressed: () async {
+        print(_position);
         if (validate()) {
           scaffoldKey.currentState.hideCurrentSnackBar();
         
@@ -378,6 +382,7 @@ class _SignUpVendorState extends State<SignUpVendor> {
             Constants.PARAM_CITY: _city.text,
             Constants.PARAM_PINCODE: _pinCode.text,
             Constants.PARAM_PASSWORD: _password.text,
+            Constants.PARAM_LATITUDE_LONGITUDE: _position,
             Constants.PARAM_LOGO: await dio.MultipartFile.fromFile(
                 _logo,
                 filename: fileName)
@@ -457,6 +462,9 @@ class _SignUpVendorState extends State<SignUpVendor> {
       return false;
     } else if (_logo == null || _logo.isEmpty) {
       _showError('Please select logo.');
+      return false;
+    } else if (_position == null || _position.isEmpty) {
+      _showError('Please enable GPS ON.');
       return false;
     } else {
       return true;
