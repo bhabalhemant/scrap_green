@@ -387,7 +387,7 @@ class _SignUpVendorState extends State<SignUpVendor> {
                 _logo,
                 filename: fileName)
           });
-          print(formData);
+//          print(formData);
           BlocProvider.of<SignUpVendorBloc>(context).add(SignUpVendorEvent(body: formData));
         //   }).catchError((e) {
         //   print(e);

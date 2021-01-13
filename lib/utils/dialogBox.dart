@@ -14,7 +14,7 @@ import 'package:scrapgreen/utils/singleton.dart';
 List<Data> _data = List();
 bool _isLoading = false;
 bool _hasMoreItems = true;
-
+bool _throwShotAway = false;
 final List<String> _material = [
   "Iron",
   "Copper",
@@ -48,12 +48,13 @@ class DialogBoxState extends State<DialogBox> {
   String _selectedMaterial;
   String _amount;
   String _item_id;
-  TextEditingController _unit, _quantity;
+  TextEditingController _unit, _quantity, _m_price;
 
   @override
   void dispose() {
     _unit.dispose();
     _quantity.dispose();
+    _m_price.dispose();
     super.dispose();
   }
 
@@ -64,6 +65,7 @@ class DialogBoxState extends State<DialogBox> {
     super.initState();
     _unit = TextEditingController();
     _quantity = TextEditingController();
+    _m_price = TextEditingController();
     _quantity.clear();
     _data.clear();
     _total = 0.00;
@@ -212,7 +214,54 @@ class DialogBoxState extends State<DialogBox> {
                 },
               ),
             ),
-            _amount == null
+            AppSingleton.instance.getSpacer(),
+                Row(
+                  children: <Widget>[
+                    Checkbox(
+                      checkColor: Colors.green,
+                      activeColor: Colors.white,
+                      value: _throwShotAway,
+                      onChanged: (bool newValue) {
+                        setState(() {
+                          _throwShotAway = newValue;
+                          print(_throwShotAway);
+                        });
+                      },
+                    ),
+                    Text(
+                      'Enter Price manually',
+                      style: TextStyle(
+                        fontSize: 12,
+                        
+                      ),
+                      textAlign: TextAlign.left,
+                    ),
+                  ],
+                ),
+                _throwShotAway == true
+                ? Padding(
+                  padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
+                  child: new TextFormField(
+                    onChanged: (value) => updateButtonState(),
+                    decoration: const InputDecoration(
+                      labelText: 'Price',
+                    ),
+                    enabled: true,
+                  keyboardType: TextInputType.number,
+                  controller: _m_price,
+                  validator: (String arg) {
+                    if (arg.length == 0) {
+                      return 'Please enter Price.';
+                    } else {
+                      return null;
+                    }
+                  },
+                  onSaved: (String val) {
+                    quantity = val;
+                  },
+              ),
+            )
+            : _amount == null
                 ? Container()
                 : Container(
                     child: Padding(
@@ -234,6 +283,7 @@ class DialogBoxState extends State<DialogBox> {
                       ),
                     ),
                   ),
+            
             Container(
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 10.0),
@@ -253,7 +303,7 @@ class DialogBoxState extends State<DialogBox> {
                         Constants.PARAM_RATE_ID: rate,
                         Constants.PARAM_AMOUNT: _amount,
                       };
-//                      print(body);
+                    //  print(body);
                       BlocProvider.of<RequestDetailsBloc>(context)
                           .add(UpdateRequestDetails(body: body));
                     }
@@ -307,7 +357,11 @@ class DialogBoxState extends State<DialogBox> {
           rate = item.rate.toString();
           _unit.text = item.unit;
           _total = n * r;
-          _amount = _total.toString();
+          if(_m_price.text.isEmpty){
+            _amount = _total.toString();
+          } else {
+            _amount = _m_price.text;
+          }
         });
       }
     }).toList();
